@@ -27,6 +27,7 @@
         </div>
     </div>
 
+        {{-- notes tab --}}
     @if($tab === 'notes')
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         @php
@@ -50,6 +51,7 @@
     </div>
     @endif
 
+        {{-- absence tab --}}
     @if($tab === 'absence')
     <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl w-full shadow-2xl">
         @php
@@ -103,6 +105,7 @@
     </div>
     @endif
 
+        {{-- devoir tab --}}
     @if($tab === 'devoir')
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         @php
@@ -121,13 +124,13 @@
             </div>
 
             <div class="flex flex-col h-full min-h-[180px] justify-center">
-                <span class="text-[11px] font-black text-amber-500 uppercase tracking-[0.4em] mb-6">{{ $devoir['teacher'] }}</span>
+                <span class="text-[14px] font-black text-amber-500 uppercase mb-6">{{ $devoir['teacher'] }}</span>
                 <div class="grow">
-                    <p class="text-2xl font-black text-gray-100 leading-tight tracking-tight">{{ $devoir['task'] }}</p>
+                    <p class="text-xl font-black text-gray-100 font-light ">{{ $devoir['task'] }} </p>
                 </div>
                 <div class="mt-8 flex items-center gap-4">
                     <div class="h-px w-10 bg-red-400"></div>
-                    <span class="text-[18px] text-red-400 text-gray-600 uppercase ">Date de limite : {{ $devoir['deadline'] }}</span>
+                    <span class="text-[18px] text-red-400 uppercase ">Date de limite : {{ $devoir['deadline'] }}</span>
                 </div>
             </div>
         </div>
