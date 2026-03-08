@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +19,8 @@ Route::get('/students', function () {
     return view('students.list');
 });
 
+
+
 Route::get('/teachers', function () {
     return view('teachers.list');
 });
@@ -27,4 +30,12 @@ Route::get('/paiments', function () {
 
 Route::get('/paiments/detail', function () {
     return view('paiments.monthly');
+});
+
+Route::get('/students/profile', function (Request $request) {
+    $currentTab = $request->query('tab', 'notes');
+
+    return view('students.profile', [
+        'tab' => $currentTab,
+    ]);
 });

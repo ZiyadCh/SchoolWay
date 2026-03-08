@@ -4,11 +4,10 @@
 
 @section('content')
 <div class="space-y-8 max-w-7xl mx-auto">
-    {{-- Header --}}
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
             <h2 class="text-4xl font-black text-white tracking-tight">Registre des Élèves</h2>
-            <p class="text-gray-500 mt-2 font-medium">Gestion des informations personnelles et académiques.</p>
+            <p class="text-gray-500 mt-2 font-medium">Gestion des informations académiques.</p>
         </div>
         <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all shadow-xl shadow-amber-500/20 flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
             <i class="fa-solid fa-user-plus text-lg"></i>
@@ -43,7 +42,8 @@
                 <thead>
                     <tr class="bg-gray-800/50">
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Nom & Prénom</th>
-                        <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Code </th>
+                        <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Code</th>
+                        <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest text-center">Genre</th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Niveau</th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Lieu de Naissance</th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest text-right">Details</th>
@@ -62,6 +62,9 @@
                         <td class="px-8 py-6">
                             <span class="text-sm text-gray-400 bg-gray-950 px-3 py-1 rounded-lg border border-gray-800 font-mono">24001582</span>
                         </td>
+                        <td class="px-8 py-6 text-center">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-blue-400 bg-blue-400/10 px-3 py-1.5 rounded-full border border-blue-400/20">M</span>
+                        </td>
                         <td class="px-8 py-6 text-sm font-semibold text-gray-300">2 Bac</td>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-2 text-sm text-gray-400">
@@ -71,7 +74,7 @@
                         </td>
                         <td class="px-8 py-6 text-right">
                             <div class="flex justify-end gap-2">
-                                <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all"><i class="fa-solid fa-address-book text-xs"></i></button>
+                                <a href="students/profile" class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all"><i class="fa-solid fa-address-book text-xs"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -88,6 +91,9 @@
                         <td class="px-8 py-6">
                             <span class="text-sm text-gray-400 bg-gray-950 px-3 py-1 rounded-lg border border-gray-800 font-mono">24009941</span>
                         </td>
+                        <td class="px-8 py-6 text-center">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-pink-400 bg-pink-400/10 px-3 py-1.5 rounded-full border border-pink-400/20">F</span>
+                        </td>
                         <td class="px-8 py-6 text-sm font-semibold text-gray-300">1 Bac</td>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-2 text-sm text-gray-400">
@@ -97,7 +103,7 @@
                         </td>
                         <td class="px-8 py-6 text-right">
                             <div class="flex justify-end gap-2">
-                                <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all"><i class="fa-solid fa-address-book "></i></button>
+                                <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all"><i class="fa-solid fa-address-book"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -107,20 +113,16 @@
 
         <div class="bg-gray-800/30 px-8 py-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">
-                Affichage de <span class="text-white">1</span> à <span class="text-white">10</span> sur <span class="text-white">148</span> élèves
             </p>
 
             <div class="flex items-center gap-2">
                 <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700">
                     <i class="fa-solid fa-chevron-left text-xs"></i>
                 </button>
-
                 <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-amber-500 text-black font-black text-xs shadow-lg shadow-amber-500/20">1</button>
                 <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all font-bold text-xs">2</button>
                 <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all font-bold text-xs">3</button>
-
                 <span class="text-gray-600 px-2">...</span>
-
                 <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all">
                     <i class="fa-solid fa-chevron-right text-xs"></i>
                 </button>
