@@ -15,17 +15,6 @@
             </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-gray-900 border border-gray-800 p-8 rounded-3xl flex items-center gap-6 hover:border-blue-500/50 transition-colors">
-                <div class="bg-blue-500/10 text-blue-400 p-5 rounded-2xl">
-                    <i class="fa-solid fa-layer-group text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Total Classes</p>
-                    <p class="text-3xl font-black text-white">38</p>
-                </div>
-            </div>
-        </div>
 
         <div class="bg-gray-900 border border-gray-800 rounded-[2.5rem] overflow-hidden shadow-2xl">
             <div class="overflow-x-auto">
@@ -50,7 +39,7 @@
                             </td>
                             <td class="px-8 py-6">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-[10px] font-black text-amber-500">AL</div>
+                                    <div class="w-8 h-8 overflow-hidden rounded-full bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-[10px] font-black text-amber-500"><img src="https://imgs.search.brave.com/jd4laeASdzY2PIWOM5WB16nfYMwz_p9Zlzv99r9CxJM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9hc2lh/bi1zY2hvb2wtdGVh/Y2hlci1oYXBweS1t/YWxlLWVsZW1lbnRh/cnktY2xhc3Nyb29t/LTMyNTU1NzM0Lmpw/Zw" class="w-full h-full object-cover" alt=""></div>
                                     <span class="text-sm font-semibold text-gray-300">Prof. Alami</span>
                                 </div>
                             </td>
@@ -72,7 +61,7 @@
                             </td>
                             <td class="px-8 py-6">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/50 flex items-center justify-center text-[10px] font-black text-blue-400">BN</div>
+                                    <div class="w-8 h-8 overflow-hidden rounded-full bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-[10px] font-black text-amber-500"><img src="https://imgs.search.brave.com/jd4laeASdzY2PIWOM5WB16nfYMwz_p9Zlzv99r9CxJM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9hc2lh/bi1zY2hvb2wtdGVh/Y2hlci1oYXBweS1t/YWxlLWVsZW1lbnRh/cnktY2xhc3Nyb29t/LTMyNTU1NzM0Lmpw/Zw" class="w-full h-full object-cover" alt=""></div>
                                     <span class="text-sm font-semibold text-gray-300">Prof. Bennani</span>
                                 </div>
                             </td>

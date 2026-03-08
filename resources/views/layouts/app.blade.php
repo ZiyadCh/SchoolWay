@@ -33,7 +33,6 @@
                         <div class="font-medium text-sm">Nom Directeur</div>
                         <div class="text-[10px] text-gray-500 uppercase tracking-tighter">Directeur</div>
                     </div>
-                    <div class="w-10 h-10 rounded-full border border-amber-500 text-center overflow-hidden"><img src="https://imgs.search.brave.com/BAFzpkFfMVZa4N4o3drcd7oq3fYl3MzU68AB7EFl5SY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMjcv/OTM1LzE5Mi9zbWFs/bC9oYXBweS1taWRk/bGUtYWdlZC1idXNp/bmVzcy1tYW4tY2Vv/LXN0YW5kaW5nLWlu/LW9mZmljZS1hcm1z/LWNyb3NzZWQtcGhv/dG8uanBn" alt="" class="w-full h-full object-cover"></div>
                 </div>
             </header>
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Registre des Élèves')
+@section('title', 'Gerer les Élèves')
 
 @section('content')
 <div class="space-y-8 max-w-7xl mx-auto">
@@ -19,7 +19,7 @@
     <div class="bg-gray-900 border border-gray-800 p-4 rounded-[2rem] flex flex-col lg:flex-row gap-4">
         <div class="relative flex-1 group">
             <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors"></i>
-            <input type="text" placeholder="Rechercher par nom, prénom ou code CNE..."
+            <input type="text" placeholder="Rechercher par nom, prénom ou code "
                 class="w-full bg-gray-950 border border-gray-800 text-gray-300 py-4 pl-14 pr-6 rounded-2xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all">
         </div>
 
@@ -31,8 +31,8 @@
             </select>
 
             <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-2xl transition-all flex items-center gap-3">
-                <i class="fa-solid fa-filter text-amber-500"></i>
-                <span class="font-bold text-sm">Plus de filtres</span>
+                <i class="fa-solid fa-search text-amber-500"></i>
+                <span class="font-bold text-sm">Chercher</span>
             </button>
         </div>
     </div>
@@ -43,7 +43,7 @@
                 <thead>
                     <tr class="bg-gray-800/50">
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Nom & Prénom</th>
-                        <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Code (CNE)</th>
+                        <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Code </th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Niveau</th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Lieu de Naissance</th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest text-right">Details</th>

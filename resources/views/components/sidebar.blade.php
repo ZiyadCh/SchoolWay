@@ -16,7 +16,7 @@
         <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold ml-1">Année Scolaire</label>
         <div class="mt-1 flex items-center justify-between bg-gray-800 border border-gray-700 rounded-lg px-3 py-2">
             <span class="text-sm font-medium text-amber-400">2025 - 2026</span>
-            <i class="fa-solid fa-change text-xs text-gray-500"></i>
+            <i class="fa-solid fa-right-left text-xs text-gray-500"></i>
         </div>
     </div>
 
