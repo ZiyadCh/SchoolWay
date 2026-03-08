@@ -6,13 +6,12 @@
 <div class="max-w-7xl mx-auto space-y-8 text-white pb-20">
 
     <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex items-center gap-6 shadow-2xl">
-        <div class="w-16 h-16 rounded-lg bg-gray-800 border border-amber-500/20 p-1 shadow-inner">
-            <img src="https://imgs.search.brave.com/ga1XYA-Gv_ZxrF3opOXO0WKaZVWzcTArBM-0KgmCDRY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWVtZXBmcC5jb20v/X25leHQvaW1hZ2U/P3VybD1odHRwczov/L2Nkbi5tZW1lcGZw/LmNvbS9wZnAtZm9y/LXNjaG9vbCZ3PTE5/MjAmcT03NQ"
-                 class="w-full h-full object-cover rounded-md">
+        <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-800 border border-amber-500/20 p-1 ">
+            <img src="https://picsum.photos/200/300?grayscale" alt="student pfp" class="w-full h-full object-cover rounded-full">
         </div>
         <div>
-            <h2 class="text-2xl font-black uppercase tracking-tighter">Ahmed Mansouri</h2>
-            <p class="text-amber-500/60 text-[10px] font-black uppercase tracking-[0.3em] mt-0.5">2 Bac Sc. Physiques</p>
+            <h2 class="text-2xl font-black uppercase ">Ahmed Mansouri</h2>
+            <p class="text-amber-500/60 text-[14px] font-black uppercase mt-0.5">2 Bac Sc. Physiques</p>
         </div>
     </div>
 
