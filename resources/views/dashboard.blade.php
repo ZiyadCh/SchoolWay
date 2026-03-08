@@ -3,91 +3,81 @@
 @section('title', 'Tableau de bord')
 
 @section('content')
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 hover:border-amber-600/40 transition-all duration-300 group">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Élèves</p>
-                    <p class="text-3xl font-bold mt-1 group-hover:text-amber-400 transition-colors">1 248</p>
-                </div>
-                <div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-xl">
-                    <i class="fa-solid fa-users text-lg"></i>
-                </div>
-            </div>
-        </div>
+    {{-- Top Stats --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        @php
+            $stats = [
+                ['label' => 'Élèves', 'value' => '1248', 'icon' => 'fa-users', 'color' => 'emerald'],
+                ['label' => 'Paiements', 'value' => '92%', 'icon' => 'fa-hand-holding-dollar', 'color' => 'amber', 'progress' => 92],
+                ['label' => 'Revenu réalisés', 'value' => '100,300', 'unit' => 'MAD', 'icon' => 'fa-sack-dollar', 'color' => 'blue'],
+                ['label' => 'Classes', 'value' => '38', 'icon' => 'fa-chalkboard-user', 'color' => 'purple'],
+            ];
+        @endphp
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 hover:border-amber-600/40 transition-all">
+        @foreach($stats as $stat)
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-amber-500/30 transition-all group">
             <div class="flex justify-between items-start">
                 <div>
-                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Paiements</p>
-                    <p class="text-3xl font-bold mt-1">92%</p>
+                    <p class="text-[10px] text-gray-500 uppercase font-black tracking-widest">{{ $stat['label'] }}</p>
+                    <p class="text-3xl font-black mt-1 group-hover:text-amber-500 transition-colors">
+                        {{ $stat['value'] }}@if(isset($stat['unit']))<span class="text-xs ml-1 text-amber-500">{{ $stat['unit'] }}</span>@endif
+                    </p>
                 </div>
-                <div class="bg-amber-500/10 text-amber-500 p-3 rounded-xl">
-                    <i class="fa-solid fa-hand-holding-dollar text-lg"></i>
+                <div class="bg-{{ $stat['color'] }}-500/10 text-{{ $stat['color'] }}-400 p-3 rounded-lg border border-{{ $stat['color'] }}-500/20">
+                    <i class="fa-solid {{ $stat['icon'] }} text-lg"></i>
                 </div>
             </div>
-            <div class="mt-4 h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                <div class="h-full w-[92%] bg-amber-500 rounded-full"></div>
-            </div>
-            <p class="text-[10px] text-gray-500 mt-2 font-medium">100 règlements en retard</p>
+            @if(isset($stat['progress']))
+                <div class="mt-4 h-1 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-amber-500 rounded-full shadow-[0_0_8px_#f59e0b]" style="width: {{ $stat['progress'] }}%"></div>
+                </div>
+            @endif
         </div>
-
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 hover:border-amber-600/40 transition-all">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Revenu réalisés </p>
-                    <p class="text-3xl font-bold mt-1 truncate">100,000 <span class="text-sm font-normal text-amber-500">MAD</span></p>
-                </div>
-                <div class="bg-blue-500/10 text-blue-400 p-3 rounded-xl">
-                    <i class="fa-solid fa-sack-dollar text-lg"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 hover:border-amber-600/40 transition-all">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Classes</p>
-                    <p class="text-3xl font-bold mt-1">38</p>
-                </div>
-                <div class="bg-purple-500/10 text-purple-400 p-3 rounded-xl">
-                    <i class="fa-solid fa-chalkboard-user text-lg"></i>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 
-    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-            <h3 class="text-lg font-semibold flex items-center gap-2">
-                <i class="fa-solid fa-calendar-day text-amber-500"></i>
-                Calendrier – Mars 2026
-            </h3>
-            <div class="flex gap-2">
-                <button class="flex-1 sm:flex-none p-2.5 bg-gray-800 hover:bg-gray-700 rounded-xl text-sm transition"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="flex-1 sm:flex-none p-2.5 bg-gray-800 hover:bg-gray-700 rounded-xl text-sm transition"><i class="fa-solid fa-chevron-right"></i></button>
+    {{-- Charts Section --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        {{-- Ratio Homme/Femme --}}
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 shadow-2xl">
+            <div class="flex items-center justify-between mb-10">
+                <div>
+                    <h3 class="text-lg font-black uppercase tracking-tight">Répartition par Genre</h3>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-sm bg-blue-500"></span>
+                        <span class="text-[11px] font-black text-gray-500 uppercase">Garçons</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-sm bg-pink-500"></span>
+                        <span class="text-[11px] font-black text-gray-500 uppercase">Filles</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative h-12 bg-gray-950 rounded-lg border border-gray-800 flex overflow-hidden p-1">
+                <div class="h-full bg-blue-500/90 rounded-md flex items-center justify-center transition-all hover:brightness-110 shadow-[0_0_15px_#3b82f630]" style="width: 58%">
+                    <span class="text-[14px] font-black text-white">58%</span>
+                </div>
+                <div class="h-full bg-pink-500/90 rounded-md flex items-center justify-center transition-all hover:brightness-110 ml-1 shadow-[0_0_15px_#ec489930]" style="width: 42%">
+                    <span class="text-[14px] font-black text-white">42%</span>
+                </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-2 gap-4">
+                <div class="bg-gray-950/50 border border-gray-800/50 p-4 rounded-lg">
+                    <p class="text-[9px] font-black text-gray-600 uppercase">Total Garçons</p>
+                    <p class="text-xl font-black text-blue-400 mt-1">724</p>
+                </div>
+                <div class="bg-gray-950/50 border border-gray-800/50 p-4 rounded-lg">
+                    <p class="text-[9px] font-black text-gray-600 uppercase">Total Filles</p>
+                    <p class="text-xl font-black text-pink-400 mt-1">524</p>
+                </div>
             </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <div class="min-w-[400px] grid grid-cols-7 gap-1 text-center text-sm">
-                <div class="text-gray-500 font-bold text-[10px] uppercase pb-4">Dim</div>
-                <div class="text-gray-500 font-bold text-[10px] uppercase pb-4">Lun</div>
-                <div class="text-gray-500 font-bold text-[10px] uppercase pb-4">Mar</div>
-                <div class="text-gray-500 font-bold text-[10px] uppercase pb-4">Mer</div>
-                <div class="text-gray-500 font-bold text-[10px] uppercase pb-4">Jeu</div>
-                <div class="text-gray-500 font-bold text-[10px] uppercase pb-4">Ven</div>
-                <div class="text-gray-500 font-bold text-[10px] uppercase pb-4">Sam</div>
 
-                <div class="text-gray-700 py-3">26</div><div class="text-gray-700 py-3">27</div><div class="text-gray-700 py-3">28</div>
-                <div class="py-3 hover:bg-gray-800 rounded-xl transition cursor-pointer">1</div>
-                <div class="py-3 hover:bg-gray-800 rounded-xl transition cursor-pointer">2</div>
-                <div class="py-3 border border-amber-500/30 text-amber-500 font-bold rounded-xl">3</div>
-                <div class="bg-amber-600 text-black font-bold py-3 rounded-xl shadow-lg shadow-amber-600/20">4</div>
-                <div class="py-3 hover:bg-gray-800 rounded-xl transition cursor-pointer">5</div>
-                <div class="py-3 font-semibold text-white">6</div>
-                <div class="py-3">7</div><div class="py-3">8</div><div class="py-3">9</div><div class="py-3">10</div><div class="py-3">11</div>
-            </div>
-        </div>
     </div>
 @endsection
