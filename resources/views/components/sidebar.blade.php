@@ -23,7 +23,7 @@
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
     <label class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-black px-4 mb-4 block">Menu Principal</label>
 
-    <x-sidebar-link href="/" icon="fa-gauge" :active="request()->is('/')">
+    <x-sidebar-link href="/" icon="fa-chart-column" :active="request()->is('/')">
         Tableau de bord
     </x-sidebar-link>
 
@@ -39,7 +39,7 @@
         Élèves
     </x-sidebar-link>
 
-    <x-sidebar-link href="/paiment" icon="fa-ethereum" :active="request()->is('paiments*')">
+    <x-sidebar-link href="/paiments" icon="fa-credit-card" :active="request()->is('paiments*')">
         Paiements
     </x-sidebar-link>
 </nav>
