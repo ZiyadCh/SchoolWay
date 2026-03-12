@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('subject_id');
             $table->timestamps();
         });
     }

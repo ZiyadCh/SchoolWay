@@ -10,10 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('teachers', function (Blueprint $table) {
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');           //
         });
     }
 
@@ -22,6 +20,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::table('teacher', function (Blueprint $table) {
+            //
+        });
     }
 };
