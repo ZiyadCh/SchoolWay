@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Level extends Model
+class Year extends Model
 {
     protected $fillable = [
         'title',
+        'begnning_date',
+        'end_date',
     ];
 
     public function classes()
