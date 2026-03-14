@@ -4,18 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Exam extends Model
+class Paiment extends Model
 {
     protected $fillable = [
-        'student_id',
-        'status',
-        'note',
-        'date',
+        'mois',
+        'etatPayement',
     ];
 
     public function student()
     {
         return $this->belongsTo(Student::class);
     }
-
 }

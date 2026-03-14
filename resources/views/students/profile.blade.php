@@ -6,7 +6,7 @@
 
 <div class="max-w-7xl mx-auto space-y-8 text-white pb-20 scrollbar-hide">
 
-    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex items-center gap-6 shadow-2xl">
+    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex items-center gap-6 ">
         <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-800 border border-amber-500/20 p-1 ">
             <img src="https://picsum.photos/200/300?grayscale" alt="student pfp" class="w-full h-full object-cover rounded-full">
         </div>
@@ -17,8 +17,8 @@
     </div>
 
     <div class="flex justify-center w-full">
-        <div class="flex gap-2 bg-gray-950 p-1.5 rounded-xl border border-gray-900 w-fit shadow-2xl">
-            <button onclick="switchTab(event, 'notes')" class="tab-btn px-10 py-3 rounded-lg font-black text-[11px] uppercase tracking-[0.2em] transition-all bg-amber-500 text-black shadow-lg shadow-amber-500/20">
+        <div class="flex gap-2 bg-gray-950 p-1.5 rounded-xl border border-gray-900 w-fit ">
+            <button onclick="switchTab(event, 'notes')" class="tab-btn px-10 py-3 rounded-lg font-black text-[11px] uppercase tracking-[0.2em] transition-all bg-amber-500 text-black ">
                 Notes
             </button>
             <button onclick="switchTab(event, 'absence')" class="tab-btn px-10 py-3 rounded-lg font-black text-[11px] uppercase tracking-[0.2em] transition-all text-gray-500 hover:text-white">
@@ -37,7 +37,7 @@
         <div id="notes" class="tab-content transition-all duration-300">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {{-- Card 1 --}}
-                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group shadow-lg">
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group ">
                     <h3 class="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-tight group-hover:text-white">Analyse Mathématique</h3>
                     <div class="flex justify-between items-end">
                         <span class="text-3xl font-black text-amber-500 tracking-tighter">18.50</span>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 {{-- Card 2 --}}
-                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group shadow-lg">
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group ">
                     <h3 class="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-tight group-hover:text-white">Physique Nucléaire</h3>
                     <div class="flex justify-between items-end">
                         <span class="text-3xl font-black text-amber-500 tracking-tighter">14.00</span>
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 {{-- Card 3 --}}
-                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group shadow-lg">
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group ">
                     <h3 class="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-tight group-hover:text-white">Génétique SVT</h3>
                     <div class="flex justify-between items-end">
                         <span class="text-3xl font-black text-amber-500 tracking-tighter">16.25</span>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 {{-- Card 4 --}}
-                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group shadow-lg">
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-40 hover:border-amber-500/30 transition-all group ">
                     <h3 class="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-tight group-hover:text-white">Philosophie Moderne</h3>
                     <div class="flex justify-between items-end">
                         <span class="text-3xl font-black text-amber-500 tracking-tighter">15.00</span>
@@ -73,7 +73,7 @@
 
         {{-- SECTION: ABSENCE --}}
         <div id="absence" class="tab-content hidden opacity-0 transition-all duration-300">
-            <div class="bg-gray-900 border border-gray-800 p-8 rounded-xl w-full shadow-2xl">
+            <div class="bg-gray-900 border border-gray-800 p-8 rounded-xl w-full ">
                 <div class="grid grid-cols-7 gap-3">
                     @foreach(['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] as $day)
                         <div class="text-center text-[10px] font-black text-gray-700 uppercase tracking-[0.2em] mb-4">{{ $day }}</div>
@@ -99,7 +99,7 @@
                 <div class="mt-8 pt-6 border-t border-gray-800/50 flex justify-between items-center">
                     <div class="flex gap-6">
                         <div class="flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 "></span>
                             <span class="text-[9px] font-black text-gray-600 uppercase tracking-widest">Injustifié</span>
                         </div>
                         <div class="flex items-center gap-2">

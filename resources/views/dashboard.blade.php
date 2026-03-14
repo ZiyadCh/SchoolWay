@@ -16,7 +16,7 @@
         @endphp
 
         @foreach($stats as $stat)
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-amber-500/30 transition-all group shadow-2xl">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-amber-500/30 transition-all group ">
             <div class="flex justify-between items-start">
                 <div>
                     <p class="text-[11px] text-gray-500 uppercase font-black tracking-[0.2em]">{{ $stat['label'] }}</p>
@@ -29,7 +29,7 @@
             @if(isset($stat['progress']))
                 <div class="mt-6">
                     <div class="h-1.5 bg-gray-800 rounded-full overflow-hidden p-0.5">
-                        <div class="h-full bg-amber-500 rounded-full shadow-[0_0_12px_#f59e0b]" style="width: {{ $stat['progress'] }}%"></div>
+                        <div class="h-full bg-amber-500 rounded-full " style="width: {{ $stat['progress'] }}%"></div>
                     </div>
                 </div>
             @endif
@@ -39,7 +39,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <div class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-2xl">
+        <div class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-8 ">
             <h3 class="text-xl font-black uppercase tracking-widest mb-10 border-l-4 border-amber-500 pl-4">Répartition par Niveau</h3>
 
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-2xl flex flex-col justify-between">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 flex flex-col justify-between">
             <div>
                 <h3 class="text-sm font-black uppercase tracking-widest mb-8 text-gray-400">Ratio de Genre</h3>
                 <div class="space-y-6">
@@ -78,7 +78,7 @@
                             <span class="text-blue-500">58%</span>
                         </div>
                         <div class="h-4 bg-gray-950 rounded-lg border border-gray-800 p-1">
-                            <div class="h-full bg-blue-500 rounded shadow-[0_0_10px_#3b82f640]" style="width: 58%"></div>
+                            <div class="h-full bg-blue-500 rounded " style="width: 58%"></div>
                         </div>
                     </div>
                     <div>
@@ -96,7 +96,7 @@
 
     </div>
 
-    <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-2xl">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden ">
         <div class="p-8 border-b border-gray-800 flex justify-between items-center bg-gray-900/50">
             <h3 class="text-lg font-black uppercase tracking-widest">Inscriptions Récentes</h3>
         </div>

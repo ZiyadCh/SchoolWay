@@ -7,4 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 class SchoolClass extends Model
 {
     //
+    protected $fillable = [
+        'name',
+    ];
+    /**
+     * @return void
+     */
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
+    }
+    /**
+     * @return void
+     */
+    public function level()
+    {
+        return $this->hasOne(Level::class);
+    }
+    /**
+     * @return void
+     */
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
 }
