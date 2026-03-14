@@ -7,7 +7,6 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
             <div>
                 <h2 class="text-4xl font-black text-white tracking-tight">Gestion des Classes</h2>
-                <p class="text-gray-500 mt-2 font-medium">Administration des structures académiques et des affectations.</p>
             </div>
             <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all shadow-xl shadow-amber-500/20 flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
                 <i class="fa-solid fa-plus text-lg"></i>
@@ -45,7 +44,7 @@
                             <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Classe</th>
                             <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Niveau</th>
                             <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">NBr Élèves</th>
-                            <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Maître / Professeur</th>
+                            <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Maître</th>
                             <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest text-right">Details</th>
                         </tr>
                     </thead>
@@ -107,7 +106,6 @@
 
             <div class="bg-gray-800/30 px-8 py-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">
-                    Affichage de <span class="text-white">1</span> à <span class="text-white">5</span> sur <span class="text-white">24</span> classes
                 </p>
 
                 <div class="flex items-center gap-2">

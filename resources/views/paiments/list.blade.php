@@ -7,7 +7,6 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
             <h2 class="text-4xl font-black text-white tracking-tight">Suivi des Paiements</h2>
-            <p class="text-gray-500 mt-2 font-medium">Contrôle des mensualités et état financier par élève.</p>
         </div>
         <div class="flex gap-4">
 

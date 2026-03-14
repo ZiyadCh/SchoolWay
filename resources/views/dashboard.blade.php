@@ -21,9 +21,6 @@
                 <div>
                     <p class="text-[11px] text-gray-500 uppercase font-black tracking-[0.2em]">{{ $stat['label'] }}</p>
                     <p class="text-4xl font-black mt-2 group-hover:text-amber-500 transition-colors tracking-tighter">{{ $stat['value'] }}</p>
-                    @if(isset($stat['desc']))
-                        <p class="text-[10px] text-gray-600 mt-2 font-bold uppercase">{{ $stat['desc'] }}</p>
-                    @endif
                 </div>
                 <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 group-hover:border-amber-500/50 transition-all text-amber-500">
                     <i class="fa-solid {{ $stat['icon'] }} text-xl"></i>

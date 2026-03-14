@@ -7,7 +7,6 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
             <h2 class="text-4xl font-black text-white tracking-tight">Registre des Élèves</h2>
-            <p class="text-gray-500 mt-2 font-medium">Gestion des informations académiques.</p>
         </div>
         <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all shadow-xl shadow-amber-500/20 flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
             <i class="fa-solid fa-user-plus text-lg"></i>

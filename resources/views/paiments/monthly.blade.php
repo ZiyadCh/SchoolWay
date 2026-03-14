@@ -65,7 +65,7 @@
             </div>
 
             <div class="bg-gray-800/30 px-10 py-10 border-t border-gray-800 flex justify-end">
-                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-12 rounded-2xl transition-all shadow-xl shadow-amber-500/20 active:scale-95 text-sm uppercase tracking-widest flex items-center gap-3">
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-12 rounded-2xl transition-all active:scale-95 text-sm uppercase tracking-widest flex items-center gap-3">
                     <i class="fa-solid fa-circle-check text-lg"></i>
                     Confirmer
                 </button>
