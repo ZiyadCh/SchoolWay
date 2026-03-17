@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -8,8 +9,13 @@ Route::get('/', function () {
 });
 
 
+////////////////////
 Route::get('/login', function () {
-    return view('auth.login');
+    return view('auth.login-directeur');
+});
+
+Route::get('/student/login', function () {
+    return view('auth.login-student');
 });
 
 Route::get('/classes', function () {
@@ -40,3 +46,5 @@ Route::get('/students/profile', function (Request $request) {
         'tab' => $currentTab,
     ]);
 });
+//////////////////////////
+Route::post('login', [AuthController::class,'login'])->name('login');

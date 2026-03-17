@@ -15,7 +15,7 @@
             <h1 class="text-2xl font-bold text-white">School-Way</h1>
         </div>
 
-        <form action="" method="POST" class="space-y-5">
+        <form action="{{ route('login') }}" method="POST" class="space-y-5">
             @csrf
 
             <div>

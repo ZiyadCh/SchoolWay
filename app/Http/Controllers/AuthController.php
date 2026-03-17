@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,6 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'code' => ['required', 'code'],
             'password' => ['required'],
         ]);
 
@@ -27,31 +27,6 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'Les identifiants ne correspondent pas à nos enregistrements.',
         ])->onlyInput('email');
-    }
-
-    public function showRegister()
-    {
-        return view('auth.register');
-    }
-
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'student',
-        ]);
-
-        Auth::login($user);
-
-        return redirect('/dashboard');
     }
 
     public function logout(Request $request)
