@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsLoggedIn
+class IsDirecteur
 {
     /**
      * Handle an incoming request.
@@ -15,10 +16,10 @@ class IsLoggedIn
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'Connecter a votre compte');
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect('/login')->with('error', 'Access restricted to administrators.');
     }
 }

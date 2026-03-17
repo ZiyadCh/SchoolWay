@@ -23,7 +23,7 @@
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
     <label class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-black px-4 mb-4 block">Menu Principal</label>
 
-    <x-sidebar-link href="/" icon="fa-chart-column" :active="request()->is('/')">
+    <x-sidebar-link href="/dashboard" icon="fa-chart-column" :active="request()->is('/')">
         Tableau de bord
     </x-sidebar-link>
 
