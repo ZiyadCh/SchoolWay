@@ -10,14 +10,8 @@ Route::get('/dashboard', function () {
 
 
 ////////////////////
-Route::get('/login', function () {
-    return view('auth.login-directeur');
-});
-
-Route::get('/student/login', function () {
-    return view('auth.login-student');
-});
-
+//////////////////////////
+//Directeur
 Route::get('/classes', function () {
     return view('classes.list');
 });
@@ -25,8 +19,6 @@ Route::get('/classes', function () {
 Route::get('/students', function () {
     return view('students.list');
 });
-
-
 
 Route::get('/teachers', function () {
     return view('teachers.list');
@@ -46,7 +38,3 @@ Route::get('/students/profile', function (Request $request) {
         'tab' => $currentTab,
     ]);
 });
-//////////////////////////
-//auth
-Route::post('login', [AuthController::class,'login'])->name('login');
-Route::post('logout', [AuthController::class,'logout'])->name('logout');
