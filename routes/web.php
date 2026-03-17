@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
@@ -47,4 +47,6 @@ Route::get('/students/profile', function (Request $request) {
     ]);
 });
 //////////////////////////
+//auth
 Route::post('login', [AuthController::class,'login'])->name('login');
+Route::post('logout', [AuthController::class,'logout'])->name('logout');

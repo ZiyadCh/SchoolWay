@@ -38,8 +38,8 @@
 
                 <div class="flex items-center gap-3">
                     <div class="text-right hidden sm:block">
-                        <div class="font-medium text-sm">Nom Directeur</div>
-                        <div class="text-[10px] text-gray-500 uppercase tracking-tighter">Directeur</div>
+                        <div class="font-medium text-lg">{{auth()->user()->nom}}</div>
+                        <div class="text-[10px] text-amber-500 uppercase tracking-tighter">Directeur</div>
                     </div>
                 </div>
             </header>
