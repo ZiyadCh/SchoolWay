@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\SchoolClass;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+
+class SchoolClassController extends Controller
+{
+    /**
+     * Display a listing of all school classes.
+     */
+    public function index(): JsonResponse
+    {
+        $classes = SchoolClass::with('level')->get();
+
+        return response()->json([
+            'message' => 'School classes retrieved successfully.',
+            'data'    => $classes,
+        ]);
+    }
+
+    /**
+     * Store a newly created school class.
+     */
+    public function store(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'name'     => 'required|string|max:255|unique:school_classes,name',
+            'level_id' => 'required|exists:levels,id',
+        ]);
+
+        $class = SchoolClass::create($validated);
+
+        return response()->json([
+            'message' => 'School class created successfully.',
+            'data'    => $class->load('level'),
+        ], 201);
+    }
+
+    /**
+     * Display the specified school class.
+     */
+    public function show(SchoolClass $schoolClass): JsonResponse
+    {
+        return response()->json([
+            'message' => 'School class retrieved successfully.',
+            'data'    => $schoolClass->load('level'),
+        ]);
+    }
+
+    /**
+     * Update the specified school class.
+     */
+    public function update(Request $request, SchoolClass $schoolClass): JsonResponse
+    {
+        $validated = $request->validate([
+            'name'     => 'sometimes|string|max:255|unique:school_classes,name,' . $schoolClass->id,
+            'level_id' => 'sometimes|exists:levels,id',
+        ]);
+
+        $schoolClass->update($validated);
+
+        return response()->json([
+            'message' => 'School class updated successfully.',
+            'data'    => $schoolClass->load('level'),
+        ]);
+    }
+
+    /**
+     * Remove the specified school class.
+     */
+    public function destroy(SchoolClass $schoolClass): JsonResponse
+    {
+        $schoolClass->delete();
+
+        return response()->json([
+            'message' => 'School class deleted successfully.',
+        ]);
+    }
+
+    /**
+     * Display all students enrolled in the specified school class.
+     */
+    public function students(SchoolClass $schoolClass): JsonResponse
+    {
+        $students = $schoolClass->students()
+            ->with('user')
+            ->get()
+            ->map(fn($student) => [
+                'id'         => $student->id,
+                'code'       => $student->code,
+                'nom'        => $student->user->nom,
+                'prenom'     => $student->user->prenom,
+                'email'      => $student->user->email,
+                'photo'      => $student->user->photo,
+                'birthday'   => $student->user->birthday,
+                'birthplace' => $student->user->birthplace,
+                'tel'        => $student->user->tel,
+            ]);
+
+        return response()->json([
+            'message' => "Students in class '{$schoolClass->name}' retrieved successfully.",
+            'class'   => $schoolClass->name,
+            'count'   => $students->count(),
+            'data'    => $students,
+        ]);
+    }
+}

@@ -22,7 +22,7 @@ class SchoolClass extends Model
      */
     public function level()
     {
-        return $this->hasOne(Level::class);
+        return $this->belongsTo(Level::class);
     }
     /**
      * @return void
