@@ -29,7 +29,12 @@ class SchoolClass extends Model
      */
     public function teacher()
     {
-        return $this->hasOne(Teacher::class);
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
     }
 
 }

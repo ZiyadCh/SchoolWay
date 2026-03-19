@@ -14,4 +14,9 @@ class Level extends Model
     {
         return $this->hasMany(SchoolClass::class);
     }
+
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
+    }
 }

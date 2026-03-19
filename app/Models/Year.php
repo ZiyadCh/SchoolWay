@@ -16,4 +16,9 @@ class Year extends Model
     {
         return $this->hasMany(SchoolClass::class);
     }
+
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
 }
