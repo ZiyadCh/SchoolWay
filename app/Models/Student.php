@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Student extends Model
 {
     protected $fillable = [
+        'user_id',
         'code',
         'note_final',
     ];
