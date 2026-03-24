@@ -4,6 +4,7 @@ use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\LevelController;
 use App\Http\Controllers\API\V1\StudentController;
 use App\Http\Controllers\API\V1\SchoolClassController;
+use App\Http\Controllers\API\V1\SubjectController;
 use App\Http\Controllers\API\V1\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,6 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('levels', LevelController::class);
     //teachers
     Route::apiResource('teachers', TeacherController::class);
+    //subjects
+    Route::apiResource('subjects', SubjectController::class);
 });
