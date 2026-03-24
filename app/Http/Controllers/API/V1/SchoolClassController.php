@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class SchoolClassController extends Controller
 {
     /**
      * Display a listing of all school classes.
      */
-    public function index(): JsonResponse
+    public function index()
     {
         $classes = SchoolClass::with('level')->get();
 
         return response()->json([
-            'message' => 'School classes retrieved successfully.',
+            'message' => 'Liste des classes',
             'data'    => $classes,
         ]);
     }
@@ -24,7 +23,7 @@ class SchoolClassController extends Controller
     /**
      * Store a newly created school class.
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'name'     => 'required|string|max:255|unique:school_classes,name',
@@ -42,7 +41,7 @@ class SchoolClassController extends Controller
     /**
      * Display the specified school class.
      */
-    public function show(SchoolClass $schoolClass): JsonResponse
+    public function show(SchoolClass $schoolClass)
     {
         return response()->json([
             'message' => 'School class retrieved successfully.',
@@ -53,7 +52,7 @@ class SchoolClassController extends Controller
     /**
      * Update the specified school class.
      */
-    public function update(Request $request, SchoolClass $schoolClass): JsonResponse
+    public function update(Request $request, SchoolClass $schoolClass)
     {
         $validated = $request->validate([
             'name'     => 'sometimes|string|max:255|unique:school_classes,name,' . $schoolClass->id,
@@ -71,7 +70,7 @@ class SchoolClassController extends Controller
     /**
      * Remove the specified school class.
      */
-    public function destroy(SchoolClass $schoolClass): JsonResponse
+    public function destroy(SchoolClass $schoolClass)
     {
         $schoolClass->delete();
 
@@ -83,7 +82,7 @@ class SchoolClassController extends Controller
     /**
      * Display all students enrolled in the specified school class.
      */
-    public function students(SchoolClass $schoolClass): JsonResponse
+    public function students(SchoolClass $schoolClass)
     {
         $students = $schoolClass->students()
             ->with('user')
