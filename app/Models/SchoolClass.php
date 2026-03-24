@@ -9,6 +9,7 @@ class SchoolClass extends Model
     //
     protected $fillable = [
         'name',
+        'level_id',
     ];
     /**
      * @return void
