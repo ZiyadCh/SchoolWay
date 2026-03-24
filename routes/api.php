@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\LevelController;
 use App\Http\Controllers\API\V1\StudentController;
 use App\Http\Controllers\API\V1\SchoolClassController;
@@ -12,6 +13,13 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('v1')->group(function () {
+
+    //auth
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
     //students
     Route::apiResource('students', StudentController::class);
     //classes
