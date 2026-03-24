@@ -70,7 +70,7 @@ class TeacherController extends Controller
         $request->validate([
             'nom' => 'required|string',
             'prenom' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $teacher->user->id,
+            'email' => 'required|email|unique:users,email',
             'password' => 'nullable|min:6',
             'gender' => 'required|in:M,F',
             'photo' => 'nullable|string',
@@ -110,7 +110,6 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::findOrFail($id);
 
-        // Delete the associated user first to maintain database integrity
         $teacher->user()->delete();
         $teacher->delete();
 
