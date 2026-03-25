@@ -50,7 +50,7 @@ class StudentController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Student created successfully',
+            'message' => 'Etudiant ajoute avec succes',
             'data' => $student->load('user'),
         ], 201);
     }
@@ -76,7 +76,6 @@ class StudentController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'tel' => 'nullable|integer',
-            'note_final' => 'nullable|numeric',
         ]);
 
         $student->user->update([
@@ -111,7 +110,7 @@ class StudentController extends Controller
         $student->delete();
 
         return response()->json([
-            'message' => 'Student deleted successfully',
+            'message' => 'Etudiant supprime avec succes',
         ]);
     }
 }

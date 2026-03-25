@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School-Way - @yield('title')</title>
+    <title>School-Way | @yield('title')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -38,7 +38,7 @@
 
                 <div class="flex items-center gap-3">
                     <div class="text-right hidden sm:block">
-                        <div class="font-medium text-lg"></div>
+                        <div class="font-medium text-lg">auth()->user()->nom}}</div>
                         <div class="text-[10px] text-amber-500 uppercase tracking-tighter">Directeur</div>
                     </div>
                 </div>
