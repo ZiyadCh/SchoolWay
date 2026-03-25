@@ -86,18 +86,7 @@ class SchoolClassController extends Controller
     {
         $students = $schoolClass->students()
             ->with('user')
-            ->get()
-            ->map(fn($student) => [
-                'id'         => $student->id,
-                'code'       => $student->code,
-                'nom'        => $student->user->nom,
-                'prenom'     => $student->user->prenom,
-                'email'      => $student->user->email,
-                'photo'      => $student->user->photo,
-                'birthday'   => $student->user->birthday,
-                'birthplace' => $student->user->birthplace,
-                'tel'        => $student->user->tel,
-            ]);
+            ->get();
 
         return response()->json([
             'message' => "Students in class '{$schoolClass->name}' retrieved successfully.",
