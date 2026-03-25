@@ -27,7 +27,6 @@ class StudentController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'tel' => 'nullable|integer',
-            'code' => 'required',
             'note_final' => 'nullable|numeric',
         ]);
 
@@ -47,7 +46,6 @@ class StudentController extends Controller
 
         $student = Student::create([
             'user_id' => $user->id,
-            'code' => $request->code,
             'note_final' => $request->note_final,
         ]);
 
@@ -78,7 +76,6 @@ class StudentController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'tel' => 'nullable|integer',
-            'code' => 'required',
             'note_final' => 'nullable|numeric',
         ]);
 
@@ -98,7 +95,6 @@ class StudentController extends Controller
         ]);
 
         $student->update([
-            'code' => $request->code,
             'note_final' => $request->note_final,
         ]);
 
