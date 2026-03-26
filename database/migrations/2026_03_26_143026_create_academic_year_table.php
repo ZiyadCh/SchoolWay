@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('academic_year', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('inscription_id')->constrained()->cascadeOnDelete();
             $table->date('beginning_date');
             $table->string('title');
             $table->date('end_date');
