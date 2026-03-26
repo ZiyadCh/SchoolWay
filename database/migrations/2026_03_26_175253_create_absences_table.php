@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('absences', function (Blueprint $table) {
             $table->id();
             $table->boolean('justifié');
-            $table->date('date');
+            $table->date('date')->default(false);
             $table->timestamps();
         });
     }
