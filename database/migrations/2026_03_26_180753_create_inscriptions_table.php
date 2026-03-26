@@ -14,10 +14,9 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->foreignId('school_class_id')->constrained('school_classes')->cascadeOnDelete();
-            $table->foreignId('year_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('year_id')->constrained('academic_year')->cascadeOnDelete();
             $table->float('note_final')->nullable();
             $table->string('statut')->default('active');
-            $table->unique(['student_id', 'year_id'], 'student_yearly');
             $table->timestamps();
         });
     }

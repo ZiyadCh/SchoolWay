@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Year extends Model
 {
-    $protected $table = 'academic_year';
+    protected $table = 'academic_year';
     protected $fillable = [
         'title',
         'beginning_date',
