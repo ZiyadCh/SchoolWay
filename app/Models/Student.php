@@ -4,60 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'note_final',
     ];
 
-    /**
-     * @return HasMany<Exam,Student>
-     */
-
-    public function exams(): HasMany
-    {
-        return $this->hasMany(Exam::class);
-    }
-
-    /**
-     * @return BelongsToMany<SchoolClass,Student,Pivot>
-     */
-
-    public function classes(): BelongsToMany
-    {
-        return $this->belongsToMany(SchoolClass::class);
-    }
-
-    /**
-     * @return HasMany<Paiment,Student>
-     */
-    public function paiments(): HasMany
-    {
-        return $this->hasMany(Paiment::class);
-    }
-    /**
-     * @return HasMany<Absence,Student>
-     */
-    public function absences(): HasMany
-    {
-        return $this->hasMany(Absence::class);
-
-    }
-    /**
-     * @return BelongsTo<User,Student>
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function year()
+    public function inscriptions(): HasMany
     {
-        return $this->belongsTo(Year::class);
+        return $this->hasMany(Inscription::class);
+    }
+
+    public function paiments(): HasManyThrough
+    {
+        return $this->hasManyThrough(Paiment::class, Inscription::class);
+    }
+
+    public function absences(): HasManyThrough
+    {
+        return $this->hasManyThrough(Absence::class, Inscription::class);
+    }
+
+    public function exams(): HasManyThrough
+    {
+        return $this->hasManyThrough(Exam::class, Inscription::class);
     }
 }

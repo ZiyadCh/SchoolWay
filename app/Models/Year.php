@@ -13,13 +13,8 @@ class Year extends Model
         'end_date',
     ];
 
-    public function classes()
+    public function inscriptions(): HasMany
     {
-        return $this->hasMany(SchoolClass::class);
-    }
-
-    public function subjects()
-    {
-        return $this->hasMany(Subject::class);
+        return $this->hasMany(Inscription::class);
     }
 }
