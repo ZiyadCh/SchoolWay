@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('status');
             $table->float('note')->nullable();
             $table->date('date');
-            $table->foreignId('inscription_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('absences', function (Blueprint $table) {
             $table->id();
-            $table->boolean('justifié');
-            $table->date('date')->default(false);
+            $table->boolean('justifié')->default(false);
+            $table->date('date');
             $table->timestamps();
         });
     }

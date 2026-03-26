@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->foreignId('level_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('inscription_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
