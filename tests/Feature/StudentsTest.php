@@ -13,7 +13,7 @@ class StudentsTest extends TestCase
      */
     public function test_example(): void
     {
-        $response = $this->get('/students');
+        $response = $this->get('api/v1/students');
 
         $response->assertStatus(200);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Inscription;
 use App\Models\Student;
 use App\Models\User;
+use App\Models\Year;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -56,8 +57,8 @@ class StudentController extends Controller
         //create the inscription
         $inscription = Inscription::create([
             'student_id' => $student,
-            'year_id' =>
-            'statut' => 'active'
+            'year_id' => Year::currentYear(),
+            'statut' => 'active',
         ]);
 
         return response()->json([
