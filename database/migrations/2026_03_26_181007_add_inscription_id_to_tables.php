@@ -28,8 +28,19 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('tables', function (Blueprint $table) {
-            //
+        Schema::table('paiment', function (Blueprint $table) {
+            $table->dropForeign(['inscription_id']);
+            $table->dropColumn('inscription_id');
+        });
+
+        Schema::table('absences', function (Blueprint $table) {
+            $table->dropForeign(['inscription_id']);
+            $table->dropColumn('inscription_id');
+        });
+
+        Schema::table('exams', function (Blueprint $table) {
+            $table->dropForeign(['inscription_id']);
+            $table->dropColumn('inscription_id');
         });
     }
 };
