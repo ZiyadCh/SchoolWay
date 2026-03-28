@@ -8,7 +8,6 @@ class Exam extends Model
 {
     protected $fillable = [
         'inscription_id',
-        'student_id',
         'status',
         'note',
         'date',

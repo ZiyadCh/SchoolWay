@@ -11,6 +11,7 @@ class Year extends Model
         'title',
         'beginning_date',
         'end_date',
+        'current',
     ];
 
     public function inscriptions(): HasMany
@@ -18,6 +19,8 @@ class Year extends Model
         return $this->hasMany(Inscription::class);
     }
 
+    //////////////
+    //to return the current working year to insert in other places
     public static function currentYear()
     {
         return self::where('current', true)->first();

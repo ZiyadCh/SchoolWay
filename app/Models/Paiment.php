@@ -8,6 +8,7 @@ class Paiment extends Model
 {
     protected $table = 'paiment';
     protected $fillable = [
+        'inscription_id',
         'mois',
         'etatPayement',
     ];

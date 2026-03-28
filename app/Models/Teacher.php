@@ -8,6 +8,7 @@ class Teacher extends Model
 {
     protected $fillable = [
         'user_id',
+        'subject_id',
     ];
 
     public function class()
