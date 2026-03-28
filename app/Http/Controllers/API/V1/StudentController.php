@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Inscription;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+        //////////////////////
+        // creates the student first
         $request->validate([
             'nom' => 'required|string',
             'prenom' => 'required|string',
@@ -26,6 +29,7 @@ class StudentController extends Controller
             'adress' => 'nullable|string',
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
+            'address' => 'nullable|string',
             'tel' => 'nullable|integer',
         ]);
 
@@ -40,12 +44,20 @@ class StudentController extends Controller
             'adress' => $request->adress,
             'birthday' => $request->birthday,
             'birthplace' => $request->birthplace,
+            'address' => $request->address,
             'tel' => $request->tel,
         ]);
 
         $student = Student::create([
             'user_id' => $user->id,
-            'note_final' => $request->note_final,
+        ]);
+
+        //////////////////////
+        //create the inscription
+        $inscription = Inscription::create([
+            'student_id' => $student,
+            'year_id' =>
+            'statut' => 'active'
         ]);
 
         return response()->json([

@@ -27,9 +27,9 @@ class Inscription extends Model
         return $this->belongsTo(SchoolClass::class, 'school_class_id');
     }
 
-    public function academicYear(): BelongsTo
+    public function year(): BelongsTo
     {
-        return $this->belongsTo(AcademicYear::class, 'year_id');
+        return $this->belongsTo(Year::class, 'year_id');
     }
 
     public function exams(): HasMany

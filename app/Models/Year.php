@@ -17,4 +17,9 @@ class Year extends Model
     {
         return $this->hasMany(Inscription::class);
     }
+
+    public function currentYear()
+    {
+        return self::where('active', true)->first();
+    }
 }

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->date('beginning_date');
             $table->string('title');
+            $table->string('statut')->default('active');
             $table->date('end_date');
             $table->timestamps();
         });
