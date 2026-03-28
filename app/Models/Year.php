@@ -20,6 +20,6 @@ class Year extends Model
 
     public function currentYear()
     {
-        return self::where('active', true)->first();
+        return self::where('current', true)->first();
     }
 }
