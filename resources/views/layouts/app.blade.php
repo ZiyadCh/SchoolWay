@@ -28,7 +28,7 @@
         <x-sidebar />
 
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
-            <header class="h-16 bg-gray-900 border-b border-gray-800 px-4 lg:px-6 flex items-center justify-between flex-shrink-0">
+            <header class="h-16 bg-gray-900 border-b border-gray-800 px-4 lg:px-6 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-4">
                     <label for="menu-toggle" class="lg:hidden p-2 bg-gray-800 rounded-lg text-gray-300 cursor-pointer">
                         <i class="fa-solid fa-bars"></i>

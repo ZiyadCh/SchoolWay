@@ -27,7 +27,6 @@ class StudentController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'tel' => 'nullable|integer',
-            'note_final' => 'nullable|numeric',
         ]);
 
         $user = User::create([
