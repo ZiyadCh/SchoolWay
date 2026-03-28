@@ -32,9 +32,5 @@ class SchoolClass extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-    public function year()
-    {
-        return $this->belongsTo(Year::class);
-    }
 
 }

@@ -37,4 +37,10 @@ class Student extends Model
     {
         return $this->hasManyThrough(Exam::class, Inscription::class);
     }
+
+    //current year
+    public function activeInscription()
+    {
+        return $this->hasOne(Inscription::class)->where('statut', 'active')->latest();
+    }
 }

@@ -25,8 +25,4 @@ class Teacher extends Model
         return $this->hasOne(Subject::class);
     }
 
-    public function year()
-    {
-        return $this->belongsTo(Year::class);
-    }
 }

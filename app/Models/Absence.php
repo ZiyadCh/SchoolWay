@@ -15,8 +15,4 @@ class Absence extends Model
         $this->belongsTo(Student::class);
     }
 
-    public function year()
-    {
-        return $this->belongsTo(Year::class);
-    }
 }
