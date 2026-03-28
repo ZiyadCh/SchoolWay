@@ -23,6 +23,18 @@ class Student extends Model
         return $this->hasMany(Inscription::class);
     }
 
+    public function classes(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            SchoolClass::class,
+            Inscription::class,
+            'student_id',
+            'id',
+            'id',
+            'school_class_id'
+        );
+    }
+
     public function paiments(): HasManyThrough
     {
         return $this->hasManyThrough(Paiment::class, Inscription::class);
@@ -38,7 +50,6 @@ class Student extends Model
         return $this->hasManyThrough(Exam::class, Inscription::class);
     }
 
-    //current year
     public function activeInscription()
     {
         return $this->hasOne(Inscription::class)->where('statut', 'active')->latest();
