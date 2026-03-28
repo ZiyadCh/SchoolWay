@@ -12,13 +12,10 @@ class Paiment extends Model
         'etatPayement',
     ];
 
-    public function student()
+
+    public function inscription(): BelongsTo
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Inscription::class);
     }
 
-    public function year()
-    {
-        return $this->belongsTo(Year::class);
-    }
 }
