@@ -10,16 +10,34 @@ class SchoolClassController extends Controller
     /**
      * Display a listing of all school classes.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $classes = SchoolClass::with('level')->get();
+        $query = SchoolClass::with(['level', 'teacher.user']);
+
+        if ($request->level_id) {
+            $query->where('level_id', $request->level_id);
+        }
+
+        if ($request->teacher_id) {
+            $query->where('teacher_id', $request->teacher_id);
+        }
+
+        if ($request->search) {
+            $query->where('name', 'ILIKE', '%' . $request->search . '%');
+        }
+
+        if ($request->nbr) {
+            $query->orderBy('nbr_students', 'desc');
+        }
+
+        $classes = $query->get();
 
         return response()->json([
-            'message' => 'Liste des classes',
+            'message' => 'Liste des classes filtrée',
+            'count'   => $classes->count(),
             'data'    => $classes,
         ]);
     }
-
     /**
      * Store a newly created school class.
      */

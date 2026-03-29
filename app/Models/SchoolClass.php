@@ -13,6 +13,7 @@ class SchoolClass extends Model
         'name',
         'level_id',
         'teacher_id',
+        'nbr_students',
     ];
 
     public function level(): BelongsTo

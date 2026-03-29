@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('school_classes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('nbr_students')->default(0);
             $table->foreignId('level_id')->constrained()->cascadeOnDelete();
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
