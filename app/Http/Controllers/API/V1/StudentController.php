@@ -27,14 +27,13 @@ class StudentController extends Controller
             'nom' => 'required|string',
             'prenom' => 'required|string',
             'email' => 'nullable|email|unique:users,email',
-            'password' => 'required|min:6',
             'gender' => 'required|in:M,F',
             'photo' => 'nullable|string',
             'adress' => 'nullable|string',
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'address' => 'nullable|string',
-            'tel' => 'nullable|string',
+            'tel' => 'nullable|integer',
         ]);
 
         $password = Str::random(8);
@@ -76,9 +75,9 @@ class StudentController extends Controller
         $end = Carbon::parse($year->end_date);
 
         while ($start->lte($end)) {
-            $inscription->paiments()->create([
+            $inscription->payments()->create([
                 'mois' => $start->translatedFormat('F Y'),
-                'etatPayement' => false,
+                'etatPaiement' => false,
             ]);
             $start->addMonth();
         }

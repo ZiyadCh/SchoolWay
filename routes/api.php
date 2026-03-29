@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\StudentController;
 use App\Http\Controllers\API\V1\SchoolClassController;
 use App\Http\Controllers\API\V1\SubjectController;
 use App\Http\Controllers\API\V1\TeacherController;
+use App\Http\Controllers\API\V1\YearController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
     });
+    //years
+    Route::apiResource('years', YearController::class);
     //students
     Route::apiResource('students', StudentController::class);
     //classes

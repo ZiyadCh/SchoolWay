@@ -44,6 +44,6 @@ class Inscription extends Model
 
     public function payments(): HasMany
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(Paiment::class);
     }
 }

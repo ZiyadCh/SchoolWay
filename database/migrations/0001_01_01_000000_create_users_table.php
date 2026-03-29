@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->enum('role', ['admin','teacher','student']);
             $table->date('birthday')->nullable();
             $table->string('birthplace')->nullable();
-            $table->string('tel')->nullable();
+            $table->integer('tel')->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
