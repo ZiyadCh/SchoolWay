@@ -7,12 +7,13 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
     public function index()
     {
-        $teachers = Teacher::with(['user', 'subject'])->get();
+        $teachers = Teacher::with(['user'])->get();
         return response()->json($teachers);
     }
 
@@ -22,7 +23,6 @@ class TeacherController extends Controller
             'nom' => 'required|string',
             'prenom' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
             'gender' => 'required|in:M,F',
             'photo' => 'nullable|string',
             'adress' => 'nullable|string',
@@ -32,11 +32,13 @@ class TeacherController extends Controller
             'subject_id' => 'required|exists:subjects,id',
         ]);
 
+        $password = Str::random(8);
+
         $user = User::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($password),
             'role' => 'teacher',
             'gender' => $request->gender,
             'photo' => $request->photo,
@@ -53,7 +55,7 @@ class TeacherController extends Controller
 
         return response()->json([
             'message' => 'Teacher created successfully',
-            'data' => $teacher->load(['user', 'subject']),
+            'data' => $teacher->load(['user']),
         ], 201);
     }
 
