@@ -28,6 +28,7 @@ class SchoolClassController extends Controller
         $validated = $request->validate([
             'name'     => 'required|string|max:255|unique:school_classes,name',
             'level_id' => 'required|exists:levels,id',
+            'teacher_id' => 'sometimes|exists:teachers,id',
         ]);
 
         $class = SchoolClass::create($validated);
@@ -57,6 +58,7 @@ class SchoolClassController extends Controller
         $validated = $request->validate([
             'name'     => 'sometimes|string|max:255|unique:school_classes,name,' . $schoolClass->id,
             'level_id' => 'sometimes|exists:levels,id',
+            'teacher_id' => 'sometimes|exists:teachers,id',
         ]);
 
         $schoolClass->update($validated);
