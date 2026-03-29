@@ -17,5 +17,6 @@ class StudentsTest extends TestCase
         $response = $this->get('api/v1/students');
 
         $response->assertStatus(200);
+
     }
 }

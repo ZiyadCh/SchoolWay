@@ -6,7 +6,9 @@ use App\Models\Inscription;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Year;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -18,6 +20,7 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+
         //////////////////////
         // creates the student first
         $request->validate([
@@ -31,14 +34,16 @@ class StudentController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'address' => 'nullable|string',
-            'tel' => 'nullable|integer',
+            'tel' => 'nullable|string',
         ]);
+
+        $password = Str::random(8);
 
         $user = User::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt($password),
             'role' => 'student',
             'gender' => $request->gender,
             'photo' => $request->photo,
@@ -49,6 +54,10 @@ class StudentController extends Controller
             'tel' => $request->tel,
         ]);
 
+
+        // declaring current active year
+        $year = Year::currentYear();
+
         $student = Student::create([
             'user_id' => $user->id,
         ]);
@@ -56,10 +65,23 @@ class StudentController extends Controller
         //////////////////////
         //create the inscription
         $inscription = Inscription::create([
-            'student_id' => $student,
-            'year_id' => Year::currentYear(),
+            'student_id' => $student->id,
+            'year_id' => $year->id,
             'statut' => 'active',
         ]);
+
+        //////////////////////
+        //create the paiment months rows based on the months decalred in the acedemic year
+        $start = Carbon::parse($year->beginning_date);
+        $end = Carbon::parse($year->end_date);
+
+        while ($start->lte($end)) {
+            $inscription->paiments()->create([
+                'mois' => $start->translatedFormat('F Y'),
+                'etatPayement' => false,
+            ]);
+            $start->addMonth();
+        }
 
         return response()->json([
             'message' => 'Etudiant ajoute avec succes',
