@@ -57,6 +57,7 @@ class StudentController extends Controller
         // declaring current active year
         $year = Year::currentYear();
 
+
         $student = Student::create([
             'user_id' => $user->id,
         ]);
@@ -82,8 +83,14 @@ class StudentController extends Controller
             $start->addMonth();
         }
 
+
+        $message = "Etudiant ajoute avec success";
+        if (!$year) {
+            $message = "aucune annes courante!";
+        }
+
         return response()->json([
-            'message' => 'Etudiant ajoute avec succes',
+            'message' => $message,
             'data' => $student->load('user'),
         ], 201);
     }

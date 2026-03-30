@@ -34,9 +34,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Log the user out (Revoke the token).
-     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
