@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Devoir extends Model
 {
-    //
+    protected $table = 'devoir';
     protected $fillable = [
         'school_class_id',
         'title',
@@ -19,9 +19,9 @@ class Devoir extends Model
         'deadline' => 'date',
     ];
 
-    public function class(): BelongsTo
+    public function schoolClass(): BelongsTo
     {
-        return $this->belongsTo(SchoolClass::class);
+        return $this->belongsTo(SchoolClass::class, 'school_class_id');
     }
 
 }

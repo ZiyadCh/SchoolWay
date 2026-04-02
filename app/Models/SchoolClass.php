@@ -21,9 +21,9 @@ class SchoolClass extends Model
         return $this->belongsTo(Level::class);
     }
 
-    public function teacher(): BelongsTo
+    public function devoirs(): HasMany
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->hasMany(Devoir::class, 'school_class_id');
     }
 
     public function inscriptions(): HasMany

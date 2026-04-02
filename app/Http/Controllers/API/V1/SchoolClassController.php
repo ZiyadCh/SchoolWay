@@ -23,7 +23,7 @@ class SchoolClassController extends Controller
         }
 
         if ($request->search) {
-            $query->where('name', 'ILIKE', '%' . $request->search . '%');
+            $query->where('name', 'LIKE', '%' . $request->search . '%');
         }
 
         if ($request->nbr) {
