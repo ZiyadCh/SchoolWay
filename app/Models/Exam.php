@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Exam extends Model
 {
     protected $fillable = [
-        'inscription_id',
-        'status',
-        'note',
+        'title',
         'date',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
 
-    public function inscription(): BelongsTo
+    public function inscriptions(): BelongsToMany
     {
-        return $this->belongsTo(Inscription::class);
+        return $this->belongsToMany(Inscription::class, 'notes')
+                    ->withPivot('valeur')
+                    ->withTimestamps();
     }
-
 }

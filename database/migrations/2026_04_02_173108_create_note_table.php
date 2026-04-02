@@ -10,10 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('exams', function (Blueprint $table) {
+        Schema::create('note', function (Blueprint $table) {
             $table->id();
-            $table->float('note')->nullable();
-            $table->date('date');
+            $table->foreignId('exam_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('inscription_id')->constrained()->cascadeOnDelete();
+            $table->float('valeur');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('exams');
+        Schema::dropIfExists('note');
     }
 };
