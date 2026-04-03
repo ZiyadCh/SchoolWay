@@ -1,9 +1,9 @@
 @extends('layouts.app')
-
 @section('title', 'Profil Étudiant - Ahmed Mansouri')
 
 @section('content')
 
+@vite('resources/js/tab.js')
 <div class="max-w-7xl mx-auto space-y-8 text-white pb-20 scrollbar-hide">
 
     <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl flex items-center gap-6 ">
@@ -145,9 +145,4 @@
 
     </div>
 </div>
-
-    <script src ="{{ asset('js/tab.js') }}">
-
-    </script>
-
 @endsection
