@@ -23,7 +23,7 @@ class SendPasswordToUser extends Mailable
     public function __construct($user, $password)
     {
         $this->user = $user;
-        $this->passowrd = $password;
+        $this->password = $password;
     }
 
     /**
@@ -32,7 +32,7 @@ class SendPasswordToUser extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Send Password To User',
+            subject: 'Mod de passe temporelle du School Way',
         );
     }
 
@@ -43,6 +43,10 @@ class SendPasswordToUser extends Mailable
     {
         return new Content(
             markdown: 'mail.send-password-to-user',
+            with: [
+                'user' => $this->user,
+                'password' => $this->password,
+            ]
         );
     }
 

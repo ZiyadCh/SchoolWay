@@ -1,9 +1,10 @@
 <x-mail::message>
-# Introduction
+Bienvenue sur SchoolWay. Voici vos identifiants pour vous connecter à votre espace :
 
-The body of your message.
+- **Email :** {{ $user->email }}
+- **Mot de passe :** {{ $password }}
 
-<x-mail::button :url="''">
+<x-mail::button :url="config('app.name').'/login'">
 Button Text
 </x-mail::button>
 

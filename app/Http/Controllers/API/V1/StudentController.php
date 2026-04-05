@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Mail\SendPasswordToUser;
 use App\Models\Inscription;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Year;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class StudentController extends Controller
@@ -84,10 +86,13 @@ class StudentController extends Controller
         }
 
 
-        $message = "Etudiant ajoute avec success";
+        $message = "Etudiant ajoute avec success, l'etudian doit recevoir une notification par email";
         if (!$year) {
             $message = "aucune annes courante!";
         }
+
+        //sending the mail
+        Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
 
         return response()->json([
             'message' => $message,
