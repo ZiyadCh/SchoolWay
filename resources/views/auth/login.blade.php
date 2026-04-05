@@ -1,5 +1,5 @@
 <head>
-<script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-900"> <div class="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-6 text-gray-100">
     <div class="w-full max-w-md bg-gray-800 rounded-xl shadow-2xl border border-gray-700 p-10">

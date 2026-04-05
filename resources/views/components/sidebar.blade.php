@@ -23,23 +23,23 @@
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
     <label class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-black px-4 mb-4 block">Menu Principal</label>
 
-    <x-sidebar-link href="/dashboard" icon="fa-chart-column" :active="request()->is('/')">
+    <x-sidebar-link href="/administration/dashboard" icon="fa-chart-column" :active="request()->is('/')">
         Tableau de bord
     </x-sidebar-link>
 
-    <x-sidebar-link href="/classes" icon="fa-chalkboard-user" :active="request()->is('classes*')">
+    <x-sidebar-link href="/administration/classes" icon="fa-chalkboard-user" :active="request()->is('classes*')">
         Classes
     </x-sidebar-link>
 
-    <x-sidebar-link href="/teachers" icon="fa-person-chalkboard" :active="request()->is('teachers*')">
+    <x-sidebar-link href="/administration/teachers" icon="fa-person-chalkboard" :active="request()->is('teachers*')">
         Enseignants
     </x-sidebar-link>
 
-    <x-sidebar-link href="/students" icon="fa-users" :active="request()->is('students*')">
+    <x-sidebar-link href="/administration/students" icon="fa-users" :active="request()->is('students*')">
         Élèves
     </x-sidebar-link>
 
-    <x-sidebar-link href="/paiments" icon="fa-credit-card" :active="request()->is('paiments*')">
+    <x-sidebar-link href="/administration/paiments" icon="fa-credit-card" :active="request()->is('paiments*')">
         Paiements
     </x-sidebar-link>
 </nav>
