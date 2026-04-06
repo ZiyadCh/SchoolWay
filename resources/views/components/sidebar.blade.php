@@ -46,7 +46,7 @@
 
     <div class="p-4 border-t border-gray-800 bg-gray-950/30">
 
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="/api/v1/logout">
             @csrf
             <button type="submit" class="w-full flex items-center justify-center gap-2 bg-red-900/10 hover:bg-red-900/30 text-red-400 py-3 rounded-xl border border-red-900/20 transition-all text-xs font-bold uppercase tracking-widest">
                 <i class="fa-solid fa-right-from-bracket"></i>

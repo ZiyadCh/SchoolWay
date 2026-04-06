@@ -20,6 +20,12 @@ class IsDirecteur
             return $next($request);
         }
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Accès interdit : réservé à l\'administration.',
+            ], 403);
+        }
+
         return redirect('/login')->with('error', 'Access restricted to administrators.');
     }
 }

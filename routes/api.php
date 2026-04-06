@@ -18,11 +18,11 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 
     //auth
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
-    });
+    })->name('logout');
     //years
     Route::apiResource('years', YearController::class);
     //students

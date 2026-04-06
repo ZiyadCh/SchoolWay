@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School-Way | @yield('title')</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css','resources/js/auth/user.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
     ::-webkit-scrollbar {
@@ -38,7 +38,7 @@
 
                 <div class="flex items-center gap-3">
                     <div class="text-right hidden sm:block">
-                        <div class="font-medium text-lg">auth()->user()->nom}}</div>
+                        <div id="username" class="font-medium text-lg">loading ...</div>
                         <div class="text-[10px] text-amber-500 uppercase tracking-tighter">Directeur</div>
                     </div>
                 </div>

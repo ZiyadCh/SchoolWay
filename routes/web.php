@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
     return view('auth.login');
-})->name('login-page');
+})->name('login');
+
 
 Route::get('students', function () {
     return view('students.list');
 });
-Route::post('logout', [AuthController::class,'logout'])->name('logout');
 
 
 Route::prefix('administration')->group(function () {
@@ -22,7 +22,6 @@ Route::prefix('administration')->group(function () {
     Route::get('/classes', function () {
         return view('classes.list');
     });
-
 
     Route::get('/students', function () {
         return view('students.list');

@@ -1,5 +1,5 @@
 <head>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css','resources/js/auth/login.js'])
 </head>
 <body class="bg-gray-900"> <div class="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-6 text-gray-100">
     <div class="w-full max-w-md bg-gray-800 rounded-xl shadow-2xl border border-gray-700 p-10">
@@ -8,7 +8,11 @@
            <h1 class="text-2xl font-bold text-white">School-Way</h1>
         </div>
 
-        <form action="{{ route('login') }}" method="POST" class="space-y-5">
+        <form id="loginForm" class="space-y-5">
+
+            <div id="errorAlert" class="hidden mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+                <span id="errorMessage"></span>
+            </div>
             @csrf
 
             <div>
