@@ -1,4 +1,4 @@
-<aside class="fixed inset-y-0 left-0 z-50 w-64 h-screen bg-gray-900 border-r border-gray-800 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+<aside class="left-0 z-50 w-64 h-screen bg-gray-900 border-r border-gray-800 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
 
 
     <div class="p-5 border-b border-gray-800 flex items-center justify-between">
@@ -16,7 +16,7 @@
 
 
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto scrollbar-hide">
-        <label class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-black px-4 mb-4 block italic">Espace Élève</label>
+        <label class="uppercase tracking-[0.2em] text-gray-500 font-black px-4 mb-4 block ">Espace Élève</label>
 
         <x-sidebar-link href="/student/profile" icon="fa-user-graduate" :active="request()->is('student/profile*')">
             Mon Profil
