@@ -27,9 +27,11 @@ Route::prefix('administration')->group(function () {
         return view('students.list');
     });
 
-    Route::get('/students/profile', function () {
-        return view('students.profile');
+    Route::get('/student-detail', function () {
+        return view('detail.profile');
     });
+
+
 
     Route::get('/teachers', function () {
         return view('teachers.list');
@@ -42,5 +44,11 @@ Route::prefix('administration')->group(function () {
         Route::get('/detail', function () {
             return view('paiments.monthly');
         });
+    });
+});
+
+Route::prefix('student')->group(function () {
+    Route::get('/profile', function () {
+        return view('students.profile');
     });
 });

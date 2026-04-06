@@ -1,4 +1,4 @@
-@extends('layouts.student')
+@extends('layouts.app')
 @section('title', 'Profil Étudiant - Ahmed Mansouri')
 
 @section('content')
@@ -15,7 +15,6 @@
             <p class="text-amber-500/60 text-[14px] font-black uppercase mt-0.5">2 Bac Sc. Physiques • Matricule #8824</p>
         </div>
     </div>
-
 
     <div class="flex justify-center w-full">
         <div class="flex gap-2 bg-gray-950 p-1.5 rounded-xl border border-gray-900 w-fit ">
