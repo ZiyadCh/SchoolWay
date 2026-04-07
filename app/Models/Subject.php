@@ -8,10 +8,11 @@ class Subject extends Model
 {
     protected $fillable = [
         'name',
+        'coefficient',
     ];
-    public function teacher()
+    public function schoolClasses()
     {
-        return $this->hasMany(Subject::class);
+        return $this->hasMany(SchoolClass::class);
     }
 
 }

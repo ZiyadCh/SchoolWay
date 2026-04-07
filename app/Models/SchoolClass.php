@@ -26,6 +26,11 @@ class SchoolClass extends Model
         return $this->hasMany(Devoir::class, 'school_class_id');
     }
 
+    public function subject()
+    {
+        return $this->hasOne(Subject::class);
+    }
+
     public function inscriptions(): HasMany
     {
         return $this->hasMany(Inscription::class);

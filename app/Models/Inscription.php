@@ -33,7 +33,6 @@ class Inscription extends Model
         return $this->belongsTo(Year::class, 'year_id');
     }
 
-
     public function absences(): HasMany
     {
         return $this->hasMany(Absence::class);
