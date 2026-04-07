@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('teachers', function (Blueprint $table) {
+        Schema::table('school_classes', function (Blueprint $table) {
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');           //
         });
     }

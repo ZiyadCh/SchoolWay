@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->float('note')->nullable();
+            $table->string('title');
+            $table->float('note');
             $table->date('date');
             $table->timestamps();
         });
