@@ -55,4 +55,8 @@ Route::prefix('student')->group(function () {
     Route::get('/notes', function () {
         return view('students.notes');
     });
+
+    Route::get('/absences', function () {
+        return view('students.absences');
+    });
 });

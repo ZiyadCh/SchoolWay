@@ -6,6 +6,9 @@
     <title>School-Way | @yield('title')</title>
     @vite(['resources/css/app.css','resources/js/auth/user.js','resources/js/auth/logout.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <style>
     ::-webkit-scrollbar {
         width: 6px;
@@ -19,7 +22,7 @@
         #menu-toggle:checked ~ div #overlay { display: block; }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen font-sans antialiased overflow-hidden">
+<body class="bg-gray-950 text-gray-100 min-h-screen ubuntu antialiased overflow-hidden">
 
     <input type="checkbox" id="menu-toggle" class="hidden">
 
