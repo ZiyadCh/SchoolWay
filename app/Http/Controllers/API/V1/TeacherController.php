@@ -29,7 +29,6 @@ class TeacherController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'tel' => 'nullable|integer',
-            'subject_id' => 'required|exists:subjects,id',
         ]);
 
         $password = Str::random(8);
@@ -50,7 +49,6 @@ class TeacherController extends Controller
 
         $teacher = Teacher::create([
             'user_id' => $user->id,
-            'subject_id' => $request->subject_id,
         ]);
 
         return response()->json([
@@ -80,7 +78,6 @@ class TeacherController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'tel' => 'nullable|integer',
-            'subject_id' => 'required|exists:subjects,id',
         ]);
 
         $teacher->user->update([

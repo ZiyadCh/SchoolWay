@@ -47,6 +47,7 @@ class SchoolClassController extends Controller
             'name'     => 'required|string|max:255|unique:school_classes,name',
             'level_id' => 'required|exists:levels,id',
             'teacher_id' => 'sometimes|exists:teachers,id',
+            'subject_id' => 'required|exists:subjects,id',
         ]);
 
         $class = SchoolClass::create($validated);
@@ -77,6 +78,7 @@ class SchoolClassController extends Controller
             'name'     => 'sometimes|string|max:255|unique:school_classes,name,' . $schoolClass->id,
             'level_id' => 'sometimes|exists:levels,id',
             'teacher_id' => 'sometimes|exists:teachers,id',
+            'subject_id' => 'required|exists:subjects,id',
         ]);
 
         $schoolClass->update($validated);
