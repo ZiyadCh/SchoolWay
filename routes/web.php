@@ -51,4 +51,8 @@ Route::prefix('student')->group(function () {
     Route::get('/profile', function () {
         return view('students.profile');
     });
+
+    Route::get('/notes', function () {
+        return view('students.notes');
+    });
 });
