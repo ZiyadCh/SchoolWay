@@ -13,7 +13,7 @@ class AbsenceController extends Controller
      */
     public function index()
     {
-        return response()->json(Absence::with('inscription.student')->latest()->paginate(10));
+        return response()->json(Absence::with('inscription.student.user')->get());
     }
 
     /**
@@ -24,7 +24,7 @@ class AbsenceController extends Controller
         $validated = $request->validate([
             'inscription_id' => 'required|exists:inscriptions,id',
             'date'           => 'required|date',
-            'justified'      => 'required|boolean',
+            'justifie'      => 'required|boolean',
         ]);
 
         $absence = Absence::create($validated);
