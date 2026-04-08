@@ -11,7 +11,6 @@ class Inscription extends Model
 {
     protected $fillable = [
         'student_id',
-        'school_class_id',
         'year_id',
         'note_final',
         'statut',
@@ -23,9 +22,9 @@ class Inscription extends Model
         return $this->belongsTo(Student::class);
     }
 
-    public function schoolClass(): BelongsTo
+    public function schoolClass(): BelongsToMany
     {
-        return $this->belongsTo(SchoolClass::class, 'school_class_id');
+        return $this->belongsToMany(SchoolClass::class, 'school_class_inscription');
     }
 
     public function year(): BelongsTo

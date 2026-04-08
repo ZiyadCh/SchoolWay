@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class SchoolClassController extends Controller
 {
     /**
-     * Display a listing of all school classes.
+     * Display a listing of the resource.
      */
     public function index(Request $request)
     {
@@ -30,91 +32,71 @@ class SchoolClassController extends Controller
             $query->orderBy('nbr_students', 'desc');
         }
 
-        $classes = $query->get();
-
-        return response()->json([
-            'message' => 'Liste des classes filtrée',
-            'count'   => $classes->count(),
-            'data'    => $classes,
-        ]);
+        return response()->json($query->get());
     }
+
     /**
-     * Store a newly created school class.
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'     => 'required|string|max:255|unique:school_classes,name',
-            'level_id' => 'required|exists:levels,id',
+            'name'       => 'required|string|max:255|unique:school_classes,name',
+            'level_id'   => 'required|exists:levels,id',
             'teacher_id' => 'sometimes|exists:teachers,id',
             'subject_id' => 'required|exists:subjects,id',
         ]);
 
-        $class = SchoolClass::create($validated);
+        $schoolClass = SchoolClass::create($validated);
 
         return response()->json([
-            'message' => 'School class created successfully.',
-            'data'    => $class->load('level'),
-        ], 201);
+            'message' => 'Classe créée avec succès',
+            'data'    => $schoolClass->load(['level', 'teacher.user']),
+        ], Response::HTTP_CREATED);
     }
 
     /**
-     * Display the specified school class.
+     * Display the specified resource.
      */
     public function show(SchoolClass $schoolClass)
     {
         return response()->json([
-            'message' => 'School class retrieved successfully.',
-            'data'    => $schoolClass->load('level'),
+            'message' => 'Classe récupérée avec succès',
+            'data'    => $schoolClass->load(['level', 'teacher.user']),
         ]);
     }
 
     /**
-     * Update the specified school class.
+     * Update the specified resource in storage.
      */
     public function update(Request $request, SchoolClass $schoolClass)
     {
         $validated = $request->validate([
-            'name'     => 'sometimes|string|max:255|unique:school_classes,name,' . $schoolClass->id,
-            'level_id' => 'sometimes|exists:levels,id',
+            'name'       => 'sometimes|string|max:255|unique:school_classes,name,' . $schoolClass->id,
+            'level_id'   => 'sometimes|exists:levels,id',
             'teacher_id' => 'sometimes|exists:teachers,id',
-            'subject_id' => 'required|exists:subjects,id',
+            'subject_id' => 'sometimes|exists:subjects,id',
         ]);
 
         $schoolClass->update($validated);
 
         return response()->json([
-            'message' => 'School class updated successfully.',
-            'data'    => $schoolClass->load('level'),
+            'message' => 'Classe mise à jour avec succès',
+            'data'    => $schoolClass->load(['level', 'teacher.user']),
         ]);
     }
 
     /**
-     * Remove the specified school class.
+     * Remove the specified resource from storage.
      */
     public function destroy(SchoolClass $schoolClass)
     {
+
+        $schoolClass->detach('inscriptions');
         $schoolClass->delete();
 
         return response()->json([
-            'message' => 'School class deleted successfully.',
-        ]);
-    }
-
-    /**
-     * Display all students enrolled in the specified school class.
-     */
-    public function students(SchoolClass $schoolClass)
-    {
-        $students = $schoolClass->students()
-            ->with('user')
-            ->get();
-
-        return response()->json([
-            'message' => "Students in class '{$schoolClass->name}' retrieved successfully.",
-            'class'   => $schoolClass->name,
-            'count'   => $students->count(),
-            'data'    => $students,
-        ]);
+            'message' => 'Classe supprimée avec succès',
+        ], 200);
     }
 }

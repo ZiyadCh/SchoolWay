@@ -8,25 +8,48 @@ use Illuminate\Http\Request;
 
 class LevelController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        return Level::latest()->get();
+        return response()->json([
+            'message' => 'Liste des niveaux récupérée avec succès',
+            'data'    => Level::latest()->get(),
+        ], 200);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:levels,name',
         ]);
 
-        return Level::create($validated);
+        $level = Level::create($validated);
+
+        return response()->json([
+            'message' => 'Niveau créé avec succès',
+            'data'    => $level,
+        ], 201);
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(Level $level)
     {
-        return $level;
+        return response()->json([
+            'message' => 'Détails du niveau récupérés',
+            'data'    => $level,
+        ], 200);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Level $level)
     {
         $validated = $request->validate([
@@ -35,13 +58,21 @@ class LevelController extends Controller
 
         $level->update($validated);
 
-        return $level;
+        return response()->json([
+            'message' => 'Niveau mis à jour avec succès',
+            'data'    => $level,
+        ], 200);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Level $level)
     {
         $level->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'message' => 'Niveau supprimé avec succès',
+        ], 200);
     }
 }

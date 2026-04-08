@@ -91,6 +91,7 @@ class StudentController extends Controller
             $message = "aucune annes courante!";
         }
 
+        //////////////////////
         //sending the mail
         Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
 
@@ -100,10 +101,9 @@ class StudentController extends Controller
         ], 201);
     }
 
-    public function show($id)
+    public function show(Student $student)
     {
-        $student = Student::with('user')->findOrFail($id);
-        return response()->json($student);
+        return response()->json($student->load('user'));
     }
 
     public function update(Request $request, $id)
@@ -148,14 +148,13 @@ class StudentController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(Student $student)
     {
-        $student = Student::findOrFail($id);
         $student->user()->delete();
         $student->delete();
 
         return response()->json([
             'message' => 'Etudiant supprime avec succes',
-        ]);
+        ], 200);
     }
 }

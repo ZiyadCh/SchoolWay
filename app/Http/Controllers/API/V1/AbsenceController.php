@@ -13,7 +13,7 @@ class AbsenceController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Absence::with('inscription.student')->latest()->paginate(10));
     }
 
     /**
@@ -21,7 +21,18 @@ class AbsenceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'inscription_id' => 'required|exists:inscriptions,id',
+            'date'           => 'required|date',
+            'justified'      => 'required|boolean',
+        ]);
+
+        $absence = Absence::create($validated);
+
+        return response()->json([
+            'message' => 'Absence enregistrée avec succès',
+            'data'    => $absence->load('inscription.student'),
+        ], 201);
     }
 
     /**
@@ -29,7 +40,10 @@ class AbsenceController extends Controller
      */
     public function show(Absence $absence)
     {
-        //
+        return response()->json([
+            'message' => 'Détails de l\'absence récupérés',
+            'data'    => $absence->load('inscription.student'),
+        ], 200);
     }
 
     /**
@@ -37,7 +51,17 @@ class AbsenceController extends Controller
      */
     public function update(Request $request, Absence $absence)
     {
-        //
+        $validated = $request->validate([
+            'date'           => 'sometimes|required|date',
+            'justified'      => 'sometimes|required|boolean',
+        ]);
+
+        $absence->update($validated);
+
+        return response()->json([
+            'message' => 'Absence mise à jour avec succès',
+            'data'    => $absence->load('inscription.student'),
+        ], 200);
     }
 
     /**
@@ -45,6 +69,10 @@ class AbsenceController extends Controller
      */
     public function destroy(Absence $absence)
     {
-        //
+        $absence->delete();
+
+        return response()->json([
+            'message' => 'Absence supprimée avec succès',
+        ], 200);
     }
 }

@@ -11,40 +11,48 @@ use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $teachers = Teacher::with(['user'])->get();
-        return response()->json($teachers);
+        return response()->json([
+            'message' => 'Liste des enseignants récupérée avec succès',
+            'data'    => Teacher::with(['user'])->get(),
+        ], 200);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'gender' => 'required|in:M,F',
-            'photo' => 'nullable|string',
-            'adress' => 'nullable|string',
-            'birthday' => 'nullable|date',
+            'nom'        => 'required|string',
+            'prenom'     => 'required|string',
+            'email'      => 'required|email|unique:users,email',
+            'gender'     => 'required|in:M,F',
+            'photo'      => 'nullable|string',
+            'adress'     => 'nullable|string',
+            'birthday'   => 'nullable|date',
             'birthplace' => 'nullable|string',
-            'tel' => 'nullable|string|numeric',
+            'tel'        => 'nullable|string|numeric',
         ]);
 
         $password = Str::random(8);
 
         $user = User::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'password' => bcrypt($password),
-            'role' => 'teacher',
-            'gender' => $request->gender,
-            'photo' => $request->photo,
-            'adress' => $request->adress,
-            'birthday' => $request->birthday,
+            'nom'        => $request->nom,
+            'prenom'     => $request->prenom,
+            'email'      => $request->email,
+            'password'   => Hash::make($password),
+            'role'       => 'teacher',
+            'gender'     => $request->gender,
+            'photo'      => $request->photo,
+            'adress'     => $request->adress,
+            'birthday'   => $request->birthday,
             'birthplace' => $request->birthplace,
-            'tel' => $request->tel,
+            'tel'        => $request->tel,
         ]);
 
         $teacher = Teacher::create([
@@ -52,47 +60,52 @@ class TeacherController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Teacher created successfully',
-            'data' => $teacher->load(['user']),
+            'message' => 'Enseignant créé avec succès',
+            'data'    => $teacher->load(['user']),
         ], 201);
     }
 
-    public function show($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Teacher $teacher)
     {
-        $teacher = Teacher::with(['user', 'subject'])->findOrFail($id);
-        return response()->json($teacher);
+        return response()->json([
+            'message' => 'Détails de l\'enseignant récupérés',
+            'data'    => $teacher->load(['user', 'subject']),
+        ], 200);
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Teacher $teacher)
     {
-        $teacher = Teacher::with('user')->findOrFail($id);
-
         $request->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'nullable|min:6',
-            'gender' => 'required|in:M,F',
-            'photo' => 'nullable|string',
-            'adress' => 'nullable|string',
-            'birthday' => 'nullable|date',
+            'nom'        => 'required|string',
+            'prenom'     => 'required|string',
+            'email'      => 'required|email|unique:users,email,',
+            'password'   => 'nullable|min:6',
+            'gender'     => 'required|in:M,F',
+            'photo'      => 'nullable|string',
+            'adress'     => 'nullable|string',
+            'birthday'   => 'nullable|date',
             'birthplace' => 'nullable|string',
-            'tel' => 'nullable|string|numeric',
+            'tel'        => 'nullable|string|numeric',
+            'subject_id' => 'sometimes|exists:subjects,id',
         ]);
 
         $teacher->user->update([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'gender' => $request->gender,
-            'photo' => $request->photo,
-            'adress' => $request->adress,
-            'birthday' => $request->birthday,
+            'nom'        => $request->nom,
+            'prenom'     => $request->prenom,
+            'email'      => $request->email,
+            'gender'     => $request->gender,
+            'photo'      => $request->photo,
+            'adress'     => $request->adress,
+            'birthday'   => $request->birthday,
             'birthplace' => $request->birthplace,
-            'tel' => $request->tel,
-            'password' => $request->password
-                ? Hash::make($request->password)
-                : $teacher->user->password,
+            'tel'        => $request->tel,
+            'password'   => $request->password ? Hash::make($request->password) : $teacher->user->password,
         ]);
 
         $teacher->update([
@@ -100,20 +113,21 @@ class TeacherController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Teacher updated successfully',
-            'data' => $teacher->load(['user', 'subject']),
-        ]);
+            'message' => 'Enseignant mis à jour avec succès',
+            'data'    => $teacher->load(['user', 'subject']),
+        ], 200);
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Teacher $teacher)
     {
-        $teacher = Teacher::findOrFail($id);
-
         $teacher->user()->delete();
         $teacher->delete();
 
         return response()->json([
-            'message' => 'Teacher deleted successfully',
-        ]);
+            'message' => 'Enseignant supprimé avec succès',
+        ], 200);
     }
 }

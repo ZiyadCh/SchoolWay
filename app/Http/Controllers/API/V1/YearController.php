@@ -14,8 +14,10 @@ class YearController extends Controller
      */
     public function index()
     {
-        $years = Year::all();
-        return response()->json($years);
+        return response()->json([
+            'message' => 'Liste des années scolaires récupérée avec succès',
+            'data'    => Year::latest()->get(),
+        ], 200);
     }
 
     /**
@@ -24,10 +26,10 @@ class YearController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string',
+            'title'          => 'required|string|unique:years,title',
             'beginning_date' => 'required|date',
-            'end_date' => 'required|date|after:beginning_date',
-            'current' => 'boolean',
+            'end_date'       => 'required|date|after:beginning_date',
+            'current'        => 'boolean',
         ]);
 
         return DB::transaction(function () use ($request) {
@@ -39,7 +41,7 @@ class YearController extends Controller
 
             return response()->json([
                 'message' => 'Année scolaire créée avec succès',
-                'data' => $year,
+                'data'    => $year,
             ], 201);
         });
     }
@@ -49,7 +51,10 @@ class YearController extends Controller
      */
     public function show(Year $year)
     {
-        return response()->json($year);
+        return response()->json([
+            'message' => 'Détails de l\'année scolaire récupérés',
+            'data'    => $year,
+        ], 200);
     }
 
     /**
@@ -58,10 +63,10 @@ class YearController extends Controller
     public function update(Request $request, Year $year)
     {
         $request->validate([
-            'label' => 'string|unique:years,label,' . $year->id,
-            'beginning_date' => 'date',
-            'end_date' => 'date|after:beginning_date',
-            'current' => 'boolean',
+            'title'          => 'sometimes|required|string|unique:years,title,' . $year->id,
+            'beginning_date' => 'sometimes|required|date',
+            'end_date'       => 'sometimes|required|date|after:beginning_date',
+            'current'        => 'boolean',
         ]);
 
         return DB::transaction(function () use ($request, $year) {
@@ -72,9 +77,9 @@ class YearController extends Controller
             $year->update($request->all());
 
             return response()->json([
-                'message' => 'Année scolaire mise à jour',
-                'data' => $year,
-            ]);
+                'message' => 'Année scolaire mise à jour avec succès',
+                'data'    => $year,
+            ], 200);
         });
     }
 
@@ -85,14 +90,14 @@ class YearController extends Controller
     {
         if ($year->inscriptions()->count() > 0) {
             return response()->json([
-                'error' => "Impossible de supprimer une année contenant des inscriptions.",
+                'message' => 'Impossible de supprimer une année contenant des inscriptions.',
             ], 422);
         }
 
         $year->delete();
 
         return response()->json([
-            'message' => 'Année supprimée',
-        ]);
+            'message' => 'Année scolaire supprimée avec succès',
+        ], 200);
     }
 }

@@ -66,9 +66,9 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        if ($subject->teachers()->count() > 0) {
+        if ($subject->schoolClasses()->count() > 0) {
             return response()->json([
-                'message' => 'il ya deja des ensaignant avec cette maitere!',
+                'message' => 'il ya déja des classes avec cette maitere!',
             ], 409);
         }
 

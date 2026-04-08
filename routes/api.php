@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\AbsenceController;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\DevoirController;
 use App\Http\Controllers\API\V1\LevelController;
@@ -23,6 +24,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
     })->name('logout');
+
     //years
     Route::apiResource('years', YearController::class);
     //students
@@ -37,4 +39,7 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('subjects', SubjectController::class);
     //devoirs
     Route::apiResource('devoirs', DevoirController::class);
+    //absences
+    Route::apiResource('absences', AbsenceController::class);
+
 });
