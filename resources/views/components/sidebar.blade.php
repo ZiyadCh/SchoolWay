@@ -1,4 +1,4 @@
-<aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 border-r border-gray-800 flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0">
+<aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 border-r border-gray-800 flex flex-col transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0">
 
     <div class="p-5 border-b border-gray-800 flex items-center justify-between">
         <div class="flex items-center gap-3">

@@ -15,7 +15,7 @@ Pour vous connecter, utilisez les informations suivantes :
 **Mot de passe :** `{{ $password }}`
 </x-mail::panel>
 
-<x-mail::button :url="route('login-page')">
+<x-mail::button :url="route('login')">
 Accéder à mon espace
 </x-mail::button>
 

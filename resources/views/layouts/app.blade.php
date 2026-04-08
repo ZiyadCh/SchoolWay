@@ -22,7 +22,7 @@
         #menu-toggle:checked ~ div #overlay { display: block; }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen ubuntu antialiased overflow-hidden">
+<body class="bg-gray-950 text-gray-100 min-h-screen ubuntu overflow-hidden">
 
     <input type="checkbox" id="menu-toggle" class="hidden">
 

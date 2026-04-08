@@ -35,7 +35,7 @@ class StudentController extends Controller
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'address' => 'nullable|string',
-            'tel' => 'nullable|integer',
+            'tel' => 'nullable|string|numeric',
         ]);
 
         $password = Str::random(8);
@@ -111,16 +111,16 @@ class StudentController extends Controller
         $student = Student::with('user')->findOrFail($id);
 
         $request->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
+            'nom' => 'string',
+            'prenom' => 'string',
             'email' => 'nullable|email|unique:users,email',
             'password' => 'nullable|min:6',
-            'gender' => 'required|in:M,F',
+            'gender' => 'in:M,F',
             'photo' => 'nullable|string',
             'adress' => 'nullable|string',
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
-            'tel' => 'nullable|integer',
+            'tel' => 'nullable|string|numeric',
         ]);
 
         $student->user->update([

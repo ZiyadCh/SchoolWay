@@ -8,7 +8,7 @@
         <div>
             <h2 class="text-4xl font-black text-white tracking-tight">Enseignants</h2>
         </div>
-        <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all shadow-xl shadow-amber-500/20 flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
+        <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
             <i class="fa-solid fa-plus text-lg"></i>
             <span>Ajouter un Enseignant</span>
         </button>

@@ -28,7 +28,7 @@ class TeacherController extends Controller
             'adress' => 'nullable|string',
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
-            'tel' => 'nullable|integer',
+            'tel' => 'nullable|string|numeric',
         ]);
 
         $password = Str::random(8);
@@ -77,7 +77,7 @@ class TeacherController extends Controller
             'adress' => 'nullable|string',
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
-            'tel' => 'nullable|integer',
+            'tel' => 'nullable|string|numeric',
         ]);
 
         $teacher->user->update([
