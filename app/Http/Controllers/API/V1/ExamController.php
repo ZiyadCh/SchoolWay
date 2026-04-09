@@ -54,9 +54,7 @@ class ExamController extends Controller
     public function update(Request $request, Exam $exam)
     {
         $validated = $request->validate([
-            'inscription_id' => 'sometimes|required|exists:inscriptions,id',
             'title'          => 'sometimes|required|string|max:255',
-            'note'           => 'sometimes|required|numeric',
             'date'           => 'sometimes|required|date',
         ]);
 
