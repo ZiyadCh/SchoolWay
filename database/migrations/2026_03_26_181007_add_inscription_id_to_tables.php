@@ -18,9 +18,6 @@ return new class extends Migration {
             $table->foreignId('inscription_id')->constrained('inscriptions')->cascadeOnDelete();
         });
 
-        Schema::table('exams', function (Blueprint $table) {
-            $table->foreignId('inscription_id')->constrained('inscriptions')->cascadeOnDelete();
-        });
     }
 
     /**
@@ -38,9 +35,5 @@ return new class extends Migration {
             $table->dropColumn('inscription_id');
         });
 
-        Schema::table('exams', function (Blueprint $table) {
-            $table->dropForeign(['inscription_id']);
-            $table->dropColumn('inscription_id');
-        });
     }
 };

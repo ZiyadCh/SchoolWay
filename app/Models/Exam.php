@@ -17,7 +17,7 @@ class Exam extends Model
 
     public function inscriptions(): BelongsToMany
     {
-        return $this->belongsToMany(Inscription::class, 'notes')
+        return $this->belongsToMany(Inscription::class, 'note')
                     ->withPivot('valeur')
                     ->withTimestamps();
     }
