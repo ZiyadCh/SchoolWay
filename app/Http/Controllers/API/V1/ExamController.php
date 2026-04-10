@@ -25,11 +25,25 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
+            'school_class_id'          => 'required|integer',
             'title'          => 'required|string|max:255',
             'date'           => 'required|date',
         ]);
+
+        $schoolClass= SchoolClass::findOrFail($validated['school_class_id'])
+
+        foreach($schoolClass->inscriptions as inscription){
+            Note::create([
+                'inscription_id' => inscription->id,
+                'note' => inscription->id,
+                'school_class_id' => inscription->id,
+            ])
+        }
+
         $exam = Exam::create($validated)
+
 
         return response()->json([
             'message' => 'Examen enregistré avec succès',
