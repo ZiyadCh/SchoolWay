@@ -26,7 +26,7 @@ class YearController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'          => 'required|string|unique:years,title',
+            'title'          => 'required|string|unique:academic_year,title',
             'beginning_date' => 'required|date',
             'end_date'       => 'required|date|after:beginning_date',
             'current'        => 'boolean',
@@ -63,7 +63,7 @@ class YearController extends Controller
     public function update(Request $request, Year $year)
     {
         $request->validate([
-            'title'          => 'sometimes|required|string|unique:years,title,' . $year->id,
+            'title'          => 'sometimes|required|string|unique:academic_year,title,' . $year->id,
             'beginning_date' => 'sometimes|required|date',
             'end_date'       => 'sometimes|required|date|after:beginning_date',
             'current'        => 'boolean',

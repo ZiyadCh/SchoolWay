@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\V1\AbsenceController;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\DevoirController;
+use App\Http\Controllers\API\V1\ExamController;
 use App\Http\Controllers\API\V1\LevelController;
 use App\Http\Controllers\API\V1\StudentController;
 use App\Http\Controllers\API\V1\SchoolClassController;
@@ -41,5 +42,7 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('devoirs', DevoirController::class);
     //absences
     Route::apiResource('absences', AbsenceController::class);
+    //exams
+    Route::apiResource('exams', ExamController::class);
 
 });

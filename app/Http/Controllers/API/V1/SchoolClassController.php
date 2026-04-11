@@ -92,7 +92,7 @@ class SchoolClassController extends Controller
     public function destroy(SchoolClass $schoolClass)
     {
 
-        $schoolClass->detach('inscriptions');
+        $schoolClass->inscriptions()->detach();
         $schoolClass->delete();
 
         return response()->json([

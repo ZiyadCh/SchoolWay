@@ -15,11 +15,17 @@ class SchoolClass extends Model
         'level_id',
         'teacher_id',
         'nbr_students',
+        'subject_id',
     ];
 
     public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class);
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
     public function devoirs(): HasMany
@@ -45,7 +51,7 @@ class SchoolClass extends Model
             'school_class_id',
             'id',
             'id',
-            'student_id'
+            'student_id',
         );
     }
 
