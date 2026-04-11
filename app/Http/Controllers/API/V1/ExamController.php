@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
-use App\Models\SchoolClass;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller

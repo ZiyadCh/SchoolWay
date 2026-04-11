@@ -45,7 +45,7 @@ class Inscription extends Model
 
     public function exams(): BelongsToMany
     {
-        return $this->belongsToMany(Exam::class, 'notes')
+        return $this->belongsToMany(Exam::class, 'note')
                     ->withPivot('valeur')
                     ->withTimestamps();
     }
