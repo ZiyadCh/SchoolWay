@@ -12,11 +12,31 @@ class ExamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = Exam::with(['subject', 'inscriptions.student.user']);
+
+        if ($request->school_class_id) {
+            $query->whereHas('inscriptions', function ($q) use ($request) {
+                $q->where('school_class_id', $request->school_class_id);
+            });
+        }
+
+        if ($request->subject_id) {
+            $query->where('subject_id', $request->subject_id);
+        }
+
+        if ($request->date) {
+            $query->whereDate('date', $request->date);
+        }
+
+        if ($request->title) {
+            $query->where('title', 'LIKE', '%' . $request->title . '%');
+        }
+
         return response()->json([
             'message' => 'Liste des examens récupérée avec succès',
-            'data'    => Exam::with('inscription.student')->latest()->get(),
+            'data'    => $query->latest()->get(),
         ], 200);
     }
 
