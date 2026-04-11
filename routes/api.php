@@ -31,7 +31,7 @@ Route::prefix('v1')->group(function () {
     //students
     Route::apiResource('students', StudentController::class);
     //classes
-    Route::apiResource('classes', SchoolClassController::class);
+    Route::apiResource('school_class', SchoolClassController::class);
     //levels
     Route::apiResource('levels', LevelController::class);
     //teachers
