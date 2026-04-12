@@ -6,7 +6,6 @@
 @vite('resources/js/student/list.js')
 
 <div class="space-y-6 md:space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-3xl md:text-4xl text-white">Registre des Élèves</h2>
@@ -51,52 +50,18 @@
                         <th class="px-6 md:px-8 py-5 text-xxs md:text-xs uppercase text-gray-500 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="student-table-body" class="divide-y divide-gray-800">
-                    <template id="student-row-template">
-        <tr class="hover:bg-gray-800/20 transition-colors group">
-            <td class="px-6 md:px-8 py-5 md:py-6">
-                <div class="flex items-center gap-3 md:gap-4">
-                    <div class="avatar-container w-10 h-10 md:w-11 md:h-11 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center overflow-hidden shrink-0">
-                        <img src="" alt="Avatar" class="student-avatar w-full h-full object-cover">
-                    </div>
-                    <span class="student-name text-sm md:text-base text-white group-hover:text-amber-400 transition-colors truncate"></span>
-                </div>
-            </td>
-            <td class="px-4 md:px-8 py-5 md:py-6 text-center">
-                <span class="student-gender text-xxs uppercase px-2.5 py-1 rounded-full border"></span>
-            </td>
-            <td class="student-level px-6 md:px-8 py-5 md:py-6 text-xs md:text-sm text-gray-300"></td>
-            <td class="hidden md:table-cell px-8 py-6">
-                <div class="flex items-center gap-2 text-sm text-gray-400">
-                    <i class="fa-solid fa-location-dot text-gray-600"></i>
-                    <span class="student-location"></span>
-                </div>
-            </td>
-            <td class="px-6 md:px-8 py-5 md:py-6 text-right">
-                <div class="flex justify-end gap-2">
-                    <a href="" class="student-link w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all hover:border-amber-500/50">
-                        <i class="fa-solid fa-eye text-xs"></i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-    </template>
-</tbody>
+                <tbody id="student-table-body" class="divide-y divide-gray-800"></tbody>
             </table>
         </div>
 
         <div class="bg-gray-800/30 px-6 md:px-8 py-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p class="text-xxs md:text-xs text-gray-500 uppercase text-center sm:text-left"></p>
-
-            <div class="flex items-center gap-2">
-                <button class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700">
+            <p id="pagination-info" class="text-xxs md:text-xs text-gray-500 uppercase text-center sm:text-left"></p>
+            <div id="pagination-container" class="flex items-center gap-2">
+                <button id="prev-page" class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-500 border border-gray-700 transition-all">
                     <i class="fa-solid fa-chevron-left text-xs"></i>
                 </button>
-                <button class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-amber-500 text-black text-xs shadow-lg shadow-amber-500/20">1</button>
-                <button class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all text-xs">2</button>
-                <button class="hidden xs:flex w-9 h-9 md:w-10 md:h-10 items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all text-xs">3</button>
-                <span class="text-gray-600 px-1">...</span>
-                <button class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all">
+                <div id="page-numbers" class="flex gap-2"></div>
+                <button id="next-page" class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all">
                     <i class="fa-solid fa-chevron-right text-xs"></i>
                 </button>
             </div>
@@ -104,4 +69,33 @@
     </div>
 </div>
 
+<template id="student-row-template">
+    <tr class="hover:bg-gray-800/20 transition-colors group">
+        <td class="px-6 md:px-8 py-5 md:py-6">
+            <div class="flex items-center gap-3 md:gap-4">
+                <div class="avatar-container w-10 h-10 md:w-11 md:h-11 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="" alt="Avatar" class="student-avatar w-full h-full object-cover">
+                </div>
+                <span class="student-name text-sm md:text-base text-white group-hover:text-amber-400 transition-colors truncate"></span>
+            </div>
+        </td>
+        <td class="px-4 md:px-8 py-5 md:py-6 text-center">
+            <span class="student-gender text-xxs uppercase px-2.5 py-1 rounded-full border"></span>
+        </td>
+        <td class="student-level px-6 md:px-8 py-5 md:py-6 text-xs md:text-sm text-gray-300"></td>
+        <td class="hidden md:table-cell px-8 py-6">
+            <div class="flex items-center gap-2 text-sm text-gray-400">
+                <i class="fa-solid fa-location-dot text-gray-600"></i>
+                <span class="student-location"></span>
+            </div>
+        </td>
+        <td class="px-6 md:px-8 py-5 md:py-6 text-right">
+            <div class="flex justify-end gap-2">
+                <a href="" class="student-link w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl bg-gray-800 text-gray-400 hover:text-white border border-gray-700 transition-all hover:border-amber-500/50">
+                    <i class="fa-solid fa-eye text-xs"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+</template>
 @endsection

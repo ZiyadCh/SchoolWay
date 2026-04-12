@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\V1\AbsenceController;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\DevoirController;
+use App\Http\Controllers\API\V1\EnrollementController;
 use App\Http\Controllers\API\V1\ExamController;
 use App\Http\Controllers\API\V1\LevelController;
 use App\Http\Controllers\API\V1\StudentController;
@@ -32,6 +33,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('students', StudentController::class);
     //classes
     Route::apiResource('school_class', SchoolClassController::class);
+    //enroll student into a class
+    Route::apiResource('enrollement', EnrollementController::class);
     //levels
     Route::apiResource('levels', LevelController::class);
     //teachers
