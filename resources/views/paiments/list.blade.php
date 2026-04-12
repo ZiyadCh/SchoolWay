@@ -66,7 +66,7 @@
 
                         <td class="px-8 py-6 text-right">
                             <a href="" class="bg-amber-500/10 hover:text-amber-500  font-black text-[10px] uppercase px-4 py-2 rounded-xl transition-all border border-amber-500/20">
-                                <i class="fa-solid fa-address-book text-xs"></i>
+                                <i class="fa-solid fa-circle-info text-xs"></i>
                             </a>
                         </td>
                     </tr>

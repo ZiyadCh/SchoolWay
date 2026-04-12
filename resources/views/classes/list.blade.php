@@ -6,15 +6,15 @@
     <div class="space-y-8 max-w-7xl mx-auto">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
             <div>
-                <h2 class="text-4xl font-black text-white tracking-tight">Gestion des Classes</h2>
+                <h2 class="text-4xl font-black text-white ">Gestion des Classes</h2>
             </div>
-            <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
+            <buaton class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all flex items-center gap-3 active:scale-95 text-sm uppercase ">
                 <i class="fa-solid fa-plus text-lg"></i>
                 <span>Nouvelle Classe</span>
             </button>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 p-4 rounded-[2rem] flex flex-col lg:flex-row gap-4">
+        <div class="bg-gray-900 border border-gray-800 p-4 rounded-4xl flex flex-col lg:flex-row gap-4">
             <div class="relative flex-1 group">
                 <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors"></i>
                 <input type="text" placeholder="Rechercher une classe ou un professeur..."
@@ -22,7 +22,7 @@
             </div>
 
             <div class="flex flex-wrap sm:flex-nowrap gap-4">
-                <select class="bg-gray-950 border border-gray-800 text-gray-400 py-4 px-6 rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all min-w-[180px] cursor-pointer text-sm font-bold">
+                <select class="bg-gray-950 border border-gray-800 text-gray-400 py-4 px-6 rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all min-w-5 cursor-pointer text-sm font-bold">
                     <option value="">Tous les Niveaux</option>
                     <option value="primaire">Primaire</option>
                     <option value="college">Collège</option>

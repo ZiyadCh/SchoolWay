@@ -1,8 +1,4 @@
-const token = localStorage.getItem("token");
-
-if (!token) {
-    window.location.href = "/login";
-}
+import token from "./token.js";
 
 const userData = localStorage.getItem("user");
 const user = JSON.parse(userData);

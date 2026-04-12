@@ -27,6 +27,10 @@ Route::prefix('administration')->group(function () {
         return view('students.list');
     });
 
+    Route::get('/students/{id}', function () {
+        return view('students.detail');
+    });
+
     Route::get('/student-detail', function () {
         return view('detail.profile');
     });
