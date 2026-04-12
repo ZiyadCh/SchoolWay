@@ -22,7 +22,7 @@ class Inscription extends Model
         return $this->belongsTo(Student::class);
     }
 
-    public function schoolClass(): BelongsToMany
+    public function schoolClasses(): BelongsToMany
     {
         return $this->belongsToMany(SchoolClass::class, 'school_class_inscription');
     }

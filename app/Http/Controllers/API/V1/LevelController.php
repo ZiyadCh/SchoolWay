@@ -3,76 +3,59 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Level;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
-class LevelController extends Controller
+class EnrollementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return response()->json([
-            'message' => 'Liste des niveaux récupérée avec succès',
-            'data'    => Level::latest()->get(),
-        ], 200);
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:levels,name',
+            'student_id' => 'required|exists:students,id',
+            'classe_id'  => 'required|exists:classes,id',
         ]);
 
-        $level = Level::create($validated);
+        $student = Student::findOrFail($validated['student_id']);
+        $student->classe()->associate($validated['classe_id']);
+        $student->save();
 
         return response()->json([
-            'message' => 'Niveau créé avec succès',
-            'data'    => $level,
+            'message' => 'Student enrolled successfully',
+            'data'    => $student->load('user', 'classe'),
         ], 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Level $level)
-    {
-        return response()->json([
-            'message' => 'Détails du niveau récupérés',
-            'data'    => $level,
-        ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Level $level)
+    public function update(Request $request, Student $student)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:levels,name,' . $level->id,
+            'classe_id' => 'required|exists:classes,id',
         ]);
 
-        $level->update($validated);
+        $student->classe()->associate($validated['classe_id']);
+        $student->save();
 
         return response()->json([
-            'message' => 'Niveau mis à jour avec succès',
-            'data'    => $level,
+            'message' => 'Enrollment updated successfully',
+            'data'    => $student->load('user', 'classe'),
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Level $level)
+    public function destroy(Student $student)
     {
-        $level->delete();
+        $student->classe()->dissociate();
+        $student->save();
 
         return response()->json([
-            'message' => 'Niveau supprimé avec succès',
+            'message' => 'Enrollment removed successfully',
         ], 200);
     }
 }

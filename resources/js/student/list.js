@@ -24,7 +24,7 @@ async function fetchStudents(url) {
 
         const result = await response.json();
         renderTable(result.data);
-        updatePaginationUI(result);
+        updatePagination(result);
     } catch (e) {
         console.error("Fetch failed", e);
     }
@@ -65,7 +65,7 @@ function renderTable(students) {
     });
 }
 
-function updatePaginationUI(res) {
+function updatePagination(res) {
     nextUrl = res.next_page_url;
     prevUrl = res.prev_page_url;
 
@@ -73,13 +73,6 @@ function updatePaginationUI(res) {
     const nextBtn = document.getElementById("next-page");
     const container = document.getElementById("page-numbers");
 
-    // Toggle Button States
-    prevBtn.style.opacity = prevUrl ? "1" : "0.3";
-    prevBtn.style.pointerEvents = prevUrl ? "auto" : "none";
-    nextBtn.style.opacity = nextUrl ? "1" : "0.3";
-    nextBtn.style.pointerEvents = nextUrl ? "auto" : "none";
-
-    // Build Page Numbers
     container.innerHTML = "";
     const start = Math.max(1, res.current_page - 1);
     const end = Math.min(res.last_page, start + 2);

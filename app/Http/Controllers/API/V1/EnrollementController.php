@@ -3,74 +3,44 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Models\Inscription;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class EnrollementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'classe_id' => 'required|exists:classes,id',
+            'inscription_id' => 'required|exists:inscriptions,id',
+            'classe_id'      => 'required|exists:school_classes,id',
         ]);
 
-        $student = Student::findOrFail($validated['student_id']);
-        $student->classe()->associate($validated['classe_id']);
-        $student->save();
+        $inscription = Inscription::findOrFail($validated['inscription_id']);
+
+        $inscription->schoolClasses()->syncWithoutDetaching([$validated['classe_id']]);
 
         return response()->json([
-            'message' => 'Student enrolled successfully',
-            'data' => $student->load('user', 'classe'),
-        ], Response::HTTP_CREATED);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Student $student)
-    {
-        $validated = $request->validate([
-            'classe_id' => 'required|exists:classes,id',
-        ]);
-
-        $student->classe()->associate($validated['classe_id']);
-        $student->save();
-
-        return response()->json([
-            'message' => 'Enrollment updated successfully',
-            'data' => $student->load('user', 'classe'),
-        ]);
+            'message' => 'Étudiant inscrit à la classe avec succès',
+            'data'    => $inscription->load('student.user', 'schoolClasses'),
+        ], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Student $student)
+    public function destroy(Request $request, Inscription $inscription)
     {
-        $student->classe()->dissociate();
-        $student->save();
+        $validated = $request->validate([
+            'classe_id' => 'required|exists:school_classes,id',
+        ]);
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        $inscription->schoolClasses()->detach($validated['classe_id']);
+
+        return response()->json([
+            'message' => 'Étudiant retiré de la classe avec succès',
+        ], 200);
     }
 }
