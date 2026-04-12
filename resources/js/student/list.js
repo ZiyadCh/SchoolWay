@@ -6,24 +6,15 @@ let prevUrl = null;
 document.addEventListener("DOMContentLoaded", () => {
     fetchStudents("/api/v1/students");
 
-    document.getElementById("next-page").addEventListener("click", () => {
-        if (nextUrl) fetchStudents(nextUrl);
-    });
-
-    document.getElementById("prev-page").addEventListener("click", () => {
-        if (prevUrl) fetchStudents(prevUrl);
-    });
+    document.getElementById("next-page").onclick = () =>
+        nextUrl && fetchStudents(nextUrl);
+    document.getElementById("prev-page").onclick = () =>
+        prevUrl && fetchStudents(prevUrl);
 });
 
 async function fetchStudents(url) {
-    const tableBody = document.getElementById("student-table-body");
-    const template = document.getElementById("student-row-template");
-
-    if (!tableBody || !template) return;
-
     try {
         const response = await fetch(url, {
-            method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: "application/json",
@@ -32,81 +23,80 @@ async function fetchStudents(url) {
         });
 
         const result = await response.json();
-        const students = result.data;
-
-        nextUrl = result.next_page_url;
-        prevUrl = result.prev_page_url;
-
-        tableBody.innerHTML = "";
-
-        students.forEach((item) => {
-            const user = item.user;
-            if (!user) return;
-
-            const clone = template.content.cloneNode(true);
-
-            clone.querySelector(".student-name").textContent =
-                `${user.prenom} ${user.nom}`;
-            clone.querySelector(".student-level").textContent =
-                item.level || "N/A";
-            clone.querySelector(".student-location").textContent =
-                user.birthplace || "N/A";
-
-            const avatar = user.photo
-                ? `/storage/${user.photo}`
-                : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.prenom}`;
-            clone.querySelector(".student-avatar").src = avatar;
-
-            const badge = clone.querySelector(".student-gender");
-            badge.textContent = user.gender;
-            const isMale = user.gender === "M";
-            badge.classList.add(
-                isMale ? "text-blue-400" : "text-pink-400",
-                isMale ? "bg-blue-400/10" : "bg-pink-400/10",
-                isMale ? "border-blue-400/20" : "border-pink-400/20",
-            );
-
-            clone.querySelector(".student-link").href = `students/${item.id}`;
-            tableBody.appendChild(clone);
-        });
-
+        renderTable(result.data);
         updatePaginationUI(result);
-    } catch (error) {
-        console.error(error);
+    } catch (e) {
+        console.error("Fetch failed", e);
     }
 }
 
-function updatePaginationUI(result) {
+function renderTable(students) {
+    const tableBody = document.getElementById("student-table-body");
+    const template = document.getElementById("student-row-template");
+
+    tableBody.innerHTML = "";
+
+    students.forEach(({ id, level, user }) => {
+        if (!user) return;
+
+        const clone = template.content.cloneNode(true);
+        const isMale = user.gender === "M";
+
+        clone.querySelector(".student-name").textContent =
+            `${user.prenom} ${user.nom}`;
+        clone.querySelector(".student-level").textContent = level || "N/A";
+        clone.querySelector(".student-location").textContent =
+            user.birthplace || "N/A";
+        clone.querySelector(".student-link").href = `students/${id}`;
+
+        clone.querySelector(".student-avatar").src = user.photo
+            ? `/storage/${user.photo}`
+            : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.prenom}`;
+
+        const badge = clone.querySelector(".student-gender");
+        badge.textContent = user.gender;
+        badge.classList.add(
+            isMale ? "text-blue-400" : "text-pink-400",
+            isMale ? "bg-blue-400/10" : "bg-pink-400/10",
+            isMale ? "border-blue-400/20" : "border-pink-400/20",
+        );
+
+        tableBody.appendChild(clone);
+    });
+}
+
+function updatePaginationUI(res) {
+    nextUrl = res.next_page_url;
+    prevUrl = res.prev_page_url;
+
     const prevBtn = document.getElementById("prev-page");
     const nextBtn = document.getElementById("next-page");
-    const pageNumbersContainer = document.getElementById("page-numbers");
+    const container = document.getElementById("page-numbers");
 
+    // Toggle Button States
     prevBtn.style.opacity = prevUrl ? "1" : "0.3";
     prevBtn.style.pointerEvents = prevUrl ? "auto" : "none";
-
     nextBtn.style.opacity = nextUrl ? "1" : "0.3";
     nextBtn.style.pointerEvents = nextUrl ? "auto" : "none";
 
-    pageNumbersContainer.innerHTML = "";
+    // Build Page Numbers
+    container.innerHTML = "";
+    const start = Math.max(1, res.current_page - 1);
+    const end = Math.min(res.last_page, start + 2);
 
-    const startPage = Math.max(1, result.current_page - 1);
-    const endPage = Math.min(result.last_page, startPage + 2);
-
-    for (let i = startPage; i <= endPage; i++) {
+    for (let i = start; i <= end; i++) {
+        const active = i === res.current_page;
         const btn = document.createElement("button");
+
         btn.textContent = i;
-        btn.className = `w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-lg md:rounded-xl transition-all text-xs border ${
-            i === result.current_page
-                ? "bg-amber-500 text-black border-amber-500 shadow-lg shadow-amber-500/20"
-                : "bg-gray-800 text-gray-400 hover:text-white border-gray-700"
+        btn.className = `w-10 h-10 flex items-center justify-center rounded-xl transition-all text-xs border ${
+            active
+                ? "bg-amber-500 text-black border-amber-500 shadow-lg"
+                : "bg-gray-800 text-gray-400 border-gray-700"
         }`;
 
-        btn.addEventListener("click", () => {
-            if (i !== result.current_page) {
-                fetchStudents(`/api/v1/students?page=${i}`);
-            }
-        });
-
-        pageNumbersContainer.appendChild(btn);
+        btn.onclick = () =>
+            !active && fetchStudents(`/api/v1/students?page=${i}`);
+        container.appendChild(btn);
     }
 }
