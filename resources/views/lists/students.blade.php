@@ -3,7 +3,7 @@
 @section('title', 'Gérer les Élèves')
 
 @section('content')
-@vite('resources/js/student/list.js')
+@vite('resources/js/list/students.js')
 
 <div class="space-y-6 md:space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
