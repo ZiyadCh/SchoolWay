@@ -70,7 +70,7 @@ class PaimentController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Mois marqué comme payé avec succès',
+            'message' => 'Etat changé avec succès',
             'data'    => $paiment->load(['inscription.student.user']),
         ], 200);
     }
