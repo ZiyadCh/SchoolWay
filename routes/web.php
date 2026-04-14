@@ -20,11 +20,11 @@ Route::prefix('administration')->group(function () {
     });
 
     Route::get('/classes', function () {
-        return view('classes.list');
+        return view('lists.classes');
     });
 
     Route::get('/students', function () {
-        return view('students.list');
+        return view('lists.students');
     });
 
     Route::get('/students/{id}', function () {
@@ -38,12 +38,12 @@ Route::prefix('administration')->group(function () {
 
 
     Route::get('/teachers', function () {
-        return view('teachers.list');
+        return view('lists.teachers');
     });
 
     Route::prefix('paiments')->group(function () {
         Route::get('/', function () {
-            return view('paiments.list');
+            return view('lists.paiments');
         });
         Route::get('/detail', function () {
             return view('paiments.monthly');
