@@ -10,8 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class StudentsImport implements ToModel
+class StudentsImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
