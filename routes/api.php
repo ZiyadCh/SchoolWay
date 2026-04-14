@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\DevoirController;
 use App\Http\Controllers\API\V1\EnrollementController;
 use App\Http\Controllers\API\V1\ExamController;
 use App\Http\Controllers\API\V1\LevelController;
+use App\Http\Controllers\API\V1\PaimentController;
 use App\Http\Controllers\API\V1\StudentController;
 use App\Http\Controllers\API\V1\SchoolClassController;
 use App\Http\Controllers\API\V1\SubjectController;
@@ -29,12 +30,12 @@ Route::prefix('v1')->group(function () {
 
     //years
     Route::apiResource('years', YearController::class);
-    //students
+    //students (includes the creation of inscription and paiment months)
     Route::apiResource('students', StudentController::class);
     //classes
-    Route::apiResource('school_class', SchoolClassController::class);
+    Route::apiResource('school_classes', SchoolClassController::class);
     //enroll student into a class
-    Route::apiResource('enrollement', EnrollementController::class);
+    Route::apiResource('enrollements', EnrollementController::class);
     //levels
     Route::apiResource('levels', LevelController::class);
     //teachers
@@ -47,5 +48,9 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('absences', AbsenceController::class);
     //exams
     Route::apiResource('exams', ExamController::class);
+    //paiments handling
+    Route::post('paiments/{paiment}/mark-as-paid', [PaimentController::class,'markAsPaid'])->name('markAsPaid');
+
+
 
 });

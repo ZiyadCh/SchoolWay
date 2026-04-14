@@ -11,7 +11,7 @@ class Paiment extends Model
     protected $fillable = [
         'inscription_id',
         'mois',
-        'etatPayement',
+        'etatPaiement',
     ];
 
 

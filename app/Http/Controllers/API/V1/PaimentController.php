@@ -63,4 +63,16 @@ class PaimentController extends Controller
         ], 200);
     }
 
+    public function markAsPaid(Paiment $paiment)
+    {
+        $paiment->update([
+            'etatPaiement' => !$paiment->etatPaiement,
+        ]);
+
+        return response()->json([
+            'message' => 'Mois marqué comme payé avec succès',
+            'data'    => $paiment->load(['inscription.student.user']),
+        ], 200);
+    }
+
 }
