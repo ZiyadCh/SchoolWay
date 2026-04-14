@@ -22,78 +22,97 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-
-        //////////////////////
-        // creates the student first
-        $request->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'email' => 'nullable|email|unique:users,email',
-            'gender' => 'required|in:M,F',
-            'photo' => 'nullable|string',
-            'adress' => 'nullable|string',
-            'birthday' => 'nullable|date',
-            'birthplace' => 'nullable|string',
-            'address' => 'nullable|string',
-            'tel' => 'nullable|string|numeric',
-        ]);
-
-        $password = Str::random(8);
-
-        $user = User::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'password' => bcrypt($password),
-            'role' => 'student',
-            'gender' => $request->gender,
-            'photo' => $request->photo,
-            'adress' => $request->adress,
-            'birthday' => $request->birthday,
-            'birthplace' => $request->birthplace,
-            'address' => $request->address,
-            'tel' => $request->tel,
-        ]);
-
-
-        // getting current active year
-        $year = Year::currentYear();
-
-        $student = Student::create([
-            'user_id' => $user->id,
-        ]);
-
-        //////////////////////
-        //create the inscription
-        $inscription = Inscription::create([
-            'student_id' => $student->id,
-            'year_id' => $year->id,
-            'statut' => 'active',
-        ]);
-
-        //////////////////////
-        //create the paiment months rows based on the months decalred in the acedemic year
-        $start = Carbon::parse($year->beginning_date);
-        $end = Carbon::parse($year->end_date);
-
-        while ($start->lte($end)) {
-            $inscription->payments()->create([
-                'mois' => $start->translatedFormat('F Y'),
-                'etatPaiement' => false,
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file' => 'required|mimes:xlsx,xls,csv|max:10240',
             ]);
-            $start->addMonth();
+
+            try {
+                Excel::import(new StudentsImport(), $request->file('file'));
+
+                return response()->json([
+                    'message' => 'Importation groupée réussie !',
+                ], 201);
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Erreur lors de l\'import : ' . $e->getMessage(),
+                ], 500);
+            }
+        } else {
+            //////////////////////
+            // creates the student first
+            $request->validate([
+                'nom' => 'required|string',
+                'prenom' => 'required|string',
+                'email' => 'nullable|email|unique:users,email',
+                'gender' => 'required|in:M,F',
+                'photo' => 'nullable|string',
+                'adress' => 'nullable|string',
+                'birthday' => 'nullable|date',
+                'birthplace' => 'nullable|string',
+                'address' => 'nullable|string',
+                'tel' => 'nullable|string|numeric',
+            ]);
+
+            $password = Str::random(8);
+
+            $user = User::create([
+                'nom' => $request->nom,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'password' => bcrypt($password),
+                'role' => 'student',
+                'gender' => $request->gender,
+                'photo' => $request->photo,
+                'adress' => $request->adress,
+                'birthday' => $request->birthday,
+                'birthplace' => $request->birthplace,
+                'address' => $request->address,
+                'tel' => $request->tel,
+            ]);
+
+
+            // getting current active year
+            $year = Year::currentYear();
+
+            $student = Student::create([
+                'user_id' => $user->id,
+            ]);
+
+            //////////////////////
+            //create the inscription
+            $inscription = Inscription::create([
+                'student_id' => $student->id,
+                'year_id' => $year->id,
+                'statut' => 'active',
+            ]);
+
+            //////////////////////
+            //create the paiment months rows based on the months decalred in the acedemic year
+            $start = Carbon::parse($year->beginning_date);
+            $end = Carbon::parse($year->end_date);
+
+            while ($start->lte($end)) {
+                $inscription->payments()->create([
+                    'mois' => $start->translatedFormat('F Y'),
+                    'etatPaiement' => false,
+                ]);
+                $start->addMonth();
+            }
+
+
+            $message = "Etudiant ajoute avec success, l'etudian doit recevoir une notification par email";
+            if (!$year) {
+                $message = "aucune annes courante!";
+            }
+
+            //////////////////////
+            //sending the mail
+            Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
+
+
         }
-
-
-        $message = "Etudiant ajoute avec success, l'etudian doit recevoir une notification par email";
-        if (!$year) {
-            $message = "aucune annes courante!";
-        }
-
-        //////////////////////
-        //sending the mail
-        Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
-
         return response()->json([
             'message' => $message,
             'data' => $student->load('user'),
