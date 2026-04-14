@@ -27,12 +27,6 @@ function updatePagination(result, fetchStudents) {
 
         if (active) button.disabled = true;
 
-        button.onclick = () => {
-            if (!active) {
-                fetchStudents(`/api/v1/students?page=${i}`);
-            }
-        };
-
         container.appendChild(button);
     }
 }
