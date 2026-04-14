@@ -16,7 +16,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::with('user')->paginate(2);
+        $students = Student::with(['user','inscriptions.schoolClasses.level'])->paginate(2);
         return response()->json($students);
     }
 

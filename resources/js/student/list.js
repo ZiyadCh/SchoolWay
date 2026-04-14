@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         prevUrl && fetchStudents(prevUrl);
 });
 
+////////////////////////////
 async function fetchStudents(url) {
     try {
         const response = await fetch(url, {
@@ -23,6 +24,7 @@ async function fetchStudents(url) {
         });
 
         const result = await response.json();
+        console.log(result.data);
         renderTable(result.data);
         updatePagination(result);
     } catch (e) {
@@ -30,41 +32,47 @@ async function fetchStudents(url) {
     }
 }
 
+////////////////////////////
 function renderTable(students) {
     const tableBody = document.getElementById("student-table-body");
     const template = document.getElementById("student-row-template");
 
     tableBody.innerHTML = "";
 
-    students.forEach(({ id, level, user }) => {
-        if (!user) return;
+    students.forEach((student) => {
+        if (!student) return;
 
         const clone = template.content.cloneNode(true);
+
+        const user = student.user;
+        const id = student.id;
         const isMale = user.gender === "M";
+
+        const levelName =
+            student.inscriptions?.[0]?.school_classes?.[0]?.level?.name ||
+            "Non Definé";
 
         clone.querySelector(".student-name").textContent =
             `${user.prenom} ${user.nom}`;
-        clone.querySelector(".student-level").textContent = level || "N/A";
+        clone.querySelector(".student-level").textContent = levelName;
         clone.querySelector(".student-location").textContent =
-            user.birthplace || "N/A";
+            user.birthplace || "Non Definé";
         clone.querySelector(".student-link").href = `students/${id}`;
 
-        clone.querySelector(".student-avatar").src = user.photo
-            ? `/storage/${user.photo}`
-            : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.prenom}`;
+        clone.querySelector(".student-avatar").src = user.photo;
 
         const badge = clone.querySelector(".student-gender");
         badge.textContent = user.gender;
         badge.classList.add(
             isMale ? "text-blue-400" : "text-pink-400",
             isMale ? "bg-blue-400/10" : "bg-pink-400/10",
-            isMale ? "border-blue-400/20" : "border-pink-400/20",
         );
 
         tableBody.appendChild(clone);
     });
 }
 
+////////////////////////////
 function updatePagination(res) {
     nextUrl = res.next_page_url;
     prevUrl = res.prev_page_url;
