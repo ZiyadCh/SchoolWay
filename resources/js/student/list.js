@@ -73,31 +73,49 @@ function renderTable(students) {
 }
 
 ////////////////////////////
-function updatePagination(res) {
-    nextUrl = res.next_page_url;
-    prevUrl = res.prev_page_url;
+function updatePagination(result) {
+    nextUrl = result.next_page_url;
+    prevUrl = result.prev_page_url;
 
-    const prevBtn = document.getElementById("prev-page");
-    const nextBtn = document.getElementById("next-page");
     const container = document.getElementById("page-numbers");
-
     container.innerHTML = "";
-    const start = Math.max(1, res.current_page - 1);
-    const end = Math.min(res.last_page, start + 2);
+
+    const current = result.current_page;
+    const last = result.last_page;
+
+    let start = current - 1;
+    let end = current + 1;
+
+    if (start < 1) {
+        start = 1;
+        end = 3;
+    }
+
+    if (end > last) {
+        end = last;
+        start = last - 2;
+    }
+
+    if (start < 1) start = 1;
 
     for (let i = start; i <= end; i++) {
-        const active = i === res.current_page;
-        const btn = document.createElement("button");
+        const active = i === current;
+        const button = document.createElement("button");
 
-        btn.textContent = i;
-        btn.className = `w-10 h-10 flex items-center justify-center rounded-xl transition-all text-xs border ${
+        button.textContent = i;
+
+        button.className = `w-10 h-10 flex items-center justify-center rounded-xl transition-all text-xs border ${
             active
                 ? "bg-amber-500 text-black border-amber-500 shadow-lg"
                 : "bg-gray-800 text-gray-400 border-gray-700"
         }`;
 
-        btn.onclick = () =>
-            !active && fetchStudents(`/api/v1/students?page=${i}`);
-        container.appendChild(btn);
+        button.onclick = () => {
+            if (!active) {
+                fetchStudents(`/api/v1/students?page=${i}`);
+            }
+        };
+
+        container.appendChild(button);
     }
 }
