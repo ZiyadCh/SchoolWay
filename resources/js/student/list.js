@@ -1,4 +1,5 @@
 import token from "../auth/token.js";
+import updatePagination from "../core/pagination.js";
 
 let nextUrl = null;
 let prevUrl = null;
@@ -24,9 +25,12 @@ async function fetchStudents(url) {
         });
 
         const result = await response.json();
-        console.log(result.data);
+
+        nextUrl = result.next_page_url;
+        prevUrl = result.prev_page_url;
+
         renderTable(result.data);
-        updatePagination(result);
+        updatePagination(result, fetchStudents);
     } catch (e) {
         console.error("Fetch failed", e);
     }
@@ -70,52 +74,4 @@ function renderTable(students) {
 
         tableBody.appendChild(clone);
     });
-}
-
-////////////////////////////
-function updatePagination(result) {
-    nextUrl = result.next_page_url;
-    prevUrl = result.prev_page_url;
-
-    const container = document.getElementById("page-numbers");
-    container.innerHTML = "";
-
-    const current = result.current_page;
-    const last = result.last_page;
-
-    let start = current - 1;
-    let end = current + 1;
-
-    if (start < 1) {
-        start = 1;
-        end = 3;
-    }
-
-    if (end > last) {
-        end = last;
-        start = last - 2;
-    }
-
-    if (start < 1) start = 1;
-
-    for (let i = start; i <= end; i++) {
-        const active = i === current;
-        const button = document.createElement("button");
-
-        button.textContent = i;
-
-        button.className = `w-10 h-10 flex items-center justify-center rounded-xl transition-all text-xs border ${
-            active
-                ? "bg-amber-500 text-black border-amber-500 shadow-lg"
-                : "bg-gray-800 text-gray-400 border-gray-700"
-        }`;
-
-        button.onclick = () => {
-            if (!active) {
-                fetchStudents(`/api/v1/students?page=${i}`);
-            }
-        };
-
-        container.appendChild(button);
-    }
 }
