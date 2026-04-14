@@ -28,7 +28,7 @@ class StudentsImport implements ToModel, WithHeadingRow
             'prenom'     => $row['prenom'],
             'email'      => $row['email'],
             'role'       => 'student',
-            'gender'     => $row['gender'] ?? 'M',
+            'gender'     => $row['gender'],
             'tel'        => $row['tel'] ?? null,
             'password'   => Hash::make($password),
         ]);
