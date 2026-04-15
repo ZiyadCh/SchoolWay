@@ -16,10 +16,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'message' => 'Liste des enseignants récupérée avec succès',
-            'data'    => Teacher::with(['user'])->get(),
-        ], 200);
+        $teachers = Teacher::with(['user' ])->paginate(5);
+        return response()->json($teachers);
     }
 
     /**
