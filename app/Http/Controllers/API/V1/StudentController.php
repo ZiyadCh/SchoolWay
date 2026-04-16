@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Year;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -24,26 +25,26 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->hasFile('file')) {
-            $request->validate([
-                'file' => 'required|mimes:xlsx,xls,csv|max:10240',
-            ]);
+        return DB::transaction(function () use ($request) {
+            if ($request->hasFile('file')) {
+                $request->validate([
+                    'file' => 'required|mimes:xlsx,xls,csv|max:10240',
+                ]);
 
-            try {
-                Excel::import(new StudentsImport(), $request->file('file'));
+                try {
+                    Excel::import(new StudentsImport(), $request->file('file'));
 
-                return response()->json([
-                    'message' => 'Importation groupée réussie !',
-                ], 201);
+                    return response()->json([
+                        'message' => 'Importation groupée réussie !',
+                    ], 201);
 
-            } catch (\Exception $e) {
-                return response()->json([
-                    'message' => 'Erreur lors de l\'import : ',
-                ], 500);
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'message' => 'Erreur lors de l\'import : ',
+                    ], 500);
+                }
             }
-        } else {
-            //////////////////////
-            // creates the student first
+
             $request->validate([
                 'nom' => 'required|string',
                 'prenom' => 'required|string',
@@ -74,51 +75,48 @@ class StudentController extends Controller
                 'tel' => $request->tel,
             ]);
 
-
-            // getting current active year
             $year = Year::currentYear();
 
             $student = Student::create([
                 'user_id' => $user->id,
             ]);
 
-            //////////////////////
-            //create the inscription
             $inscription = Inscription::create([
                 'student_id' => $student->id,
                 'year_id' => $year->id,
                 'statut' => 'active',
             ]);
 
-            //////////////////////
-            //create the paiment months rows based on the months decalred in the acedemic year
             $start = Carbon::parse($year->beginning_date);
             $end = Carbon::parse($year->end_date);
+            $paymentsData = [];
 
             while ($start->lte($end)) {
-                $inscription->payments()->create([
-                    'mois' => $start->translatedFormat('F Y'),
+                $paymentsData[] = [
+                    'inscription_id' => $inscription->id,
+                    'mois' => $start->format('Y-m-01'),
                     'etatPaiement' => false,
-                ]);
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
                 $start->addMonth();
             }
 
+            $inscription->payments()->insert($paymentsData);
 
             $message = "Etudiant ajoute avec success, l'etudian doit recevoir une notification par email";
+
             if (!$year) {
                 $message = "aucune annes courante!";
             }
 
-            //////////////////////
-            //sending the mail
             Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
 
-
-        }
-        return response()->json([
-            'message' => $message,
-            'data' => $student->load('user'),
-        ], 201);
+            return response()->json([
+                'message' => $message,
+                'data' => $student->load('user'),
+            ], 201);
+        });
     }
 
     public function show(Student $student)

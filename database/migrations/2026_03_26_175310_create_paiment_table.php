@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('paiment', function (Blueprint $table) {
             $table->id();
-            $table->string('mois');
+            $table->date('mois');
             $table->boolean('etatPaiement')->default(false);
             $table->timestamps();
         });
