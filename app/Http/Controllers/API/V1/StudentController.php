@@ -28,7 +28,7 @@ class StudentController extends Controller
         return DB::transaction(function () use ($request) {
             if ($request->hasFile('file')) {
                 $request->validate([
-                    'file' => 'required|mimes:xlsx,xls,csv|max:10240',
+                    'file' => 'required|mimes:xlsx,xls,csv',
                 ]);
 
                 try {
