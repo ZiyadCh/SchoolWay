@@ -1,7 +1,7 @@
 <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
 
 <button id="sidebar-open" class="lg:hidden fixed top-4 left-4 z-30 p-2 text-gray-400 hover:text-white cursor-pointer">
-    <i class="fa-solid fa-bars text-xl"></i>
+    <i class="fa-bars text-xl"></i>
 </button>
 
 <aside id="main-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full bg-gray-900 border-r border-gray-800 flex flex-col transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0">
