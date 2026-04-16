@@ -20,7 +20,7 @@ class PaimentController extends Controller
         }
 
         if ($request->etat) {
-            $query->where('etatPayement', $request->etat);
+            $query->where('etatPaiement', $request->etat);
         }
 
         if ($request->mois) {
@@ -51,8 +51,8 @@ class PaimentController extends Controller
     public function update(Request $request, Paiment $paiment)
     {
         $validated = $request->validate([
-            'mois'         => 'sometimes|string',
-            'etatPayement' => 'sometimes|boolean',
+            'mois'         => 'string',
+            'etatPaiement' => 'boolean',
         ]);
 
         $paiment->update($validated);
@@ -65,6 +65,9 @@ class PaimentController extends Controller
 
     public function markAsPaid(Paiment $paiment)
     {
+        if (!$paiment) {
+            return response()->json('Erreur! Non Trouvé')
+        }
         $paiment->update([
             'etatPaiement' => !$paiment->etatPaiement,
         ]);
