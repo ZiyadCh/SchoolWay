@@ -2,12 +2,14 @@
 
 namespace App\Imports;
 
+use App\Mail\SendPasswordToUser;
 use App\Models\Inscription;
 use App\Models\Student;
 use App\Models\Year;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -50,12 +52,14 @@ class StudentsImport implements ToModel, WithHeadingRow
 
             while ($start->lte($end)) {
                 $inscription->payments()->create([
-                    'mois' => $start->translatedFormat('F Y'),
+                    'mois' => $start->format('Y-m-01'),
                     'etatPaiement' => false,
                 ]);
                 $start->addMonth();
             }
         }
+
+        Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
 
         return $student;
     }

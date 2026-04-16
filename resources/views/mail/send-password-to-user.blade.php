@@ -19,6 +19,7 @@ Pour vous connecter, utilisez les informations suivantes :
 Accéder à mon espace
 </x-mail::button>
 
+
  **Conseil de sécurité :** Nous vous recommandons de modifier ce mot de passe dès votre première connexion depuis les paramètres de votre profil.
 
 Si vous rencontrez des difficultés pour vous connecter, n'hésitez pas à contacter l'administration de l'établissement.

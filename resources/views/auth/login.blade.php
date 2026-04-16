@@ -1,5 +1,6 @@
 <head>
     @vite(['resources/css/app.css','resources/js/auth/login.js'])
+    <title>School-Way | Login</title>
 </head>
 <body class="bg-gray-900"> <div class="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-6 text-gray-100">
     <div class="w-full max-w-md bg-gray-800 rounded-xl border border-gray-700 p-10">
@@ -20,7 +21,7 @@
                 <input type="email"
                        id="email"
                        name="email"
-                       value="{{ old('email') }}"
+                       value=""
                        placeholder="votre@email.com"
                        class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-500 focus:ring-2 focus:ring-amber-400 focus:border-transparent outline-none transition"
                        required>

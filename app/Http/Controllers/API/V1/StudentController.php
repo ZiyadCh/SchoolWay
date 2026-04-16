@@ -40,7 +40,7 @@ class StudentController extends Controller
 
                 } catch (\Exception $e) {
                     return response()->json([
-                        'message' => 'Erreur lors de l\'import : ',
+                        'message' => 'Erreur lors de l\'import : ' . $e,
                     ], 500);
                 }
             }
