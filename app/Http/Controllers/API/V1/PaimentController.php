@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Inscription;
 use App\Models\Paiment;
+use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -68,7 +69,7 @@ class PaimentController extends Controller
     public function markAsPaid(Paiment $paiment)
     {
         if (!$paiment) {
-            return response()->json('Erreur! Non Trouvé')
+            return response()->json('Erreur! Non Trouvé');
         }
         $paiment->update([
             'etatPaiement' => !$paiment->etatPaiement,
@@ -79,6 +80,4 @@ class PaimentController extends Controller
             'data'    => $paiment->load(['inscription.student.user']),
         ], 200);
     }
-
-
 }

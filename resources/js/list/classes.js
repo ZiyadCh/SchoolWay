@@ -41,16 +41,12 @@ function renderTable(classes) {
 
     tableBody.innerHTML = "";
 
-    if (!Array.isArray(classes)) return;
-
     classes.forEach((item) => {
         if (!item) return;
 
         const clone = template.content.cloneNode(true);
 
         clone.querySelector(".class-name").textContent = item.name;
-        clone.querySelector(".class-year").textContent =
-            `Année ${item.year?.name || ""}`;
         clone.querySelector(".class-level").textContent =
             item.level?.name || "Non Défini";
         clone.querySelector(".class-students-count").textContent =
