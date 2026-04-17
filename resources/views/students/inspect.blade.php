@@ -2,7 +2,7 @@
 @section('title', 'Profil Étudiant - Ahmed Mansouri')
 
 @section('content')
-@vite('resources/js/tab.js')
+@vite(['resources/js/tab.js','resources/js/student/inspect.js'])
 
 <div class="max-w-7xl mx-auto space-y-8 text-white pb-20 scrollbar-hide">
 
