@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Inscription;
 use App\Models\Paiment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class PaimentController extends Controller
 {
@@ -77,5 +79,6 @@ class PaimentController extends Controller
             'data'    => $paiment->load(['inscription.student.user']),
         ], 200);
     }
+
 
 }

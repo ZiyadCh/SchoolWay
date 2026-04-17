@@ -23,7 +23,11 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         if (response.ok) {
             localStorage.setItem("token", result.access_token);
             localStorage.setItem("user", JSON.stringify(result.user));
-            window.location.href = "/administration/dashboard";
+            if (result.user.role === "admin") {
+                window.location.href = "/administration/dashboard";
+            } else if (result.user.role === "student") {
+                window.location.href = "/student/profile";
+            }
         }
     } catch (error) {
         console.error("Error:", error);

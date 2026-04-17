@@ -19,12 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json",
                 },
             });
-
-            if (!response.ok) {
-                console.warn(
-                    "Le serveur n'a pas pu invalider le token, mais on déconnecte quand même localement.",
-                );
-            }
         } catch (error) {
             console.error("Erreur réseau lors de la déconnexion :", error);
         } finally {
@@ -34,3 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+// when the user enters a page of another role
+export function unauthorizedPage() {
+    localStorage.clear();
+    sessionStorage.clear();
+
+    window.location.href = "/login";
+}
+export default unauthorizedPage;
