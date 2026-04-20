@@ -98,7 +98,7 @@ class PaimentController extends Controller
             ->withCount(['payments' => function ($query) {
                 $query->where('etatPaiement', true);
             }])
-            ->get();
+            ->paginate(5);
 
         $studentsStatus = $inscriptions->map(function ($inscription) use ($monthsDue) {
             $paidCount = $inscription->payments_count;
