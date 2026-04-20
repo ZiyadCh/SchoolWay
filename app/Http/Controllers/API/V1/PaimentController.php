@@ -80,4 +80,40 @@ class PaimentController extends Controller
             'data'    => $paiment->load(['inscription.student.user']),
         ], 200);
     }
+
+    public function getPaymentStats()
+    {
+        $activeYear = Year::currentYear();
+
+        if (!$activeYear) {
+            return response()->json(['message' => 'Année active non trouvée'], 404);
+        }
+
+        $start = Carbon::parse($activeYear->start_date)->startOfMonth();
+        $now = Carbon::now()->startOfMonth();
+        $monthsDue = $start->diffInMonths($now) + 1;
+
+        $inscriptions = Inscription::where('year_id', $activeYear->id)
+            ->with('student.user')
+            ->withCount(['payments' => function ($query) {
+                $query->where('etatPaiement', true);
+            }])
+            ->get();
+
+        $studentsStatus = $inscriptions->map(function ($inscription) use ($monthsDue) {
+            $paidCount = $inscription->payments_count;
+            $isUpToDate = $paidCount >= $monthsDue;
+
+            return [
+                'id' => $inscription->id,
+                'student_name' => $inscription->student->user->nom . " " . $inscription->student->user->prenom,
+                'status' => $isUpToDate ? 'À Jour' : 'Retard',
+            ];
+        });
+
+        return response()->json([
+            'months_reference' => $monthsDue,
+            'students' => $studentsStatus,
+        ], 200);
+    }
 }

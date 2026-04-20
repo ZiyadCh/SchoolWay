@@ -30,27 +30,38 @@ Route::prefix('v1')->group(function () {
 
     //years
     Route::apiResource('years', YearController::class);
+
     //students (includes the creation of inscription and paiment months)
     Route::apiResource('students', StudentController::class);
+
     //classes
     Route::apiResource('school_classes', SchoolClassController::class);
+
     //enroll student into a class
     Route::apiResource('enrollements', EnrollementController::class);
+
     //levels
     Route::apiResource('levels', LevelController::class);
+
     //teachers
     Route::apiResource('teachers', TeacherController::class);
+
     //subjects
     Route::apiResource('subjects', SubjectController::class);
+
     //devoirs
     Route::apiResource('devoirs', DevoirController::class);
+
     //absences
     Route::apiResource('absences', AbsenceController::class);
+
     //exams
     Route::apiResource('exams', ExamController::class);
+
     //paiments handling
     Route::post('paiments/{paiment}/mark-as-paid', [PaimentController::class,'markAsPaid'])->name('markAsPaid');
 
-
+    //return paiment stats
+    Route::get('paiment-stats', [PaimentController::class,'getPaymentStats']);
 
 });

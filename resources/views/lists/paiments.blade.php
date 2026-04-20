@@ -25,7 +25,6 @@
             <select class="bg-gray-950 border border-gray-800 text-gray-400 py-4 px-6 rounded-2xl focus:outline-none cursor-pointer text-sm font-bold">
                 <option value="all">Tous les Statuts</option>
                 <option value="paid" class="text-emerald-500">À jour</option>
-                <option value="pending" class="text-amber-500">En attente</option>
                 <option value="late" class="text-red-500">En retard</option>
             </select>
 
@@ -60,13 +59,13 @@
                         <td class="px-8 py-6 text-center">
                             <span class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-full text-[10px] font-black uppercase border border-emerald-500/20">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                Payé
+                                    à jour
                             </span>
                         </td>
 
                         <td class="px-8 py-6 text-right">
                             <a href="" class="bg-amber-500/10 hover:text-amber-500  font-black text-[10px] uppercase px-4 py-2 rounded-xl transition-all border border-amber-500/20">
-                                <i class="fa-solid fa-circle-info text-xs"></i>
+                                <i class="fa-solid fa-address-book text-xs"></i>
                             </a>
                         </td>
                     </tr>
@@ -84,9 +83,9 @@
                         </td>
                         <td class="px-8 py-6 text-sm font-semibold text-gray-300">1 Bac</td>
                         <td class="px-8 py-6 text-center">
-                            <span class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 rounded-full text-[10px] font-black uppercase border border-red-500/20 animate-pulse">
+                            <span class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 rounded-full text-[10px] font-black uppercase border border-red-500/20 ">
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                                Impayé
+                                    retard
                             </span>
                         </td>
 
