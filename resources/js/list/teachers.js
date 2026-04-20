@@ -44,6 +44,7 @@ function renderTable(teachers) {
             user.email || "Non Definé";
         clone.querySelector(".teacher-phone").textContent =
             user.tel || "Non Definé";
+        //detail button
         clone.querySelector(".teacher-link").href = `teachers/${id}`;
         clone.querySelector(".teacher-photo").src = user.photo;
         tableBody.appendChild(clone);

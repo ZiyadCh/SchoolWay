@@ -61,6 +61,7 @@ function renderTable(students) {
         clone.querySelector(".student-level").textContent = levelName;
         clone.querySelector(".student-location").textContent =
             user.birthplace || "Non Definé";
+        //detail button
         clone.querySelector(".student-link").href = `students/${id}`;
 
         clone.querySelector(".student-avatar").src = user.photo;

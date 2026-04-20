@@ -50,7 +50,8 @@ function renderTable(classes) {
         clone.querySelector(".class-level").textContent =
             item.level?.name || "Non Défini";
         clone.querySelector(".class-students-count").textContent =
-            `${item.students_count || 0} Élèves`;
+            `${item.students_count || "aucun"} Élèves`;
+        //detail button
         clone.querySelector(".class-link").href = `classes/${item.id}`;
 
         const teacherUser = item.teacher?.user;
