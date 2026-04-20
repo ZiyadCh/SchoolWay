@@ -3,6 +3,7 @@
 @section('title', 'Gestion des Paiements')
 
 @section('content')
+@vite('resources/js/list/paiment-status.js')
 <div class="space-y-8 max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
@@ -34,11 +35,10 @@
 
     <div class="bg-gray-900 border border-gray-800 rounded-[2.5rem] overflow-hidden shadow-2xl">
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+            <table id="payments-table-body" class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-800/50">
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Élève</th>
-                        <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest">Niveau</th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest text-center">Statut </th>
                         <th class="px-8 py-5 text-[11px] uppercase font-bold text-gray-500 tracking-widest text-right">Actions</th>
                     </tr>
@@ -55,7 +55,6 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-8 py-6 text-sm font-semibold text-gray-300">2 Bac</td>
                         <td class="px-8 py-6 text-center">
                             <span class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-full text-[10px] font-black uppercase border border-emerald-500/20">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -81,7 +80,6 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-8 py-6 text-sm font-semibold text-gray-300">1 Bac</td>
                         <td class="px-8 py-6 text-center">
                             <span class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 rounded-full text-[10px] font-black uppercase border border-red-500/20 ">
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>

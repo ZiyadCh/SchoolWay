@@ -62,6 +62,6 @@ Route::prefix('v1')->group(function () {
     Route::post('paiments/{paiment}/mark-as-paid', [PaimentController::class,'markAsPaid'])->name('markAsPaid');
 
     //return paiment stats
-    Route::get('paiment-stats', [PaimentController::class,'getPaymentStats']);
+    Route::get('paiments/paiment-stats', [PaimentController::class,'getPaymentStats']);
 
 });
