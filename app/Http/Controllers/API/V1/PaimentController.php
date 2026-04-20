@@ -98,7 +98,7 @@ class PaimentController extends Controller
             ->withCount(['payments' => function ($query) {
                 $query->where('etatPaiement', true);
             }])
-            ->paginate(5);
+            ->paginate(2);
 
         $studentsStatus = $inscriptions->map(function ($inscription) use ($monthsDue) {
             $paidCount = $inscription->payments_count;
@@ -114,6 +114,8 @@ class PaimentController extends Controller
         return response()->json([
             'months_reference' => $monthsDue,
             'students' => $studentsStatus,
+            'next_page_url'    => $inscriptions->nextPageUrl(),
+            'prev_page_url'    => $inscriptions->previousPageUrl(),
         ], 200);
     }
 }

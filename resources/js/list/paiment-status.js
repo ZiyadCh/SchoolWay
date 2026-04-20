@@ -5,16 +5,16 @@ let nextUrl = null;
 let prevUrl = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchStudents("/api/v1/paiment-status");
+    fetchPayments("/api/v1/paiments/paiment-stats");
 
     document.getElementById("next-page").onclick = () =>
-        nextUrl && fetchStudents(nextUrl);
+        nextUrl && fetchPayments(nextUrl);
     document.getElementById("prev-page").onclick = () =>
-        prevUrl && fetchStudents(prevUrl);
+        prevUrl && fetchPayments(prevUrl);
 });
 
 ////////////////////////////
-async function fetchStudents(url) {
+async function fetchPayments(url) {
     try {
         const response = await fetch(url, {
             headers: {
@@ -26,11 +26,11 @@ async function fetchStudents(url) {
 
         const result = await response.json();
 
-        nextUrl = result.next_page_url;
-        prevUrl = result.prev_page_url;
+        nextUrl = result.next_page_url || null;
+        prevUrl = result.prev_page_url || null;
 
-        renderTable(result.data);
-        updatePagination(result, fetchStudents);
+        renderTable(result.students);
+        updatePagination(result, fetchPayments);
     } catch (e) {
         console.error("Fetch failed", e);
     }
@@ -38,39 +38,45 @@ async function fetchStudents(url) {
 
 ////////////////////////////
 function renderTable(students) {
-    const tableBody = document.getElementById("student-table-body");
-    const template = document.getElementById("student-row-template");
+    const tableBody = document.getElementById("payments-table-body");
+    const template = document.getElementById("payment-row-template");
 
     tableBody.innerHTML = "";
 
-    students.forEach((student) => {
-        if (!student) return;
+    if (!students || !Array.isArray(students)) return;
+
+    students.forEach((payment) => {
+        if (!payment) return;
 
         const clone = template.content.cloneNode(true);
+        const id = payment.id;
+        const isPaid = payment.status === "À Jour";
 
-        const user = student.user;
-        const id = student.id;
-        const isMale = user.gender === "M";
+        clone.querySelector(".student-name").textContent = payment.student_name;
 
-        const levelName =
-            student.inscriptions?.[0]?.school_classes?.[0]?.level?.name ||
-            "Non Definé";
+        const statusText = clone.querySelector(".status-text");
+        const statusBadge = clone.querySelector(".status-badge");
+        const statusDot = clone.querySelector(".status-dot");
+        //detail button
+        clone.querySelector(".action-link").href = `paiments/detail/${id}`;
 
-        clone.querySelector(".student-name").textContent =
-            `${user.prenom} ${user.nom}`;
-        clone.querySelector(".student-level").textContent = levelName;
-        clone.querySelector(".student-location").textContent =
-            user.birthplace || "Non Definé";
-        clone.querySelector(".student-link").href = `students/${id}`;
+        statusText.textContent = isPaid ? "à jour" : "retard";
 
-        clone.querySelector(".student-avatar").src = user.photo;
-
-        const badge = clone.querySelector(".student-gender");
-        badge.textContent = user.gender;
-        badge.classList.add(
-            isMale ? "text-blue-400" : "text-pink-400",
-            isMale ? "bg-blue-400/10" : "bg-pink-400/10",
-        );
+        if (isPaid) {
+            statusBadge.classList.add(
+                "text-emerald-400",
+                "bg-emerald-400/10",
+                "border-emerald-500/20",
+            );
+            statusDot.classList.add("bg-emerald-500");
+        } else {
+            statusBadge.classList.add(
+                "text-red-400",
+                "bg-red-400/10",
+                "border-red-500/20",
+            );
+            statusDot.classList.add("bg-red-500");
+        }
 
         tableBody.appendChild(clone);
     });
