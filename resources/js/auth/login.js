@@ -35,6 +35,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             } else {
                 window.location.href = "/student/profile";
             }
+            //gestion erreur
         } else {
             errorAlert.classList.remove("hidden");
 
@@ -43,7 +44,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
                 errorMessage.innerHTML = allErrors.join("<br>");
             } else {
                 errorMessage.textContent =
-                    result.message || "Identifiants incorrects.";
+                    result.message || "Erreur l\'ors de l'inscription";
             }
         }
     } catch (error) {
