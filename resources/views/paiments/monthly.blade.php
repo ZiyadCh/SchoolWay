@@ -3,6 +3,7 @@
 @section('title', 'Pointage Mensualités')
 
 @section('content')
+@vite(['resources/js/tab.js','resources/js/student/inspect.js'])
 <div class="space-y-8 max-w-7xl mx-auto text-white">
     <div class="bg-gray-900 border border-gray-800 p-8 rounded-[2.5rem] flex items-center gap-6">
         <div class="w-20 h-20 rounded-3xl overflow-hidden border-2 border-amber-500/20">
@@ -10,7 +11,6 @@
         </div>
         <div>
             <h2 class="text-3xl font-black tracking-tight text-white">Ahmed Mansouri</h2>
-            <p class="text-gray-500 font-medium uppercase text-xs tracking-widest mt-1">ID: 24001582</p>
         </div>
     </div>
 
