@@ -3,14 +3,14 @@
 @section('title', 'Pointage Mensualités')
 
 @section('content')
-@vite(['resources/js/tab.js','resources/js/student/inspect.js'])
+@vite(['resources/js/student/inspect.js'])
 <div class="space-y-8 max-w-7xl mx-auto text-white">
     <div class="bg-gray-900 border border-gray-800 p-8 rounded-[2.5rem] flex items-center gap-6">
         <div class="w-20 h-20 rounded-3xl overflow-hidden border-2 border-amber-500/20">
             <img src="https://imgs.search.brave.com/ga1XYA-Gv_ZxrF3opOXO0WKaZVWzcTArBM-0KgmCDRY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWVtZXBmcC5jb20v/X25leHQvaW1hZ2Uv/P3VybD1odHRwczov/L2Nkbi5tZW1lcGZw/LmNvbS9wZnAtZm9y/LXNjaG9vbCZ3PTE5/MjAmcT03NQ" class="w-full h-full object-cover">
         </div>
         <div>
-            <h2 class="text-3xl font-black tracking-tight text-white">Ahmed Mansouri</h2>
+            <h2 class="user-fullname text-3xl font-black tracking-tight text-white">loading...</h2>
         </div>
     </div>
 
