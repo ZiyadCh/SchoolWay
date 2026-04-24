@@ -66,18 +66,21 @@ class PaimentController extends Controller
         ], 200);
     }
 
-    public function markAsPaid(Paiment $paiment)
+    public function markAsPaid(Request $request)
     {
-        if (!$paiment) {
-            return response()->json('Erreur! Non Trouvé');
+        $ids = $request->input('ids');
+
+        if (empty($ids) || !is_array($ids)) {
+            return response()->json(['message' => 'Aucun paiement sélectionné'], 400);
         }
-        $paiment->update([
-            'etatPaiement' => !$paiment->etatPaiement,
+
+        Paiment::whereIn('id', $ids)->update([
+            'etatPaiement' => true,
         ]);
 
         return response()->json([
-            'message' => 'Etat changé avec succès',
-            'data'    => $paiment->load(['inscription.student.user']),
+            'message' => 'Paiements mis à jour avec succès',
+            'updated_ids' => $ids,
         ], 200);
     }
 

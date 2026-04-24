@@ -45,7 +45,7 @@ Route::prefix('administration')->group(function () {
         Route::get('/', function () {
             return view('lists.paiments');
         });
-        Route::get('/detail', function () {
+        Route::get('/detail/{id}', function () {
             return view('paiments.monthly');
         });
     });
