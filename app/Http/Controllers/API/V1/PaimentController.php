@@ -81,6 +81,7 @@ class PaimentController extends Controller
         ], 200);
     }
 
+
     public function getPaymentStats()
     {
         $activeYear = Year::currentYear();
