@@ -1,3 +1,5 @@
+import token from "../auth/token.js";
+
 document.addEventListener("DOMContentLoaded", function () {
     const tableBody = document.getElementById("paymentsTableBody");
     const template = document.getElementById("paymentRowTemplate");
@@ -20,15 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const result = await response.json();
             const payments = result.data;
-            console.log(result);
 
             tableBody.innerHTML = "";
 
             if (payments.length > 0) {
                 const studentData = payments[0].inscription.student.user;
                 studentNameDisp.textContent = studentData.name;
-                studentEmailDisp.textContent =
-                    studentData.email || "Email non renseigné";
 
                 renderTable(payments);
             } else {
@@ -58,7 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             //les nom des mois
-            clone.querySelector(".month-display").textContent = payment.mois;
+            const dateObj = new Date(payment.mois);
+            console.log(dateObj);
+
+            const monthName = new Intl.DateTimeFormat("fr-FR", {
+                month: "long",
+                year: "numeric",
+            }).format(dateObj);
+            clone.querySelector(".month-display").textContent =
+                monthName.toUpperCase();
 
             const badge = clone.querySelector(".status-badge");
             if (isPaid) {
