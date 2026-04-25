@@ -16,7 +16,7 @@ class PaimentController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Paiment::with(['inscription.student.user', 'inscription.schoolClass']);
+        $query = Paiment::with(['inscription.student.user' ]);
 
         if ($request->inscription_id) {
             $query->where('inscription_id', $request->inscription_id);
@@ -89,7 +89,7 @@ class PaimentController extends Controller
         $activeYear = Year::currentYear();
 
         if (!$activeYear) {
-            return response()->json(['message' => 'Année active non trouvée'], 404);
+            return response()->json(['message' => 'Aucune anne actvie'], 404);
         }
 
         $start = Carbon::parse($activeYear->start_date)->startOfMonth();
@@ -101,7 +101,7 @@ class PaimentController extends Controller
             ->withCount(['payments' => function ($query) {
                 $query->where('etatPaiement', true);
             }])
-            ->paginate(2);
+            ->paginate(5);
 
         $studentsStatus = $inscriptions->map(function ($inscription) use ($monthsDue) {
             $paidCount = $inscription->payments_count;

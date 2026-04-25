@@ -25,6 +25,7 @@ async function fetchStudents(url) {
         });
 
         const result = await response.json();
+        console.log(result.next_page_url);
 
         nextUrl = result.next_page_url;
         prevUrl = result.prev_page_url;
