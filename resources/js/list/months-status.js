@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (payments.length > 0) {
                 const studentData = payments[0].inscription.student.user;
-                studentNameDisp.textContent = studentData.name;
+                studentNameDisp.textContent =
+                    studentData.prenom + " " + studentData.nom;
 
                 renderTable(payments);
             } else {
@@ -56,7 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 row.classList.add("bg-gray-800", "bg-opacity-10", "opacity-60");
             }
 
-            //les nom des mois
+            ///////////////////////////////////
+            //turning the date into readabel months names in french
             const dateObj = new Date(payment.mois);
             console.log(dateObj);
 
@@ -71,11 +73,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isPaid) {
                 badge.textContent = "Payé";
                 badge.className =
-                    "inline-block text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border text-emerald-400 bg-emerald-400/10 border-emerald-400/20";
+                    "inline-block text-[10px] font-black px-4 py-2 rounded-full border text-emerald-400 bg-emerald-400/10 border-emerald-400/20";
             } else {
-                badge.textContent = "Impayé";
+                badge.textContent = "En attente";
                 badge.className =
-                    "inline-block text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border text-red-400 bg-red-400/10 border-red-400/20";
+                    "inline-block text-[10px] font-black px-4 py-2 rounded-full border text-red-400 bg-red-400/10 border-red-400/20";
             }
 
             tableBody.appendChild(clone);
