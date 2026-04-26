@@ -3,7 +3,7 @@
 @section('title', 'Pointage Mensualités')
 
 @section('content')
-@vite(['resources/js/list/months-status.js'])
+@vite(['resources/js/list/months-status.js','resources/js/payment/markAsPaid.js'])
 
 <div class="space-y-8 max-w-7xl mx-auto text-white">
     <div class="bg-gray-900 border border-gray-800 p-8 rounded-3xl flex items-center gap-6">
@@ -51,7 +51,7 @@
 
             <footer class="bg-gray-800/30 px-10 py-10 border-t border-gray-800 flex justify-end gap-4">
                 <button
-                    type="button"
+                    type="submit"
                     id="confirmBtn"
                     class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-12 rounded-2xl transition-all active:scale-95 text-sm uppercase tracking-widest flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled>

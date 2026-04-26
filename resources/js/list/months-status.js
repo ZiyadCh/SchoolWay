@@ -52,14 +52,11 @@ document.addEventListener("DOMContentLoaded", function () {
             checkbox.value = payment.id;
             if (isPaid) {
                 checkbox.checked = true;
-                checkbox.disabled = true;
-                row.classList.add("bg-gray-800", "bg-opacity-10", "opacity-60");
             }
 
             ///////////////////////////////////
             //turning the date into readabel months names in french
             const dateObj = new Date(payment.mois);
-            console.log(dateObj);
 
             const monthName = new Intl.DateTimeFormat("fr-FR", {
                 month: "long",

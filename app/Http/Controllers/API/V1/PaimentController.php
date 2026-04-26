@@ -8,6 +8,7 @@ use App\Models\Paiment;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PaimentController extends Controller
 {
@@ -75,7 +76,7 @@ class PaimentController extends Controller
         }
 
         Paiment::whereIn('id', $ids)->update([
-            'etatPaiement' => true,
+            'etatPaiement' =>  DB::raw('NOT "etatPaiement"'),
         ]);
 
         return response()->json([
