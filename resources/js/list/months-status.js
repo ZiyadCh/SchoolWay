@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const tableBody = document.getElementById("paymentsTableBody");
     const template = document.getElementById("paymentRowTemplate");
     const studentNameDisp = document.getElementById("studentName");
-    const studentEmailDisp = document.getElementById("studentEmail");
     const confirmBtn = document.getElementById("confirmBtn");
 
     const inscriptionId = window.location.pathname.split("/").pop();

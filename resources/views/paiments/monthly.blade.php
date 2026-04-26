@@ -6,21 +6,20 @@
 @vite(['resources/js/list/months-status.js'])
 
 <div class="space-y-8 max-w-7xl mx-auto text-white">
-    <div class="bg-gray-900 border border-gray-800 p-8 rounded-[2.5rem] flex items-center gap-6">
-        <div class="w-20 h-20 rounded-3xl overflow-hidden border-2 border-amber-500/20 flex-shrink-0 bg-gray-800 flex items-center justify-center">
+    <div class="bg-gray-900 border border-gray-800 p-8 rounded-3xl flex items-center gap-6">
+        <div class="w-20 h-20 rounded-3xl overflow-hidden border-2 border-amber-500/20 shrink-0 bg-gray-800 flex items-center justify-center">
             <i class="fa-solid fa-user text-2xl text-gray-500"></i>
         </div>
         <div class="flex-1 min-w-0">
             <h1 class="text-3xl font-black tracking-tight text-white truncate" id="studentName">
                 Chargement...
             </h1>
-            <p class="text-sm text-gray-400 mt-1" id="studentEmail">Email non disponible</p>
         </div>
     </div>
 
-    <form id="paymentForm" action="">
+    <form id="paymentForm">
 
-        <section class="bg-gray-900 border border-gray-800 rounded-[2.5rem] overflow-hidden shadow-2xl">
+        <section class="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>

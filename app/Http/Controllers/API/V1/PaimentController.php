@@ -32,7 +32,7 @@ class PaimentController extends Controller
 
         return response()->json([
             'message' => 'Liste des paiements récupérée avec succès',
-            'data'    => $query->latest()->get(),
+            'data'    => $query->orderBy('mois')->get(),
         ], 200);
     }
 
