@@ -8,6 +8,7 @@ use App\Models\Paiment;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PaimentController extends Controller
 {
@@ -16,7 +17,7 @@ class PaimentController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Paiment::with(['inscription.student.user', 'inscription.schoolClass']);
+        $query = Paiment::with(['inscription.student.user' ]);
 
         if ($request->inscription_id) {
             $query->where('inscription_id', $request->inscription_id);
@@ -32,7 +33,7 @@ class PaimentController extends Controller
 
         return response()->json([
             'message' => 'Liste des paiements récupérée avec succès',
-            'data'    => $query->latest()->get(),
+            'data'    => $query->orderBy('mois')->get(),
         ], 200);
     }
 
@@ -75,7 +76,7 @@ class PaimentController extends Controller
         }
 
         Paiment::whereIn('id', $ids)->update([
-            'etatPaiement' => true,
+            'etatPaiement' =>  DB::raw('NOT "etatPaiement"'),
         ]);
 
         return response()->json([
@@ -90,7 +91,7 @@ class PaimentController extends Controller
         $activeYear = Year::currentYear();
 
         if (!$activeYear) {
-            return response()->json(['message' => 'Année active non trouvée'], 404);
+            return response()->json(['message' => 'Aucune anne actvie'], 404);
         }
 
         $start = Carbon::parse($activeYear->start_date)->startOfMonth();

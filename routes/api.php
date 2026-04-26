@@ -58,6 +58,9 @@ Route::prefix('v1')->group(function () {
     //exams
     Route::apiResource('exams', ExamController::class);
 
+    //paiments
+    Route::get('paiments', [PaimentController::class,'index']);
+
     //paiments handling
     Route::post('paiments/mark-payment', [PaimentController::class,'markAsPaid'])->name('markAsPaid');
 
