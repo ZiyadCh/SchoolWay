@@ -13,7 +13,7 @@
         </div>
         <button class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-black py-4 px-8 rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-95 text-xs uppercase">
             <i class="fa-solid fa-user-plus text-lg"></i>
-            <span>Inscrire un Élève</span>
+            <a href="{{ route('student-form' ) }}">Inscrire un Élève</a>
         </button>
     </div>
 

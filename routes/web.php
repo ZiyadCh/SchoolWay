@@ -29,7 +29,7 @@ Route::prefix('administration')->group(function () {
 
     Route::get('/add-students', function () {
         return view('forms.add-student');
-    });
+    })->name('student-form');
 
     Route::get('/students/{id}', function () {
         return view('students.inspect');

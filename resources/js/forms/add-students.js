@@ -1,95 +1,160 @@
-const dropzone = document.getElementById("dropzone");
-const fileInput = document.getElementById("excelFile");
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("studentForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const alertBox = document.getElementById("formAlert");
 
-dropzone.addEventListener("click", () => fileInput.click());
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("excelFile");
+    const dropzoneText = document.getElementById("dropzoneText");
 
-fileInput.addEventListener("change", async (e) => {
-    if (e.target.files.length > 0) {
-        const formData = new FormData();
-        formData.append("file", e.target.files[0]);
-        formData.append("_token", "{{ csrf_token() }}");
+    function showAlert(message, type = "success") {
+        alertBox.classList.remove(
+            "hidden",
+            "border-red-500",
+            "border-green-500",
+        );
 
-        dropzone.querySelector("p.font-bold").innerText = "Envoi du fichier...";
+        if (type === "error") {
+            alertBox.classList.add("border-red-500", "text-red-400");
+        } else {
+            alertBox.classList.add("border-green-500", "text-green-400");
+        }
+
+        alertBox.innerText = message;
+    }
+
+    function resetAlert() {
+        alertBox.classList.add("hidden");
+        alertBox.innerText = "";
+    }
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        resetAlert();
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "Enregistrement...";
+
+        const formData = new FormData(form);
 
         try {
-            const response = await fetch("{{ route('students.import') }}", {
+            const res = await fetch("/students", {
                 method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'input[name="_token"]',
+                    ).value,
+                },
                 body: formData,
             });
 
-            if (response.ok) {
-                alert("Importation réussie !");
-                window.location.reload();
-            } else {
-                throw new Error("Erreur lors de l'import");
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw data;
             }
+
+            showAlert("Étudiant ajouté avec succès !");
+            form.reset();
         } catch (err) {
-            alert(err.message);
-            dropzone.querySelector("p.font-bold").innerText =
-                "Cliquez ou glissez votre fichier Excel ici";
+            console.error(err);
+
+            if (err.errors) {
+                // Laravel validation errors
+                const firstError = Object.values(err.errors)[0][0];
+                showAlert(firstError, "error");
+            } else {
+                showAlert("Erreur lors de l'ajout.", "error");
+            }
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="fa-solid fa-plus text-lg"></i><span>Enregistrer l'élève</span>`;
         }
+    });
+
+    dropzone.addEventListener("click", () => fileInput.click());
+
+    dropzone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropzone.classList.add("border-emerald-500");
+    });
+
+    dropzone.addEventListener("dragleave", () => {
+        dropzone.classList.remove("border-emerald-500");
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("border-emerald-500");
+
+        const file = e.dataTransfer.files[0];
+        handleFile(file);
+    });
+
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        handleFile(file);
+    });
+
+    function handleFile(file) {
+        if (!file) return;
+
+        const allowedTypes = [
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.ms-excel",
+            "text/csv",
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            showAlert("Format invalide. Utilisez un fichier Excel.", "error");
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            showAlert("Fichier trop volumineux (max 5MB).", "error");
+            return;
+        }
+
+        dropzoneText.innerText = file.name;
+
+        uploadExcel(file);
     }
-});
 
-// --- VALIDATION ET ENVOI DU FORMULAIRE ---
-const form = document.getElementById("studentForm");
-const errorBox = document.getElementById("formErrors");
-const submitBtn = document.getElementById("submitBtn");
-const btnText = document.getElementById("btnText");
-const btnIcon = document.getElementById("btnIcon");
+    async function uploadExcel(file) {
+        resetAlert();
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+        const formData = new FormData();
+        formData.append("file", file);
 
-    // Reset UI
-    errorBox.classList.add("hidden");
-    errorBox.innerHTML = "";
-    submitBtn.disabled = true;
-    btnText.innerText = "Traitement...";
-    btnIcon.className = "fa-solid fa-circle-notch fa-spin text-lg";
+        try {
+            const res = await fetch("/students/import", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'input[name="_token"]',
+                    ).value,
+                },
+                body: formData,
+            });
 
-    const formData = new FormData(form);
+            const data = await res.json();
 
-    try {
-        const response = await fetch("{{ route('students.store') }}", {
-            method: "POST",
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                Accept: "application/json",
-            },
-            body: formData,
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            if (response.status === 422) {
-                // Validation Laravel
-                errorBox.classList.remove("hidden");
-                const ul = document.createElement("ul");
-                Object.values(data.errors).forEach((err) => {
-                    const li = document.createElement("li");
-                    li.innerText = "• " + err[0];
-                    ul.appendChild(li);
-                });
-                errorBox.appendChild(ul);
-            } else {
-                throw new Error("Une erreur serveur est survenue.");
+            if (!res.ok) {
+                throw data;
             }
-        } else {
-            // Succès : Redirection avec refresh comme demandé précédemment
-            if (document.referrer) {
-                window.location.href = document.referrer;
+
+            showAlert(data.message || "Importation réussie !");
+            dropzoneText.innerText =
+                "Cliquez ou glissez votre fichier Excel ici";
+        } catch (err) {
+            console.error(err);
+
+            if (err.errors) {
+                const firstError = Object.values(err.errors)[0][0];
+                showAlert(firstError, "error");
             } else {
-                window.location.reload();
+                showAlert("Erreur lors de l'importation.", "error");
             }
         }
-    } catch (err) {
-        errorBox.classList.remove("hidden");
-        errorBox.innerText = err.message;
-    } finally {
-        submitBtn.disabled = false;
-        btnText.innerText = "Enregistrer l'élève";
-        btnIcon.className = "fa-solid fa-plus text-lg";
     }
 });
