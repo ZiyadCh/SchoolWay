@@ -38,12 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(form);
 
         try {
-            const res = await fetch("/students", {
+            const res = await fetch("/api/v1/students", {
                 method: "POST",
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector(
                         'input[name="_token"]',
                     ).value,
+                    Accept: "application/json",
                 },
                 body: formData,
             });
@@ -127,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("file", file);
 
         try {
-            const res = await fetch("/students/import", {
+            const res = await fetch("/api/v1/students/", {
                 method: "POST",
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector(
