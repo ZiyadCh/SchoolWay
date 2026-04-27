@@ -27,6 +27,10 @@ Route::prefix('administration')->group(function () {
         return view('lists.students');
     });
 
+    Route::get('/add-students', function () {
+        return view('forms.add-student');
+    });
+
     Route::get('/students/{id}', function () {
         return view('students.inspect');
     });
