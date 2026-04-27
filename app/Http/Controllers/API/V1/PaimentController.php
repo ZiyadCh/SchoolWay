@@ -94,7 +94,7 @@ class PaimentController extends Controller
             return response()->json(['message' => 'Aucune anne actvie'], 404);
         }
 
-        $start = Carbon::parse($activeYear->start_date)->startOfMonth();
+        $start = Carbon::parse($activeYear->beginning_date)->startOfMonth();
         $now = Carbon::now()->startOfMonth();
         $monthsDue = $start->diffInMonths($now) + 1;
 
@@ -105,14 +105,17 @@ class PaimentController extends Controller
             }])
             ->paginate(5);
 
-        $studentsStatus = $inscriptions->map(function ($inscription) use ($monthsDue) {
+        $studentsStatus = $inscriptions->map(function ($inscription) use ($monthsDue, $start) {
             $paidCount = $inscription->payments_count;
             $isUpToDate = $paidCount >= $monthsDue;
 
             return [
                 'id' => $inscription->id,
                 'student_name' => $inscription->student->user->nom . " " . $inscription->student->user->prenom,
-                'status' => $isUpToDate ? 'À Jour' : 'Retard',
+                'paid_months' => $paidCount,
+                'total_due'   => $monthsDue,
+                'test'   => $start,
+                'status' => $isUpToDate ? 'À Jour' : 'En Retard',
             ];
         });
 
