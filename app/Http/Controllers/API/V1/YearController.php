@@ -100,4 +100,25 @@ class YearController extends Controller
             'message' => 'Année scolaire supprimée avec succès',
         ], 200);
     }
+    /**
+     * End school year in case needed
+     */
+    public function endYear(Year $year)
+    {
+        if ($year->current === false) {
+            return response()->json(['message' => 'Cette année est déjà clôturée.'], 422);
+        }
+
+        return DB::transaction(function () use ($year) {
+            $year->inscriptions()->update(['statut' => 'terminé']);
+
+            $year->update([
+                'current' => false,
+            ]);
+
+            return response()->json([
+                'message' => 'Année clôturée. Toutes les inscriptions sont désormais marquées comme "terminer".',
+            ], 200);
+        });
+    }
 }
