@@ -25,6 +25,7 @@ async function fetchPayments(url) {
         });
 
         const result = await response.json();
+        console.log(result);
 
         nextUrl = result.next_page_url || null;
         prevUrl = result.prev_page_url || null;
