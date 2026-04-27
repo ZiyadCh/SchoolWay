@@ -12,7 +12,7 @@
         </div>
         <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
             <i class="fa-solid fa-plus text-lg"></i>
-            <span>Ajouter un Enseignant</span>
+            <a href="{{ route('teacher-form' ) }}">Ajouter un Enseignant</a>
         </button>
     </div>
 

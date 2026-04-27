@@ -31,6 +31,10 @@ Route::prefix('administration')->group(function () {
         return view('forms.add-student');
     })->name('student-form');
 
+    Route::get('/add-teacher', function () {
+        return view('forms.add-teacher');
+    })->name('teacher-form');
+
     Route::get('/students/{id}', function () {
         return view('students.inspect');
     });
