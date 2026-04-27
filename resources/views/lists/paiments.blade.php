@@ -25,6 +25,11 @@
                 <option value="late" class="text-red-500">En retard</option>
             </select>
         </div>
+
+            <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-xl md:rounded-2xl transition-all flex items-center justify-center gap-3 min-w-14 sm:min-w-auto">
+                <i class="fa-solid fa-search text-amber-500"></i>
+                <span class="hidden sm:inline text-sm">Chercher</span>
+            </button>
     </div>
 
     <div class="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl">

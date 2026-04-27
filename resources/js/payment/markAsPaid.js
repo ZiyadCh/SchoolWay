@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await response.json();
             console.log(result);
-            window.location.reload();
+            window.location.href = document.referrer;
 
             if (!response.ok) throw new Error(result.message);
         } catch (error) {
