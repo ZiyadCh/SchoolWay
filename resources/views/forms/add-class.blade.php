@@ -35,9 +35,6 @@
                     <div class="relative group">
                         <select name="level_id" required class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-indigo-500 focus:bg-gray-800 transition-all appearance-none cursor-pointer text-gray-200">
                             <option value="" disabled selected>Choisir un niveau</option>
-                            <option value="1">Primaire</option>
-                            <option value="2">Collège</option>
-                            <option value="3">Lycée</option>
                         </select>
                         {{-- Icône de la flèche du menu déroulant --}}
                         <div class="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 group-focus-within:text-indigo-500 transition-colors">
@@ -60,7 +57,6 @@
                 </div>
 
                 {{-- Enseignant --}}
-                {{-- Enseignant avec recherche --}}
 <div class="space-y-2 md:col-span-2 relative">
     <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Enseignant Responsable <span class="text-indigo-500">*</span></label>
 

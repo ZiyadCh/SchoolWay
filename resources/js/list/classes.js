@@ -43,6 +43,7 @@ function renderTable(classes) {
 
     classes.forEach((item) => {
         if (!item) return;
+        console.log(item);
 
         const clone = template.content.cloneNode(true);
 
@@ -50,7 +51,7 @@ function renderTable(classes) {
         clone.querySelector(".class-level").textContent =
             item.level?.name || "Non Défini";
         clone.querySelector(".class-students-count").textContent =
-            `${item.students_count || "aucun"} Élèves`;
+            `${item.nbr_students || "aucun"} Élèves`;
         //detail button
         clone.querySelector(".class-link").href = `classes/${item.id}`;
 
