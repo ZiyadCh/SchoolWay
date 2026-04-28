@@ -50,14 +50,20 @@ class StudentController extends Controller
                 'prenom' => 'required|string',
                 'email' => 'nullable|email|unique:users,email',
                 'gender' => 'required|in:M,F',
-                'photo' => 'nullable|string',
+                'photo' => 'nullable|image',
                 'adress' => 'nullable|string',
                 'birthday' => 'nullable|date',
                 'birthplace' => 'nullable|string',
                 'address' => 'nullable|string',
                 'tel' => 'nullable|string|numeric',
             ]);
+            //for the image
+            $path = null;
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('students', 'public');
+            }
 
+            //password genration
             $password = Str::random(8);
 
             $user = User::create([
@@ -67,7 +73,7 @@ class StudentController extends Controller
                 'password' => bcrypt($password),
                 'role' => 'student',
                 'gender' => $request->gender,
-                'photo' => $request->photo,
+                'photo' => $path,
                 'adress' => $request->adress,
                 'birthday' => $request->birthday,
                 'birthplace' => $request->birthplace,

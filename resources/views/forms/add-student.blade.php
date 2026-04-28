@@ -4,6 +4,7 @@
 
 @section('content')
 @vite('resources/js/forms/add-students.js')
+
 <div class="max-w-4xl mx-auto space-y-8 text-white pb-12">
 
     <div>
@@ -11,98 +12,109 @@
         <p class="text-gray-400 mt-1 text-sm">Inscrire un nouvel élève manuellement ou via un fichier Excel.</p>
     </div>
 
-    <form id="studentForm" class="space-y-6">
-    @csrf
-    <div class="bg-gray-900 border border-gray-800 rounded-[2.5rem] p-8 space-y-8">
-        <div class="flex items-center gap-4 border-b border-gray-800 pb-6">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                <i class="fa-solid fa-user-plus text-amber-500"></i>
-            </div>
-            <h2 class="text-xl font-bold">Informations de l'utilisateur</h2>
-        </div>
+    {{-- Formulaire Manuel --}}
+    <form enctype="multipart/form-data" id="studentForm" class="space-y-6">
+        @csrf
+        <div class="bg-gray-900 border border-gray-800 rounded-[2.5rem] p-8 space-y-8">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {{-- Nom --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Nom <span class="text-amber-500">*</span></label>
-                <input type="text" name="nom" required placeholder="Ex: Dupont"
-                    class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
-                <p id="error-nom" class="text-red-500 text-xs ml-4 hidden"></p>
-            </div>
-
-            {{-- Prénom --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Prénom <span class="text-amber-500">*</span></label>
-                <input type="text" name="prenom" required placeholder="Ex: Jean"
-                    class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
-                <p id="error-prenom" class="text-red-500 text-xs ml-4 hidden"></p>
-            </div>
-
-            {{-- Email --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Email <span class="text-amber-500">*</span></label>
-                <input type="email" name="email" required placeholder="jean.dupont@email.com"
-                    class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
-                <p id="error-email" class="text-red-500 text-xs ml-4 hidden"></p>
-            </div>
-
-
-            {{-- Sexe --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Sexe <span class="text-amber-500">*</span></label>
-                <div class="relative">
-                    <select name="gender" required class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all appearance-none cursor-pointer text-gray-200">
-                        <option value="M">Masculin</option>
-                        <option value="F">Féminin</option>
-                    </select>
-                    <i class="fa-solid fa-chevron-down absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xs"></i>
+            <div class="flex items-center gap-4 border-b border-gray-800 pb-6">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-user-plus text-amber-500"></i>
                 </div>
-                <p id="error-gender" class="text-red-500 text-xs ml-4 hidden"></p>
+                <h2 class="text-xl font-bold">Informations de l'utilisateur</h2>
             </div>
 
-
-            {{-- Date de naissance --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Date de naissance</label>
-                <input type="date" name="birthday"
-                    class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
-                <p id="error-birthday" class="text-red-500 text-xs ml-4 hidden"></p>
+            {{-- Photo de Profil --}}
+            <div class="flex flex-col items-center justify-center space-y-4 pb-8">
+                <label for="studentImage" class="relative group cursor-pointer block hover:scale-105 transition-transform duration-300">
+                    <div id="imagePreview" class="w-32 h-32 rounded-full border-2 border-dashed border-gray-700 bg-gray-800/50 flex items-center justify-center overflow-hidden transition-all group-hover:border-amber-500 group-hover:bg-gray-800 shadow-2xl">
+                        <i class="fa-solid fa-camera text-3xl text-gray-600 group-hover:text-amber-500 transition-colors"></i>
+                        <img id="previewImg" src="" class="hidden w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fa-solid fa-pen text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <input type="file" name="image" id="studentImage" class="hidden" accept="image/*">
+                </label>
+                <div class="text-center">
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Photo de profil (Optionnel)</span>
+                </div>
             </div>
 
-            {{-- Lieu de naissance --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Lieu de naissance</label>
-                <input type="text" name="birthplace" placeholder="Ville"
-                    class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
-                <p id="error-birthplace" class="text-red-500 text-xs ml-4 hidden"></p>
+            {{-- Grille de saisie --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Nom <span class="text-amber-500">*</span></label>
+                    <input type="text" name="nom" required placeholder="Ex: Dupont"
+                        class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
+                    <p id="error-nom" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Prénom <span class="text-amber-500">*</span></label>
+                    <input type="text" name="prenom" required placeholder="Ex: Jean"
+                        class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
+                    <p id="error-prenom" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Email <span class="text-amber-500">*</span></label>
+                    <input type="email" name="email" required placeholder="jean.dupont@email.com"
+                        class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
+                    <p id="error-email" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Sexe <span class="text-amber-500">*</span></label>
+                    <div class="relative">
+                        <select name="gender" required class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all appearance-none cursor-pointer text-gray-200">
+                            <option value="M">Masculin</option>
+                            <option value="F">Féminin</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xs"></i>
+                    </div>
+                    <p id="error-gender" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Date de naissance</label>
+                    <input type="date" name="birthday"
+                        class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
+                    <p id="error-birthday" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Lieu de naissance</label>
+                    <input type="text" name="birthplace" placeholder="Ville"
+                        class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
+                    <p id="error-birthplace" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Téléphone</label>
+                    <input type="tel" name="tel" placeholder="+212..."
+                        class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
+                    <p id="error-tel" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Adresse</label>
+                    <input type="text" name="adress" placeholder="Rue..."
+                        class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
+                    <p id="error-adress" class="text-red-500 text-xs ml-4 hidden"></p>
+                </div>
             </div>
 
-            {{-- Téléphone --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Téléphone</label>
-                <input type="tel" name="tel" placeholder="+212..."
-                    class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
-                <p id="error-tel" class="text-red-500 text-xs ml-4 hidden"></p>
-            </div>
-
-            {{-- Adresse --}}
-            <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-gray-500 ml-4">Adresse</label>
-                <input type="text" name="adress" placeholder="Rue..."
-                    class="w-full bg-gray-800/50 border border-gray-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-amber-500 focus:bg-gray-800 transition-all text-gray-200">
-                <p id="error-adress" class="text-red-500 text-xs ml-4 hidden"></p>
+            <div class="pt-6 border-t border-gray-800 flex justify-end">
+                <button type="submit" id="submitBtn" class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-12 rounded-2xl transition-all active:scale-95 text-sm uppercase tracking-widest flex items-center gap-3">
+                    <i class="fa-solid fa-plus text-lg"></i>
+                    <span>Enregistrer</span>
+                </button>
             </div>
         </div>
+    </form>
 
-        <div class="pt-6 border-t border-gray-800 flex justify-end">
-            <button type="submit" id="submitBtn" class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-12 rounded-2xl transition-all active:scale-95 text-sm uppercase tracking-widest flex items-center gap-3">
-                <i class="fa-solid fa-plus text-lg"></i>
-                <span>Enregistrer</span>
-            </button>
-        </div>
-    </div>
-</form>
-
+    {{-- Formulaire Excel --}}
     <form id="excelForm" class="space-y-6">
         @csrf
         <div class="bg-gray-900 border border-gray-800 rounded-[2.5rem] p-8 space-y-6">
@@ -132,4 +144,5 @@
         </div>
     </form>
 </div>
+
 @endsection

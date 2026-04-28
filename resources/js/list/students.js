@@ -53,6 +53,13 @@ function renderTable(students) {
         const id = student.id;
         const isMale = user.gender === "M";
 
+        const avatar = clone.querySelector(".student-avatar");
+
+        if (user.photo) {
+            avatar.src = `/storage/${user.photo}`;
+        } else {
+            avatar.src = "/path/to/default-avatar.png";
+        }
         const levelName =
             student.inscriptions?.[0]?.school_classes?.[0]?.level?.name ||
             "Non Definé";

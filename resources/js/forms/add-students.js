@@ -6,11 +6,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById("excelFile");
     const dropzoneText = document.getElementById("dropzoneText");
 
-    // --- FORMULAIRE MANUEL ---
+    const imageInput = document.getElementById("studentImage");
+    const previewImg = document.getElementById("previewImg");
+    const previewIcon = document.querySelector("#imagePreview i.fa-camera");
+
+    if (imageInput) {
+        imageInput.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert("L'image est trop lourde (max 2Mo)");
+                    this.value = "";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewImg.classList.remove("hidden");
+                    if (previewIcon) previewIcon.classList.add("hidden");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     studentForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        const submitBtn = document.getElementById("submitBtn");
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+
         try {
+            const formData = new FormData(studentForm);
+
             const res = await fetch("/api/v1/students", {
                 method: "POST",
                 headers: {
@@ -18,21 +48,30 @@ document.addEventListener("DOMContentLoaded", () => {
                     "X-CSRF-TOKEN":
                         studentForm.querySelector('[name="_token"]').value,
                 },
-                body: new FormData(studentForm),
+                body: formData,
             });
 
             if (res.ok) {
                 studentForm.reset();
+                if (previewImg) {
+                    previewImg.src = "";
+                    previewImg.classList.add("hidden");
+                }
+                if (previewIcon) previewIcon.classList.remove("hidden");
                 alert("Utilisateur enregistré avec succès");
             } else {
-                alert("Une erreur est survenue lors de l'enregistrement");
+                const errorData = await res.json();
+                alert(errorData.message || "Une erreur est survenue");
             }
         } catch (err) {
             console.error(err);
+            alert("Erreur de connexion au serveur");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
         }
     });
 
-    // --- IMPORTATION EXCEL ---
     excelForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -60,10 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 excelAlert.textContent = "Importation réussie";
                 excelAlert.classList.remove("hidden");
                 excelForm.reset();
-
                 dropzoneText.textContent =
                     "Cliquez ou glissez votre fichier Excel ici";
-
                 importBtn.innerHTML = originalBtnContent;
                 importBtn.disabled = true;
             } else {
@@ -71,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "px-6 py-4 rounded-2xl text-sm font-bold border border-red-500 text-red-400";
                 excelAlert.textContent = "Erreur lors de l'importation";
                 excelAlert.classList.remove("hidden");
-
                 importBtn.innerHTML = originalBtnContent;
                 importBtn.disabled = false;
             }
@@ -81,15 +117,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 "px-6 py-4 rounded-2xl text-sm font-bold border border-red-500 text-red-400";
             excelAlert.textContent = "Erreur de connexion";
             excelAlert.classList.remove("hidden");
-
             importBtn.innerHTML = originalBtnContent;
             importBtn.disabled = false;
         }
     });
 
-    document
-        .getElementById("dropzone")
-        .addEventListener("click", () => fileInput.click());
+    const dropzone = document.getElementById("dropzone");
+    if (dropzone) {
+        dropzone.addEventListener("click", () => fileInput.click());
+    }
 
     fileInput.addEventListener("change", () => {
         if (fileInput.files.length) {
