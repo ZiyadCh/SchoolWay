@@ -70,7 +70,7 @@ function renderTable(students) {
         clone.querySelector(".student-level").textContent = levelName;
         clone.querySelector(".student-location").textContent =
             user.birthplace || "Non Definé";
-        //detail button
+        //student inspect button
         clone.querySelector(".student-link").href = `students/${id}`;
 
         const badge = clone.querySelector(".student-gender");

@@ -50,6 +50,12 @@ class TeacherController extends Controller
             'tel'        => 'nullable|string|numeric',
         ]);
 
+        //for the image
+        $path = null;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('students', 'public');
+        }
+
         $password = Str::random(8);
 
         $user = User::create([
@@ -59,7 +65,7 @@ class TeacherController extends Controller
             'password'   => Hash::make($password),
             'role'       => 'teacher',
             'gender'     => $request->gender,
-            'photo'      => $request->photo,
+            'photo' => $path,
             'adress'     => $request->adress,
             'birthday'   => $request->birthday,
             'birthplace' => $request->birthplace,

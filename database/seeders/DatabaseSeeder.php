@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Year;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +17,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::create([
+            'nom' => 'Admin',
+            'prenom' => 'System',
+            'email' => 'admin@schoolway.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'gender' => 'M',
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Year::create([
+            'title' => '2025-2026',
+            'beginning_date' => '2025-09-01',
+            'end_date' => '2026-06-30',
+            'current' => true,
+        ]);
+
+        $this->call([
+            StudentSeeder::class,
         ]);
     }
 }
