@@ -1,74 +1,62 @@
-<?php
-
-namespace Database\Seeders;
-
-use App\Models\User;
-use App\Models\Student;
-use App\Models\Year;
-use App\Models\Inscription;
-use Carbon\Carbon;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-
-class StudentSeeder extends Seeder
+public function run(): void
 {
-    public function run(): void
-    {
-        $year = Year::firstOrCreate(
-            ['title' => '2025-2026'],
-            [
-                'beginning_date' => '2025-09-01',
-                'end_date' => '2026-06-30',
-                'current' => true,
-            ]
-        );
+    // 1. Créer l'année avec le bon nom de table et colonne
+    $year = Year::firstOrCreate(
+        ['title' => '2025-2026'],
+        [
+            'beginning_date' => '2025-09-01',
+            'end_date' => '2026-06-30',
+            'current' => true // Colonne 'current' selon ta migration
+        ]
+    );
 
-        $studentsCount = 10;
+    // 2. Création d'un prof et d'un niveau pour la classe
+    $teacher = \App\Models\Teacher::first() ?? \App\Models\Teacher::create(['user_id' => 1]); // Ajuste selon tes besoins
+    $level = \App\Models\Level::firstOrCreate(['name' => '1ère Année Bac']);
+    $subject = \App\Models\Subject::firstOrCreate(['name' => 'Informatique', 'coefficient' => 2]);
 
-        for ($i = 1; $i <= $studentsCount; $i++) {
-            $user = User::create([
-                'nom' => "Nom$i",
-                'prenom' => "Prenom$i",
-                'email' => "student$i@schoolway.com",
-                'password' => Hash::make('password'),
-                'role' => 'student',
-                'gender' => $i % 2 == 0 ? 'M' : 'F',
-                'photo' => null,
-                'adress' => "$i Rue des Écoles, Casablanca",
-                'birthday' => now()->subYears(15)->format('Y-m-d'),
-                'birthplace' => 'Casablanca',
-                'tel' => '061234567' . $i,
-            ]);
+    $class = \App\Models\SchoolClass::firstOrCreate(
+        ['name' => 'Génie Logiciel A'],
+        [
+            'level_id' => $level->id,
+            'teacher_id' => $teacher->id,
+            'subject_id' => $subject->id,
+            'nbr_students' => 10
+        ]
+    );
 
-            $student = Student::create([
-                'user_id' => $user->id,
-            ]);
+    // 3. Création de l'étudiant
+    $user = User::create([
+        'nom' => 'Kaiser',
+        'prenom' => 'Student',
+        'email' => 'student@test.com',
+        'password' => bcrypt('password'),
+        'role' => 'student',
+        'gender' => 'M',
+        'adress' => 'Ma Rue 123', // Un seul 'd' comme dans ta migration !
+    ]);
 
-            $inscription = Inscription::create([
-                'student_id' => $student->id,
-                'year_id' => $year->id,
-                'statut' => 'active',
-            ]);
+    $student = Student::create(['user_id' => $user->id]);
 
-            $start = Carbon::parse($year->beginning_date);
-            $end = Carbon::parse($year->end_date);
-            $paymentsData = [];
+    $inscription = Inscription::create([
+        'student_id' => $student->id,
+        'year_id' => $year->id,
+        'school_class_id' => $class->id, // Utilisation de la colonne directe
+        'statut' => 'current',
+    ]);
 
-            while ($start->lte($end)) {
-                $paymentsData[] = [
-                    'inscription_id' => $inscription->id,
-                    'mois' => $start->format('Y-m-01'),
-                    'etatPaiement' => false,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-                $start->addMonth();
-            }
+    // 4. Paiements (Table 'paiment')
+    $start = Carbon::parse($year->beginning_date);
+    $end = Carbon::parse($year->end_date);
 
-            $inscription->payments()->insert($paymentsData);
-        }
-
-        $this->command->info("Succès : $studentsCount étudiants et leurs échéanciers ont été créés.");
+    while ($start->lte($end)) {
+        \DB::table('paiment')->insert([
+            'inscription_id' => $inscription->id,
+            'mois' => $start->format('Y-m-01'),
+            'etatPaiement' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $start->addMonth();
     }
 }
