@@ -9,10 +9,13 @@
             <div>
                 <h2 class="text-4xl text-white">Gestion des Classes</h2>
             </div>
+
+                <a href="{{ route('class-form' ) }}">
             <button class="bg-amber-500 hover:bg-amber-600 text-black py-4 px-8 rounded-2xl transition-all flex items-center gap-3 active:scale-95 text-sm uppercase">
                 <i class="fa-solid fa-plus text-lg"></i>
-                <span>Nouvelle Classe</span>
+                Nouvelle Classe
             </button>
+            </a>
         </div>
 
         <div class="bg-gray-900 border border-gray-800 p-4 rounded-4xl flex flex-col lg:flex-row gap-4">
@@ -25,9 +28,6 @@
             <div class="flex flex-wrap sm:flex-nowrap gap-4">
                 <select class="bg-gray-950 border border-gray-800 text-gray-400 py-4 px-6 rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all min-w-5 cursor-pointer text-sm">
                     <option value="">Tous les Niveaux</option>
-                    <option value="primaire">Primaire</option>
-                    <option value="college">Collège</option>
-                    <option value="lycee">Lycée / Bac</option>
                 </select>
 
                 <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-2xl transition-all flex items-center gap-3 border border-gray-700">

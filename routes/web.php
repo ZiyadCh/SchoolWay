@@ -27,6 +27,8 @@ Route::prefix('administration')->group(function () {
         return view('lists.students');
     });
 
+    ////////////////////
+    //forms
     Route::get('/add-students', function () {
         return view('forms.add-student');
     })->name('student-form');
@@ -34,6 +36,12 @@ Route::prefix('administration')->group(function () {
     Route::get('/add-teacher', function () {
         return view('forms.add-teacher');
     })->name('teacher-form');
+
+    Route::get('/add-class', function () {
+        return view('forms.add-class');
+    })->name('class-form');
+    ////////////////////
+
 
     Route::get('/students/{id}', function () {
         return view('students.inspect');

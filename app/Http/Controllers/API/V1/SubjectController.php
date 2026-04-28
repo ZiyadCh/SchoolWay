@@ -15,7 +15,10 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = Subject::all();
-        return response()->json($subjects);
+        return response()->json([
+            'message' => 'Liste des matiere récupérée avec succès',
+            'data'    => Subject::latest()->get(),
+        ], 200);
     }
 
     /**
