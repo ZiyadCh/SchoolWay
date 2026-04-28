@@ -1,92 +1,146 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("gg");
     const classForm = document.getElementById("classForm");
     const submitBtn = document.getElementById("submitBtn");
-
     const levelSelect = document.querySelector('select[name="level_id"]');
     const subjectSelect = document.querySelector('select[name="subject_id"]');
-    const teacherSelect = document.querySelector('select[name="teacher_id"]');
 
-    const loadOptions = async () => {
+    const teacherSearch = document.getElementById("teacherSearch");
+    const teacherResults = document.getElementById("teacherResults");
+    const selectedTeacherId = document.getElementById("selectedTeacherId");
+
+    const appendOption = (select, text, value) => {
+        const opt = new Option(text, value);
+        select.add(opt);
+    };
+
+    const initData = async () => {
         try {
-            console.log("Tentative de récupération des données...");
-
-            const [levelsRes, subjectsRes, teachersRes] = await Promise.all([
+            const [levelsRes, subjectsRes] = await Promise.all([
                 fetch("/api/v1/levels"),
                 fetch("/api/v1/subjects"),
-                fetch("/api/v1/teachers"),
             ]);
 
-            if (!levelsRes.ok || !subjectsRes.ok || !teachersRes.ok) {
-                throw new Error(
-                    `Erreur HTTP! Statuts: ${levelsRes.status}, ${subjectsRes.status}, ${teachersRes.status}`,
+            const levels = await levelsRes.json();
+            const subjects = await subjectsRes.json();
+
+            if (levels.data) {
+                levels.data.forEach((l) =>
+                    appendOption(levelSelect, l.name, l.id),
                 );
             }
 
-            const levelsJson = await levelsRes.json();
-            const subjectsJson = await subjectsRes.json();
-            const teachersJson = await teachersRes.json();
-
-            if (levelsJson.data) {
-                levelSelect.innerHTML =
-                    '<option value="" disabled selected>Choisir un niveau</option>';
-                levelsJson.data.forEach((level) => {
-                    levelSelect.innerHTML += `<option value="${level.id}">${level.name}</option>`;
-                });
+            if (subjects.data) {
+                subjects.data.forEach((s) =>
+                    appendOption(subjectSelect, s.name, s.id),
+                );
             }
-
-            if (subjectsJson.data) {
-                subjectSelect.innerHTML =
-                    '<option value="" disabled selected>Choisir une matière</option>';
-                subjectsJson.data.forEach((subject) => {
-                    subjectSelect.innerHTML += `<option value="${subject.id}">${subject.name}</option>`;
-                });
-            }
-
-            if (teachersJson.data) {
-                teacherSelect.innerHTML =
-                    '<option value="" disabled selected>Sélectionner un enseignant</option>';
-                teachersJson.data.forEach((teacher) => {
-                    const displayName = `Enseignant #${teacher.id} (User ID: ${teacher.user_id})`;
-                    teacherSelect.innerHTML += `<option value="${teacher.id}">${displayName}</option>`;
-                });
-            }
-        } catch (err) {
-            console.error("ERREUR CRITIQUE DANS loadOptions :", err);
+        } catch (e) {
+            console.error(e);
         }
     };
-    loadOptions();
+
+    let debounceTimer;
+    teacherSearch.addEventListener("input", (e) => {
+        clearTimeout(debounceTimer);
+        const query = e.target.value.trim();
+
+        if (query.length < 2) {
+            teacherResults.classList.add("hidden");
+            teacherResults.replaceChildren();
+            selectedTeacherId.value = "";
+            return;
+        }
+
+        debounceTimer = setTimeout(async () => {
+            try {
+                const res = await fetch(
+                    `/api/v1/teachers?search=${encodeURIComponent(query)}`,
+                );
+                const json = await res.json();
+
+                teacherResults.replaceChildren();
+
+                if (json.data && json.data.length > 0) {
+                    json.data.forEach((t) => {
+                        const name = t.user
+                            ? `${t.user.nom} ${t.user.prenom}`
+                            : `ID: ${t.id}`;
+
+                        const item = document.createElement("div");
+                        item.className =
+                            "px-6 py-3 hover:bg-indigo-600 cursor-pointer transition-colors border-b border-gray-800 last:border-0";
+                        item.textContent = name;
+
+                        item.addEventListener("click", () => {
+                            teacherSearch.value = name;
+                            selectedTeacherId.value = t.id;
+                            teacherResults.classList.add("hidden");
+                        });
+
+                        teacherResults.appendChild(item);
+                    });
+                    teacherResults.classList.remove("hidden");
+                } else {
+                    const noResult = document.createElement("div");
+                    noResult.className = "px-6 py-3 text-gray-500 text-sm";
+                    noResult.textContent = "Aucun résultat";
+                    teacherResults.appendChild(noResult);
+                    teacherResults.classList.remove("hidden");
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }, 300);
+    });
 
     classForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const originalBtnContent = submitBtn.innerHTML;
+        if (!selectedTeacherId.value) {
+            alert("Veuillez sélectionner un enseignant valide.");
+            return;
+        }
+
+        const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Création...</span>`;
+        submitBtn.textContent = "Action en cours...";
 
         try {
-            const res = await fetch("/api/v1/school-classes", {
+            const res = await fetch("/api/v1/school_classes", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
-                    "X-CSRF-TOKEN":
-                        classForm.querySelector('[name="_token"]').value,
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'input[name="_token"]',
+                    ).value,
                 },
                 body: new FormData(classForm),
             });
 
             if (res.ok) {
                 classForm.reset();
+                selectedTeacherId.value = "";
                 alert("Classe créée avec succès !");
             } else {
-                alert("Une erreur est survenue lors de la création.");
+                const errData = await res.json();
+                alert(errData.message || "Erreur de validation");
             }
         } catch (err) {
-            console.error(err);
-            alert("Erreur de connexion");
+            alert("Erreur réseau");
         } finally {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnContent;
+            submitBtn.textContent = originalText;
         }
     });
+
+    document.addEventListener("click", (e) => {
+        if (
+            !teacherSearch.contains(e.target) &&
+            !teacherResults.contains(e.target)
+        ) {
+            teacherResults.classList.add("hidden");
+        }
+    });
+
+    initData();
 });
