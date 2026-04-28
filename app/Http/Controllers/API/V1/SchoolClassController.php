@@ -32,7 +32,7 @@ class SchoolClassController extends Controller
             $query->orderBy('nbr_students', 'desc');
         }
 
-        return response()->json($query->paginate(2));
+        return response()->json($query->paginate(5));
     }
 
     /**

@@ -20,6 +20,22 @@
                 </div>
                 <h2 class="text-xl font-bold">Informations de l'Enseignant</h2>
             </div>
+        <div class="flex flex-col items-center justify-center space-y-4 pb-8">
+                <label for="teacherImage" class="relative group cursor-pointer block hover:scale-105 transition-transform duration-300">
+                    <div id="imagePreview" class="w-32 h-32 rounded-full border-2 border-dashed border-gray-700 bg-gray-800/50 flex items-center justify-center overflow-hidden transition-all group-hover:border-blue-500 group-hover:bg-gray-800 shadow-2xl">
+                        <i class="fa-solid fa-camera text-3xl text-gray-600 group-hover:text-blue-500 transition-colors"></i>
+                        <img id="previewImg" src="" class="hidden w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fa-solid fa-pen text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <input type="file" name="image" id="teacherImage" class="hidden" accept="image/*">
+                </label>
+                <div class="text-center">
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Photo de profil (Optionnel)</span>
+                </div>
+            </div>
+
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {{-- Nom --}}

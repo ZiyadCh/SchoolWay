@@ -46,7 +46,13 @@ function renderTable(teachers) {
             user.tel || "Non Definé";
         //detail button
         clone.querySelector(".teacher-link").href = `teachers/${id}`;
-        clone.querySelector(".teacher-photo").src = user.photo;
+        const avatar = clone.querySelector(".teacher-photo"); // Assure-toi que la classe correspond à ton template
+
+        if (user.photo) {
+            avatar.src = `/storage/${user.photo}`;
+        } else {
+            avatar.src = "/images/default.jpeg";
+        }
         tableBody.appendChild(clone);
     });
 }

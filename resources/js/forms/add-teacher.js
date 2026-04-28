@@ -1,41 +1,76 @@
 document.addEventListener("DOMContentLoaded", () => {
     const teacherForm = document.getElementById("teacherForm");
-    const submitBtn = document.getElementById("submitBtn");
+    const imageInput = document.getElementById("teacherImage");
+    const previewImg = document.getElementById("previewImg");
+    const previewIcon = document.querySelector("#imagePreview i.fa-camera");
+
+    if (imageInput) {
+        imageInput.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert("L'image est trop lourde (max 2Mo)");
+                    this.value = "";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewImg.classList.remove("hidden");
+                    if (previewIcon) previewIcon.classList.add("hidden");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 
     teacherForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // État de chargement
-        const originalContent = submitBtn.innerHTML;
+        const submitBtn = document.getElementById("submitBtn");
+        const originalBtnText = submitBtn.innerHTML;
+
         submitBtn.disabled = true;
         submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Enregistrement...</span>`;
 
         try {
+            const formData = new FormData(teacherForm);
+
             const res = await fetch("/api/v1/teachers", {
-                // Ajuste l'URL selon tes routes
                 method: "POST",
                 headers: {
                     Accept: "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
                     "X-CSRF-TOKEN":
                         teacherForm.querySelector('[name="_token"]').value,
                 },
-                body: new FormData(teacherForm),
+                body: formData,
             });
 
             if (res.ok) {
                 teacherForm.reset();
+
+                if (previewImg) {
+                    previewImg.src = "";
+                    previewImg.classList.add("hidden");
+                }
+                if (previewIcon) previewIcon.classList.remove("hidden");
+
                 alert("Enseignant enregistré avec succès !");
             } else {
-                const data = await res.json();
-                alert(data.message || "Erreur lors de l'enregistrement");
+                const errorData = await res.json();
+                alert(
+                    errorData.message ||
+                        "Une erreur est survenue lors de l'enregistrement",
+                );
             }
         } catch (err) {
             console.error(err);
             alert("Erreur de connexion au serveur");
         } finally {
-            // Restaurer le bouton
             submitBtn.disabled = false;
-            submitBtn.innerHTML = originalContent;
+            submitBtn.innerHTML = originalBtnText;
         }
     });
 });
