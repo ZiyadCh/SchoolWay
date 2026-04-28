@@ -12,6 +12,10 @@ class AbsenceSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\Absence::create([
+            'inscription_id' => \App\Models\Inscription::first()->id,
+            'date' => now()->subDays(2),
+            'justifié' => false,
+        ]);
     }
 }

@@ -1,62 +1,67 @@
-public function run(): void
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use App\Models\Student;
+use App\Models\Year;
+use App\Models\Inscription;
+use App\Models\SchoolClass;
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class StudentSeeder extends Seeder
 {
-    // 1. Créer l'année avec le bon nom de table et colonne
-    $year = Year::firstOrCreate(
-        ['title' => '2025-2026'],
-        [
-            'beginning_date' => '2025-09-01',
-            'end_date' => '2026-06-30',
-            'current' => true // Colonne 'current' selon ta migration
-        ]
-    );
+    public function run(): void
+    {
+        $year = Year::firstOrCreate(
+            ['title' => '2025-2026'],
+            [
+                'beginning_date' => '2025-09-01',
+                'end_date' => '2026-06-30',
+                'current' => true,
+            ]
+        );
 
-    // 2. Création d'un prof et d'un niveau pour la classe
-    $teacher = \App\Models\Teacher::first() ?? \App\Models\Teacher::create(['user_id' => 1]); // Ajuste selon tes besoins
-    $level = \App\Models\Level::firstOrCreate(['name' => '1ère Année Bac']);
-    $subject = \App\Models\Subject::firstOrCreate(['name' => 'Informatique', 'coefficient' => 2]);
+        $class = SchoolClass::first();
 
-    $class = \App\Models\SchoolClass::firstOrCreate(
-        ['name' => 'Génie Logiciel A'],
-        [
-            'level_id' => $level->id,
-            'teacher_id' => $teacher->id,
-            'subject_id' => $subject->id,
-            'nbr_students' => 10
-        ]
-    );
+        User::factory(30)
+            ->create([
+                'role' => 'student',
+                'password' => Hash::make('password'),
+            ])
+            ->each(function ($user) use ($year, $class) {
+                // 1. Créer le profil Student
+                $student = Student::create([
+                    'user_id' => $user->id,
+                ]);
 
-    // 3. Création de l'étudiant
-    $user = User::create([
-        'nom' => 'Kaiser',
-        'prenom' => 'Student',
-        'email' => 'student@test.com',
-        'password' => bcrypt('password'),
-        'role' => 'student',
-        'gender' => 'M',
-        'adress' => 'Ma Rue 123', // Un seul 'd' comme dans ta migration !
-    ]);
+                $inscription = Inscription::create([
+                    'student_id' => $student->id,
+                    'year_id' => $year->id,
+                    'school_class_id' => $class ? $class->id : null,
+                    'statut' => 'active',
+                ]);
 
-    $student = Student::create(['user_id' => $user->id]);
+                $start = Carbon::parse($year->beginning_date);
+                $end = Carbon::parse($year->end_date);
+                $paymentsData = [];
 
-    $inscription = Inscription::create([
-        'student_id' => $student->id,
-        'year_id' => $year->id,
-        'school_class_id' => $class->id, // Utilisation de la colonne directe
-        'statut' => 'current',
-    ]);
+                while ($start->lte($end)) {
+                    $paymentsData[] = [
+                        'inscription_id' => $inscription->id,
+                        'mois' => $start->format('Y-m-01'),
+                        'etatPaiement' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                    $start->addMonth();
+                }
 
-    // 4. Paiements (Table 'paiment')
-    $start = Carbon::parse($year->beginning_date);
-    $end = Carbon::parse($year->end_date);
+                $inscription->payments()->insert($paymentsData);
+            });
 
-    while ($start->lte($end)) {
-        \DB::table('paiment')->insert([
-            'inscription_id' => $inscription->id,
-            'mois' => $start->format('Y-m-01'),
-            'etatPaiement' => false,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        $start->addMonth();
+        $this->command->info("Succès : 30 étudiants avec des noms réels et leurs paiements ont été créés.");
     }
 }

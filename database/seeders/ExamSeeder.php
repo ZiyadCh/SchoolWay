@@ -12,6 +12,6 @@ class ExamSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\Exam::create(['title' => 'Contrôle 1 Informatique', 'date' => now()->addDays(7)]);
     }
 }

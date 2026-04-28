@@ -34,7 +34,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            LevelSeeder::class,
+            SubjectSeeder::class,
+            YearSeeder::class,
+            TeacherSeeder::class,
+            SchoolClassSeeder::class,
             StudentSeeder::class,
+            ExamSeeder::class,
+            AbsenceSeeder::class,
+            DevoirSeeder::class,
         ]);
     }
 }

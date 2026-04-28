@@ -2,16 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Subject;
 use Illuminate\Database\Seeder;
 
 class SubjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        $subjects = [
+            ['name' => 'Mathématiques', 'coefficient' => 7],
+            ['name' => 'Physique-Chimie', 'coefficient' => 5],
+            ['name' => 'Informatique', 'coefficient' => 2],
+            ['name' => 'Français', 'coefficient' => 4],
+        ];
+        foreach ($subjects as $subject) {
+            Subject::firstOrCreate(['name' => $subject['name']], $subject);
+        }
     }
 }

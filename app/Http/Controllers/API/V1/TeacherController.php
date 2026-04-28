@@ -28,7 +28,7 @@ class TeacherController extends Controller
             });
         }
 
-        $teachers = $query->latest()->paginate(5);
+        $teachers = $query->latest()->paginate(10);
 
         return response()->json($teachers);
     }
