@@ -46,7 +46,7 @@ function renderTable(teachers) {
             user.tel || "Non Definé";
         //detail button
         clone.querySelector(".teacher-link").href = `teachers/${id}`;
-        const avatar = clone.querySelector(".teacher-photo"); // Assure-toi que la classe correspond à ton template
+        const avatar = clone.querySelector(".teacher-photo");
 
         if (user.photo) {
             avatar.src = `/storage/${user.photo}`;

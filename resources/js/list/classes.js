@@ -58,13 +58,18 @@ function renderTable(classes) {
         const teacherUser = item.teacher?.user;
         const nameEl = clone.querySelector(".teacher-name");
         const photoEl = clone.querySelector(".teacher-photo");
+        console.log(photoEl);
 
+        if (teacherUser.photo) {
+            photoEl.src = `/storage/${teacherUser.photo}`;
+        } else {
+            photoEl.src = `/images/default.jpeg`;
+        }
         if (teacherUser) {
-            nameEl.textContent = `Prof. ${teacherUser.nom}`;
-            photoEl.src = teacherUser.photo;
+            nameEl.textContent = ` ${teacherUser.nom} ${teacherUser.prenom}`;
         } else {
             nameEl.textContent = "Non Assigné";
-            photoEl.src = "";
+            photoEl.src = `/images/default.jpeg`;
         }
 
         tableBody.appendChild(clone);
