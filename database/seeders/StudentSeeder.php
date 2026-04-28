@@ -32,7 +32,6 @@ class StudentSeeder extends Seeder
                 'password' => Hash::make('password'),
             ])
             ->each(function ($user) use ($year, $class) {
-                // 1. Créer le profil Student
                 $student = Student::create([
                     'user_id' => $user->id,
                 ]);
