@@ -54,11 +54,12 @@ function renderTable(students) {
         const isMale = user.gender === "M";
 
         const avatar = clone.querySelector(".student-avatar");
+        console.log(avatar);
 
         if (user.photo) {
             avatar.src = `/storage/${user.photo}`;
         } else {
-            avatar.src = "/path/to/default-avatar.png";
+            avatar.src = "/images/default.jpeg";
         }
         const levelName =
             student.inscriptions?.[0]?.school_classes?.[0]?.level?.name ||
@@ -71,8 +72,6 @@ function renderTable(students) {
             user.birthplace || "Non Definé";
         //detail button
         clone.querySelector(".student-link").href = `students/${id}`;
-
-        clone.querySelector(".student-avatar").src = user.photo;
 
         const badge = clone.querySelector(".student-gender");
         badge.textContent = user.gender;
