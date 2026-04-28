@@ -15,9 +15,9 @@ class Year extends Model
         'current',
     ];
 
-    public function inscriptions(): HasMany
+    public function classes(): HasMany
     {
-        return $this->hasMany(Inscription::class);
+        return $this->hasMany(SchoolClass::class);
     }
 
     //////////////

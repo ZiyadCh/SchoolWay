@@ -65,5 +65,9 @@ class SchoolClass extends Model
         return $this->hasManyThrough(Absence::class, Inscription::class);
     }
 
+    public function year(): BelongsTo
+    {
+        return $this->belongsTo(Year::class, 'year_id');
+    }
 
 }
