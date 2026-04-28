@@ -29,7 +29,7 @@ class Inscription extends Model
 
     public function year(): BelongsTo
     {
-        return $this->schoolClasses->year();
+        return $this->belongsTo(Year::class, 'year_id');
     }
 
     public function absences(): HasMany

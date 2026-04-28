@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('inscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('school_class_id')->nullable()->constrained('school_classes')->cascadeOnDelete();
             $table->foreignId('year_id')->constrained('academic_year')->cascadeOnDelete();
             $table->float('note_final')->nullable();
             $table->string('statut')->default('current');

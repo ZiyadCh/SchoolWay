@@ -39,7 +39,6 @@ class StudentSeeder extends Seeder
                 $inscription = Inscription::create([
                     'student_id' => $student->id,
                     'year_id' => $year->id,
-                    'school_class_id' => $class ? $class->id : null,
                     'statut' => 'active',
                 ]);
 

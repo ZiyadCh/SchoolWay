@@ -54,7 +54,6 @@ class SchoolClassSeeder extends Seeder
                 if ($inscription) {
                     $inscription->schoolClasses()->syncWithoutDetaching([$class->id]);
 
-                    $inscription->update(['school_class_id' => $class->id]);
                 }
             }
 
