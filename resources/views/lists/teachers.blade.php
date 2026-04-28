@@ -10,10 +10,13 @@
         <div>
             <h2 class="text-4xl font-black text-white tracking-tight">Enseignants</h2>
         </div>
+            <a href="{{ route('teacher-form' ) }}">
+
         <button class="bg-amber-500 hover:bg-amber-600 text-black font-black py-4 px-8 rounded-2xl transition-all flex items-center gap-3 active:scale-95 text-sm uppercase tracking-widest">
             <i class="fa-solid fa-plus text-lg"></i>
-            <a href="{{ route('teacher-form' ) }}">Ajouter un Enseignant</a>
+                Ajouter un Enseignant
         </button>
+        </a>
     </div>
 
     <div class="bg-gray-900 border border-gray-800 p-4 rounded-4xl flex flex-col lg:flex-row gap-4">

@@ -11,10 +11,13 @@
             <h2 class="text-3xl md:text-4xl text-white">Registre des Élèves</h2>
             <p class="text-gray-500 text-sm mt-1">Gestion et suivi des inscriptions académiques</p>
         </div>
+            <a href="{{ route('student-form' ) }}">
+
         <button class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-black py-4 px-8 rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-95 text-xs uppercase">
             <i class="fa-solid fa-user-plus text-lg"></i>
-            <a href="{{ route('student-form' ) }}">Inscrire un Élève</a>
+        Inscrire un Élève
         </button>
+                </a>
     </div>
 
     <div class="bg-gray-900 border border-gray-800 p-3 md:p-4 rounded-3xl md:rounded-4xl flex flex-col lg:flex-row gap-4">
