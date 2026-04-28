@@ -22,4 +22,9 @@ class Exam extends Model
                     ->withPivot('valeur')
                     ->withTimestamps();
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
 }

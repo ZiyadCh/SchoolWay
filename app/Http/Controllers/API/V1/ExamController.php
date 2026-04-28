@@ -14,7 +14,13 @@ class ExamController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Exam::with(['subject', 'inscriptions.student.user']);
+        $query = Exam::with(['notes', 'inscriptions.student.user']);
+
+        if ($request->inscription_id) {
+            $query->whereHas('inscriptions', function ($q) use ($request) {
+                $q->where('inscription_id', $request->inscription_id);
+            });
+        }
 
         if ($request->school_class_id) {
             $query->whereHas('inscriptions', function ($q) use ($request) {
@@ -34,9 +40,12 @@ class ExamController extends Controller
             $query->where('title', 'LIKE', '%' . $request->title . '%');
         }
 
+        $exams = $query->latest()->get();
+
+
         return response()->json([
             'message' => 'Liste des examens récupérée avec succès',
-            'data'    => $query->latest()->get(),
+            'data'    => $exams,
         ], 200);
     }
 

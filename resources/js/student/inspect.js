@@ -10,18 +10,17 @@ async function fetchAllStudentData() {
     try {
         const profileRes = await fetchApi(`/api/v1/students/${user_id}`);
         const student = profileRes;
-        console.log(student);
         updateUI(student);
 
         const inscriptionId = student.inscription?.id;
         if (!inscriptionId) return;
 
         const [notesRes, devoirsRes, absencesRes] = await Promise.all([
-            fetchApi(`/api/v1/exams?inscription_id=${inscriptionId}`),
-            fetchApi(`/api/v1/assignments?inscription_id=${inscriptionId}`),
-            fetchApi(`/api/v1/absences?inscription_id=${inscriptionId}`),
+            fetchApi(`/api/v1/exams`),
         ]);
 
+        console.log(notesRes);
+        console.log(devoirsRes);
         renderNotes(notesRes.data || []);
         renderDevoirs(devoirsRes.data || []);
         renderAbsences(absencesRes.data || []);
@@ -32,7 +31,6 @@ async function fetchAllStudentData() {
     }
 }
 
-// Helper pour simplifier les appels fetch
 async function fetchApi(url) {
     const response = await fetch(url, {
         method: "GET",
@@ -43,6 +41,7 @@ async function fetchApi(url) {
         },
     });
     if (!response.ok) throw new Error(`Erreur sur ${url}`);
+
     return await response.json();
 }
 
