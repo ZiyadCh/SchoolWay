@@ -94,6 +94,10 @@ class PaimentController extends Controller
         ], 200);
     }
 
+    //the function of calculating the payments stats of a student
+    //(comparing the number of months from the beginning of ther year till now
+    //with the number of months where etatPaiement = true . for each student)
+
     public function getPaymentStats(Request $request)
     {
         $activeYear = Year::currentYear();
@@ -135,6 +139,15 @@ class PaimentController extends Controller
             }
         }
 
+        $totalStudents = (clone $query)->count();
+        $paidStudentsCount = (clone $query)->has('payments', '>=', $monthsDue, 'and', function ($q) {
+            $q->where('etatPaiement', true);
+        })->count();
+
+        $percentagePaid = $totalStudents > 0
+            ? round(($paidStudentsCount / $totalStudents) * 100, 2)
+            : 0;
+
         $inscriptions = $query->paginate(5);
 
         $studentsStatus = $inscriptions->getCollection()->map(function ($inscription) use ($monthsDue) {
@@ -153,11 +166,12 @@ class PaimentController extends Controller
 
         return response()->json([
             'months_reference' => $monthsDue,
-            'students'         => $studentsStatus,
-            'current_page'     => $inscriptions->currentPage(),
-            'last_page'        => $inscriptions->lastPage(),
-            'next_page_url'    => $inscriptions->nextPageUrl(),
-            'prev_page_url'    => $inscriptions->previousPageUrl(),
+            'percentage_paid' => $percentagePaid,
+            'students'      => $studentsStatus,
+            'current_page'  => $inscriptions->currentPage(),
+            'last_page'     => $inscriptions->lastPage(),
+            'next_page_url' => $inscriptions->nextPageUrl(),
+            'prev_page_url' => $inscriptions->previousPageUrl(),
         ], 200);
     }
 }

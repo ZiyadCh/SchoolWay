@@ -8,20 +8,17 @@ let currentUrl = "/api/v1/paiments/paiment-stats";
 document.addEventListener("DOMContentLoaded", () => {
     fetchPayments(currentUrl);
 
-    // Pagination
     document.getElementById("next-page").onclick = () =>
         nextUrl && fetchPayments(nextUrl);
     document.getElementById("prev-page").onclick = () =>
         prevUrl && fetchPayments(prevUrl);
 
-    // Recherche et Filtres
     document
         .getElementById("search-input")
         .addEventListener("keypress", (e) => {
             if (e.key === "Enter") performSearch();
         });
 
-    // Optionnel : bouton chercher explicite si présent dans le HTML
     const searchBtn =
         document.querySelector("button i.fa-search")?.parentElement;
     if (searchBtn) searchBtn.onclick = performSearch;
@@ -56,6 +53,7 @@ async function fetchPayments(url) {
         });
 
         const result = await response.json();
+        console.log(result.percentage_paid);
 
         nextUrl = result.next_page_url || null;
         prevUrl = result.prev_page_url || null;

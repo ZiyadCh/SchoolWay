@@ -3,6 +3,7 @@
 @section('title', 'Scolarité 2026')
 
 @section('content')
+@vite('resources/js/core/dashboard.js')
 <div class="min-h-screen flex flex-col space-y-10 pb-16">
 
     <div class="mb-4">
