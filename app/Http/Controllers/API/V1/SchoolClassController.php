@@ -14,23 +14,33 @@ class SchoolClassController extends Controller
      */
     public function index(Request $request)
     {
-        $query = SchoolClass::with(['level', 'teacher.user']);
 
-        if ($request->level_id) {
-            $query->where('level_id', $request->level_id);
+        //for class count
+        //
+        if ($request->has('count')) {
+            return response()->json([
+                'total_classes' => SchoolClass::count(),
+            ]);
+        } else {
+            $query = SchoolClass::with(['level', 'teacher.user']);
+
+            if ($request->level_id) {
+                $query->where('level_id', $request->level_id);
+            }
+
+            if ($request->teacher_id) {
+                $query->where('teacher_id', $request->teacher_id);
+            }
+
+            if ($request->search) {
+                $query->where('name', 'LIKE', '%' . $request->search . '%');
+            }
+
+            if ($request->nbr) {
+                $query->orderBy('nbr_students', 'desc');
+            }
         }
 
-        if ($request->teacher_id) {
-            $query->where('teacher_id', $request->teacher_id);
-        }
-
-        if ($request->search) {
-            $query->where('name', 'LIKE', '%' . $request->search . '%');
-        }
-
-        if ($request->nbr) {
-            $query->orderBy('nbr_students', 'desc');
-        }
 
         return response()->json($query->paginate(5));
     }

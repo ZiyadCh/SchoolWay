@@ -40,7 +40,11 @@ async function fetchLevels() {
 }
 
 function handleSearch() {
-    const search = document.getElementById("search-input").value.trim();
+    const search = document
+        .getElementById("search-input")
+        .value.charAt(0)
+        .toUpperCase()
+        .trim();
     const levelId = document.getElementById("level-filter").value;
     let url = `/api/v1/school_classes?search=${encodeURIComponent(search)}&regex=1`;
     if (levelId) url += `&level_id=${levelId}`;

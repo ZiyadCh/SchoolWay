@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class AbsenceController extends Controller
 {
@@ -14,6 +15,10 @@ class AbsenceController extends Controller
     public function index(Request $request)
     {
         $query = Absence::with(['inscription.student.user']);
+
+        if ($request->has('today')) {
+            $query->whereDate('date', Carbon::today());
+        }
 
         if ($request->inscription_id) {
             $query->where('inscription_id', $request->inscription_id);
