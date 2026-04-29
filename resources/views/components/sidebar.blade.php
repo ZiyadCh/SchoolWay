@@ -17,11 +17,24 @@
         </button>
     </div>
     <div class="px-4 py-4 border-b border-gray-800 bg-gray-900/50">
-        <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold ml-1">Année Scolaire</label>
-        <div class="mt-1 flex items-center justify-between bg-gray-800 border border-gray-700 rounded-lg px-3 py-2">
-            <span class="text-sm font-medium text-amber-400">2025 - 2026</span>
-            <i class="fa-solid fa-right-left text-xs text-gray-500"></i>
+
+<div class="relative w-full max-w-50>
+    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold ml-1">
+        Année Scolaire
+    </label>
+
+    <div class="relative mt-1">
+        <select class="w-full appearance-none bg-gray-800 border border-gray-700 text-amber-400 text-sm font-medium rounded-lg px-3 py-2 pr-10 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all cursor-pointer">
+            <option value="2025-2026" selected>2025 - 2026</option>
+            <option value="2024-2025">2024 - 2025</option>
+            <option value="2023-2024">2023 - 2024</option>
+        </select>
+
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+            <i class="fa-solid fa-right-left text-[10px]"></i>
         </div>
+    </div>
+</div>
     </div>
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
         <label class="text-[10px] uppercase text-gray-500 font-black px-4 mb-4 block">Menu Principal</label>
