@@ -28,7 +28,6 @@ function setupEditMode() {
     btnCancel.addEventListener("click", () => exitEditMode(false));
     btnSave.addEventListener("click", () => saveProfile());
 
-    // Live avatar preview
     avatarInput.addEventListener("change", (e) => {
         const file = e.target.files[0];
         if (!file) return;

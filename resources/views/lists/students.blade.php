@@ -20,26 +20,24 @@
                 </a>
     </div>
 
-    <div class="bg-gray-900 border border-gray-800 p-3 md:p-4 rounded-3xl md:rounded-4xl flex flex-col lg:flex-row gap-4">
-        <div class="relative flex-1 group">
-            <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors"></i>
-            <input type="text" placeholder="Rechercher un élève..."
-                class="w-full bg-gray-950 border border-gray-800 text-gray-300 py-4 pl-14 pr-6 rounded-xl md:rounded-2xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all text-sm">
-        </div>
-
-        <div class="flex gap-3 sm:gap-4">
-            <select class="flex-1 lg:flex-none bg-gray-950 border border-gray-800 text-gray-400 py-4 px-4 md:px-6 rounded-xl md:rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all min-w-32 cursor-pointer text-sm">
-                <option value="">Tous les Niveaux</option>
-                <option value="1bac">1ère Année Bac</option>
-                <option value="2bac">2ème Année Bac</option>
-            </select>
-
-            <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-xl md:rounded-2xl transition-all flex items-center justify-center gap-3 min-w-14 sm:min-w-auto">
-                <i class="fa-solid fa-search text-amber-500"></i>
-                <span class="hidden sm:inline text-sm">Chercher</span>
-            </button>
-        </div>
+   <div class="bg-gray-900 border border-gray-800 p-3 md:p-4 rounded-3xl md:rounded-4xl flex flex-col lg:flex-row gap-4">
+    <div class="relative flex-1 group">
+        <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors"></i>
+        <input type="text" id="search-input" placeholder="Rechercher un élève..."
+            class="w-full bg-gray-950 border border-gray-800 text-gray-300 py-4 pl-14 pr-6 rounded-xl md:rounded-2xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all text-sm">
     </div>
+
+    <div class="flex gap-3 sm:gap-4">
+        <select id="level-filter" class="flex-1 lg:flex-none bg-gray-950 border border-gray-800 text-gray-400 py-4 px-4 md:px-6 rounded-xl md:rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all min-w-32 cursor-pointer text-sm">
+            <option value="">Tous les Niveaux</option>
+        </select>
+
+        <button id="search-btn" class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-xl md:rounded-2xl transition-all flex items-center justify-center gap-3 min-w-14 sm:min-w-auto">
+            <i class="fa-solid fa-search text-amber-500"></i>
+            <span class="hidden sm:inline text-sm">Chercher</span>
+        </button>
+    </div>
+</div>
 
     <div class="bg-gray-900 border border-gray-800 rounded-3xl md:rounded-5xl overflow-hidden shadow-2xl">
         <div class="overflow-x-auto custom-scrollbar">

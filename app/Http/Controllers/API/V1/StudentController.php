@@ -17,9 +17,29 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with(['user','inscriptions.schoolClasses.level'])->paginate(5);
+        $query = Student::with(['user', 'inscriptions.schoolClasses.level']);
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('nom', 'LIKE', "%{$search}%")
+                  ->orWhere('prenom', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->has('level_id')) {
+            $levelId = $request->input('level_id');
+
+            $query->whereHas('inscriptions.schoolClasses', function ($q) use ($levelId) {
+                $q->where('level_id', $levelId);
+            });
+        }
+
+        $students = $query->latest()->paginate(5);
+
         return response()->json($students);
     }
 

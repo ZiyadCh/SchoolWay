@@ -17,7 +17,17 @@ class PaimentController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Paiment::with(['inscription.student.user' ]);
+        $query = Paiment::with(['inscription.student.user']);
+
+        if ($request->search) {
+            $search = $request->search;
+            $query->whereHas('inscription.student.user', function ($q) use ($search) {
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('nom', 'LIKE', "%{$search}%")
+                        ->orWhere('prenom', 'LIKE', "%{$search}%");
+                });
+            });
+        }
 
         if ($request->inscription_id) {
             $query->where('inscription_id', $request->inscription_id);
@@ -36,7 +46,6 @@ class PaimentController extends Controller
             'data'    => $query->orderBy('mois')->get(),
         ], 200);
     }
-
 
     /**
      * Display the specified resource.

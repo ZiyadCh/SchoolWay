@@ -18,26 +18,28 @@
             </a>
         </div>
 
-        <div class="bg-gray-900 border border-gray-800 p-4 rounded-4xl flex flex-col lg:flex-row gap-4">
-            <div class="relative flex-1 group">
-                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors"></i>
-                <input type="text" placeholder="Rechercher une classe ou un professeur..."
-                    class="w-full bg-gray-950 border border-gray-800 text-gray-300 py-4 pl-14 pr-6 rounded-2xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all text-sm">
-            </div>
+{{-- Dans la section des filtres --}}
+<div class="bg-gray-900 border border-gray-800 p-4 rounded-4xl flex flex-col lg:flex-row gap-4">
+    <div class="relative flex-1 group">
+        <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors"></i>
+        <input type="text" id="search-input" placeholder="Rechercher une classe ou un professeur..."
+            class="w-full bg-gray-950 border border-gray-800 text-gray-300 py-4 pl-14 pr-6 rounded-2xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all text-sm">
+    </div>
 
-            <div class="flex flex-wrap sm:flex-nowrap gap-4">
-                <select class="bg-gray-950 border border-gray-800 text-gray-400 py-4 px-6 rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all min-w-5 cursor-pointer text-sm">
-                    <option value="">Tous les Niveaux</option>
-                </select>
+    <div class="flex flex-wrap sm:flex-nowrap gap-4">
+        <select id="level-filter" class="bg-gray-950 border border-gray-800 text-gray-400 py-4 px-6 rounded-2xl focus:outline-none focus:border-amber-500/50 transition-all min-w-5 cursor-pointer text-sm">
+            <option value="">Tous les Niveaux</option>
+            {{-- Les options seront chargées par JS --}}
+        </select>
 
-                <button class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-2xl transition-all flex items-center gap-3 border border-gray-700">
-                    <i class="fa-solid fa-search text-amber-500"></i>
-                    <span class="text-sm">Chercher</span>
-                </button>
-            </div>
-        </div>
+        <button id="search-btn" class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-2xl transition-all flex items-center gap-3 border border-gray-700">
+            <i class="fa-solid fa-search text-amber-500"></i>
+            <span class="text-sm">Chercher</span>
+        </button>
+    </div>
+</div>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-[2.5rem] overflow-hidden">
+                <div class="bg-gray-900 border border-gray-800 rounded-[2.5rem] overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
