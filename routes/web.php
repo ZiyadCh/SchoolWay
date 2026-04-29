@@ -40,9 +40,11 @@ Route::prefix('administration')->group(function () {
     Route::get('/add-class', function () {
         return view('forms.add-class');
     })->name('class-form');
+
     ////////////////////
+    //INSPECTION
 
-
+    // student
     Route::get('/students/{id}', function () {
         return view('students.inspect');
     });
@@ -52,10 +54,16 @@ Route::prefix('administration')->group(function () {
     });
 
 
-
+    // teacher
     Route::get('/teachers', function () {
         return view('lists.teachers');
     });
+
+    Route::get('/teachers/{id}', function () {
+        return view('teachers.inspect');
+    });
+    ////////////////////
+    //paiment stuff
 
     Route::prefix('paiments')->group(function () {
         Route::get('/', function () {

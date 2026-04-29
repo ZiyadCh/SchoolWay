@@ -116,21 +116,54 @@ async function fetchApi(url) {
 function updateUI(student) {
     const user = student.user;
     if (!user) return;
+
+    const fallback = "Non déterminé";
+
     document.getElementById("user-fullname").textContent =
-        `${user.prenom} ${user.nom}`;
-    document.getElementById("user-birth-info").textContent = user.birthday
+        user.prenom && user.nom
+            ? `${user.prenom} ${user.nom}`
+            : "Utilisateur Inconnu";
+
+    const birthInfo = document.getElementById("user-birth-info");
+    birthInfo.textContent = user.birthday
         ? new Date(user.birthday).toLocaleDateString("fr-FR")
-        : "";
-    document.getElementById("user-gender").textContent =
-        user.gender === "M" ? "Masculin" : "Féminin";
-    document.getElementById("user-phone").textContent = user.tel || "";
-    document.getElementById("user-address").textContent = user.adress || "";
-    document.getElementById("user-email").textContent = user.email || "";
-    document.getElementById("user-joined").textContent = new Date(
-        user.created_at,
-    ).toLocaleDateString("fr-FR");
+        : fallback;
+    if (!user.birthday)
+        birthInfo.classList.add("opacity-50", "italic", "font-medium");
+
+    const genderEl = document.getElementById("user-gender");
+    genderEl.textContent = user.gender
+        ? user.gender === "M"
+            ? "Masculin"
+            : "Féminin"
+        : fallback;
+    genderEl.classList.add("opacity-50", "italic", "font-medium");
+
+    const fields = {
+        "user-phone": user.tel,
+        "user-address": user.adress,
+        "user-email": user.email,
+    };
+
+    Object.entries(fields).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (value) {
+            el.textContent = value;
+            el.classList.remove("opacity-50", "italic");
+        } else {
+            el.textContent = fallback;
+            el.classList.add("opacity-50", "italic", "font-medium");
+        }
+    });
+
+    document.getElementById("user-joined").textContent = user.created_at
+        ? new Date(user.created_at).toLocaleDateString("fr-FR")
+        : fallback;
+
     document.getElementById("user-avatar").src =
-        user.photo || `/images/default.jpeg`;
+        `/storage/${user.photo}` || `/images/default.jpeg`;
+
+    console.log(user.photo);
 }
 
 function renderNotes(exams) {
