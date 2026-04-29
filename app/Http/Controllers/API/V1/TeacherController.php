@@ -96,42 +96,46 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, Teacher $teacher)
     {
         $request->validate([
-            'nom'        => 'required|string',
-            'prenom'     => 'required|string',
-            'email'      => 'required|email|unique:users,email,',
+            'nom'        => 'required|string|max:255',
+            'prenom'     => 'required|string|max:255',
+            'email'      => 'required|email|unique:users,email,' . $teacher->user_id,
             'password'   => 'nullable|min:6',
             'gender'     => 'required|in:M,F',
-            'photo'      => 'nullable|string',
+            'photo'      => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'adress'     => 'nullable|string',
             'birthday'   => 'nullable|date',
-            'birthplace' => 'nullable|string',
-            'tel'        => 'nullable|string|numeric',
-            'subject_id' => 'sometimes|exists:subjects,id',
+            'tel'        => 'nullable|string',
         ]);
+
+        $photoPath = $teacher->user->photo;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('teachers', 'public');
+        }
 
         $teacher->user->update([
             'nom'        => $request->nom,
             'prenom'     => $request->prenom,
             'email'      => $request->email,
             'gender'     => $request->gender,
-            'photo'      => $request->photo,
+            'photo'      => $photoPath,
             'adress'     => $request->adress,
             'birthday'   => $request->birthday,
-            'birthplace' => $request->birthplace,
             'tel'        => $request->tel,
             'password'   => $request->password ? Hash::make($request->password) : $teacher->user->password,
         ]);
 
         $teacher->update([
-            'subject_id' => $request->subject_id,
+            'specialty'  => $request->specialty,
+            'office_number' => $request->office_number,
         ]);
 
         return response()->json([
             'message' => 'Enseignant mis à jour avec succès',
-            'data'    => $teacher->load(['user', 'subject']),
+            'data'    => $teacher->load(['user' ]),
         ], 200);
     }
 

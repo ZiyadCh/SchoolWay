@@ -144,7 +144,7 @@ class StudentController extends Controller
             'adress' => 'nullable|string',
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
-            'tel' => 'nullable|string|numeric',
+            'tel' => 'nullable|string',
         ]);
 
         $student->user->update([

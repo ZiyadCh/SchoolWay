@@ -18,7 +18,6 @@
                     <div class="w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-800 border-2 border-gray-800 p-0.5 sm:p-1 shadow-2xl">
                         <img id="user-avatar" src="" alt="pfp" class="w-full h-full object-cover rounded-xl sm:rounded-2xl bg-gray-900">
                     </div>
-                    {{-- Avatar upload (edit mode only) --}}
                     <label id="avatar-upload-label" class="hidden absolute -bottom-2 -right-2 w-8 h-8 sm:w-9 sm:h-9 bg-amber-500 rounded-xl flex items-center justify-center cursor-pointer shadow-lg hover:bg-amber-600 transition-all">
                         <i class="fa-solid fa-camera text-black text-xs"></i>
                         <input type="file" id="avatar-input" accept="image/*" class="hidden">
