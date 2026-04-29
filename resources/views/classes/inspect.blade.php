@@ -24,7 +24,7 @@
 
                 <div class="flex flex-wrap justify-center md:justify-start gap-x-10 gap-y-6 pt-6 border-t border-gray-800/60">
                     <div>
-                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Nombre D'etudiants</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Effectif</p>
                         <div class="flex items-baseline gap-1">
                             <span id="student-count" class="text-2xl font-black text-amber-500">00</span>
                             <span class="text-[10px] text-gray-600 font-bold uppercase">Élèves</span>
@@ -78,5 +78,36 @@
     <div id="assignments" class="tab-content hidden opacity-0 transition-all duration-300">
         <div id="devoirs-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
+
+    <template id="student-row-template">
+        <tr class="border-b border-gray-800/50 hover:bg-gray-800/10 transition-all group">
+            <td class="px-8 py-5">
+                <div class="flex items-center gap-4">
+                    <img class="student-photo w-10 h-10 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all border border-gray-800" src="" alt="">
+                    <span class="student-name text-sm font-bold text-gray-300 group-hover:text-amber-500 transition-colors uppercase"></span>
+                </div>
+            </td>
+            <td class="px-8 py-5 text-right">
+                <a class="student-link inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gray-800 text-gray-500 hover:bg-amber-500 hover:text-black transition-all" href="">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </a>
+            </td>
+        </tr>
+    </template>
+
+    <template id="assignment-card-template">
+        <div class="bg-gray-900 border border-gray-800 p-8 rounded-3xl hover:border-amber-500/20 transition-all group">
+            <div class="flex justify-between items-start mb-6">
+                <h4 class="assignment-title text-[10px] font-black text-amber-500 uppercase tracking-widest"></h4>
+                <i class="fa-solid fa-file-signature text-gray-800 group-hover:text-amber-500/20 transition-colors"></i>
+            </div>
+            <p class="assignment-content text-sm text-gray-400 leading-relaxed mb-6"></p>
+            <div class="flex items-center gap-2 pt-4 border-t border-gray-800">
+                <i class="fa-regular fa-clock text-gray-600 text-[10px]"></i>
+                <span class="assignment-deadline text-[9px] font-black text-gray-500 uppercase"></span>
+            </div>
+        </div>
+    </template>
+
 </div>
 @endsection

@@ -62,7 +62,7 @@ class SchoolClassController extends Controller
     {
         return response()->json([
             'message' => 'Classe récupérée avec succès',
-            'data'    => $schoolClass->load(['level', 'teacher.user']),
+            'data'    => $schoolClass->load(['level', 'teacher.user','inscriptions.student.user']),
         ]);
     }
 
