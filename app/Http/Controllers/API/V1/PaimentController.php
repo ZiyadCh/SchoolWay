@@ -94,44 +94,68 @@ class PaimentController extends Controller
         ], 200);
     }
 
-
-    public function getPaymentStats()
+    public function getPaymentStats(Request $request)
     {
         $activeYear = Year::currentYear();
 
         if (!$activeYear) {
-            return response()->json(['message' => 'Aucune anne actvie'], 404);
+            return response()->json(['message' => 'Aucune année active'], 404);
         }
 
         $start = Carbon::parse($activeYear->beginning_date)->startOfMonth();
         $now = Carbon::now()->startOfMonth();
         $monthsDue = $start->diffInMonths($now) + 1;
 
-        $inscriptions = Inscription::where('year_id', $activeYear->id)
-            ->with('student.user')
-            ->withCount(['payments' => function ($query) {
-                $query->where('etatPaiement', true);
-            }])
-            ->paginate(5);
+        $query = Inscription::where('year_id', $activeYear->id)
+            ->with(['student.user'])
+            ->withCount(['payments' => function ($q) {
+                $q->where('etatPaiement', true);
+            }]);
 
-        $studentsStatus = $inscriptions->map(function ($inscription) use ($monthsDue, $start) {
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->whereHas('student.user', function ($q) use ($search) {
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('nom', 'LIKE', "%{$search}%")
+                        ->orWhere('prenom', 'LIKE', "%{$search}%");
+                });
+            });
+        }
+
+        if ($request->filled('status')) {
+            $status = $request->input('status');
+            if ($status === 'paid') {
+                $query->has('payments', '>=', $monthsDue, 'and', function ($q) {
+                    $q->where('etatPaiement', true);
+                });
+            } elseif ($status === 'late') {
+                $query->has('payments', '<', $monthsDue, 'and', function ($q) {
+                    $q->where('etatPaiement', true);
+                });
+            }
+        }
+
+        $inscriptions = $query->paginate(5);
+
+        $studentsStatus = $inscriptions->getCollection()->map(function ($inscription) use ($monthsDue) {
             $paidCount = $inscription->payments_count;
             $isUpToDate = $paidCount >= $monthsDue;
 
             return [
                 'id' => $inscription->id,
-                'student_name' => $inscription->student->user->nom . " " . $inscription->student->user->prenom,
+                'student_name' => "{$inscription->student->user->nom} {$inscription->student->user->prenom}",
                 'student_photo' => $inscription->student->user->photo,
-                'paid_months' => $paidCount,
-                'total_due'   => $monthsDue,
-                'test'   => $start,
-                'status' => $isUpToDate ? 'À Jour' : 'En Retard',
+                'paid_months'  => $paidCount,
+                'total_due'    => $monthsDue,
+                'status'       => $isUpToDate ? 'À Jour' : 'En Retard',
             ];
         });
 
         return response()->json([
             'months_reference' => $monthsDue,
-            'students' => $studentsStatus,
+            'students'         => $studentsStatus,
+            'current_page'     => $inscriptions->currentPage(),
+            'last_page'        => $inscriptions->lastPage(),
             'next_page_url'    => $inscriptions->nextPageUrl(),
             'prev_page_url'    => $inscriptions->previousPageUrl(),
         ], 200);

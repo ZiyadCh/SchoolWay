@@ -23,7 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function performSearch() {
-    const searchQuery = document.getElementById("search-input").value.trim();
+    const searchQuery = document
+        .getElementById("search-input")
+        .value.charAt(0)
+        .toUpperCase()
+        .trim();
 
     let url = "/api/v1/teachers?";
 

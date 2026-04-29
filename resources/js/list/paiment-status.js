@@ -3,17 +3,48 @@ import updatePagination from "../core/pagination.js";
 
 let nextUrl = null;
 let prevUrl = null;
+let currentUrl = "/api/v1/paiments/paiment-stats";
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchPayments("/api/v1/paiments/paiment-stats");
+    fetchPayments(currentUrl);
 
+    // Pagination
     document.getElementById("next-page").onclick = () =>
         nextUrl && fetchPayments(nextUrl);
     document.getElementById("prev-page").onclick = () =>
         prevUrl && fetchPayments(prevUrl);
+
+    // Recherche et Filtres
+    document
+        .getElementById("search-input")
+        .addEventListener("keypress", (e) => {
+            if (e.key === "Enter") performSearch();
+        });
+
+    // Optionnel : bouton chercher explicite si présent dans le HTML
+    const searchBtn =
+        document.querySelector("button i.fa-search")?.parentElement;
+    if (searchBtn) searchBtn.onclick = performSearch;
+
+    document.getElementById("status-filter").onchange = performSearch;
 });
 
-////////////////////////////
+function performSearch() {
+    const search = document
+        .getElementById("search-input")
+        .value.charAt(0)
+        .toUpperCase()
+        .trim();
+    const status = document.getElementById("status-filter").value;
+
+    const params = new URLSearchParams();
+    if (search) params.append("search", search);
+    if (status !== "all") params.append("status", status);
+
+    currentUrl = `/api/v1/paiments/paiment-stats?${params.toString()}`;
+    fetchPayments(currentUrl);
+}
+
 async function fetchPayments(url) {
     try {
         const response = await fetch(url, {
@@ -25,7 +56,6 @@ async function fetchPayments(url) {
         });
 
         const result = await response.json();
-        console.log(result.students);
 
         nextUrl = result.next_page_url || null;
         prevUrl = result.prev_page_url || null;
@@ -37,14 +67,16 @@ async function fetchPayments(url) {
     }
 }
 
-////////////////////////////
 function renderTable(students) {
     const tableBody = document.getElementById("payments-table-body");
     const template = document.getElementById("payment-row-template");
 
     tableBody.innerHTML = "";
 
-    if (!students || !Array.isArray(students)) return;
+    if (!students || students.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="3" class="px-8 py-10 text-center text-gray-500 uppercase text-xs font-bold tracking-widest">Aucun résultat trouvé</td></tr>`;
+        return;
+    }
 
     students.forEach((payment) => {
         if (!payment) return;
@@ -53,22 +85,22 @@ function renderTable(students) {
         const id = payment.id;
         const isPaid = payment.status === "À Jour";
 
-        // photo logic
+        // Photo
         const avatarImg = clone.querySelector(".student-photo");
+        avatarImg.src = payment.student_photo
+            ? `/storage/${payment.student_photo}`
+            : `/images/default.jpeg`;
 
-        if (payment.student_photo) {
-            avatarImg.src = `/storage/${payment.student_photo}`;
-        } else {
-            avatarImg.src = `/images/default.jpeg`;
-        }
-
+        // Infos textuelles
         clone.querySelector(".student-name").textContent = payment.student_name;
 
+        // Lien vers détail
+        clone.querySelector(".action-link").href = `paiments/detail/${id}`;
+
+        // Badge Statut
         const statusText = clone.querySelector(".status-text");
         const statusBadge = clone.querySelector(".status-badge");
         const statusDot = clone.querySelector(".status-dot");
-        //detail button
-        clone.querySelector(".action-link").href = `paiments/detail/${id}`;
 
         statusText.textContent = isPaid ? "à jour" : "retard";
 
