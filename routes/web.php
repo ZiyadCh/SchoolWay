@@ -49,6 +49,10 @@ Route::prefix('administration')->group(function () {
         return view('students.inspect');
     });
 
+    Route::get('/user/update/{id}', function () {
+        return view('forms.update-user');
+    })->name('update-user');
+
     Route::get('/student-detail', function () {
         return view('detail.profile');
     });
@@ -67,6 +71,10 @@ Route::prefix('administration')->group(function () {
     Route::get('/classes/{id}', function () {
         return view('classes.inspect');
     });
+
+    Route::get('/students/classes', function () {
+        return view('classes.inspect');
+    })->name('student-classes');
     ////////////////////
     //paiment stuff
 

@@ -135,9 +135,9 @@ class StudentController extends Controller
         $student = Student::with('user')->findOrFail($id);
 
         $request->validate([
-            'nom' => 'string',
-            'prenom' => 'string',
-            'email' => 'nullable|email|unique:users,email',
+            'nom' => 'nullable|string',
+            'prenom' => 'nullable|string',
+            'email' => 'nullable|email|unique:users,email,' . $student->user->id,
             'password' => 'nullable|min:6',
             'gender' => 'in:M,F',
             'photo' => 'nullable|string',
