@@ -25,7 +25,7 @@ async function fetchPayments(url) {
         });
 
         const result = await response.json();
-        console.log(result);
+        console.log(result.students);
 
         nextUrl = result.next_page_url || null;
         prevUrl = result.prev_page_url || null;
@@ -52,6 +52,16 @@ function renderTable(students) {
         const clone = template.content.cloneNode(true);
         const id = payment.id;
         const isPaid = payment.status === "À Jour";
+        console.log(payment.student_photo);
+
+        // photo logic
+        const avatarImg = clone.querySelector(".student-photo");
+
+        if (payment.student_photo) {
+            avatarImg.src = `/storage/${payment.student_photo}`;
+        } else {
+            avatarImg.src = `/images/default.jpeg`;
+        }
 
         clone.querySelector(".student-name").textContent = payment.student_name;
 

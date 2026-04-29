@@ -112,6 +112,7 @@ class PaimentController extends Controller
             return [
                 'id' => $inscription->id,
                 'student_name' => $inscription->student->user->nom . " " . $inscription->student->user->prenom,
+                'student_photo' => $inscription->student->user->photo,
                 'paid_months' => $paidCount,
                 'total_due'   => $monthsDue,
                 'test'   => $start,

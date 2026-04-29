@@ -69,8 +69,7 @@
         <td class="px-8 py-6">
             <div class="flex items-center gap-4">
                 <div class="w-11 h-11 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center overflow-hidden">
-                    <i class="fa-solid fa-user text-gray-500 group-hover:text-amber-500 transition-colors avatar-icon"></i>
-                    <img src="" alt="Avatar" class="w-full h-full object-cover hidden avatar-img">
+                    <img src="" alt="Avatar" class="student-photo w-full h-full object-cover ">
                 </div>
                 <div>
                     <span class="text-white group-hover:text-amber-400 font-bold transition-colors block student-name"></span>
