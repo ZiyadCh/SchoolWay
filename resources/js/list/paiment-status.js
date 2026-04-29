@@ -52,7 +52,6 @@ function renderTable(students) {
         const clone = template.content.cloneNode(true);
         const id = payment.id;
         const isPaid = payment.status === "À Jour";
-        console.log(payment.student_photo);
 
         // photo logic
         const avatarImg = clone.querySelector(".student-photo");

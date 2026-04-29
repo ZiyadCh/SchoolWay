@@ -13,8 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedPayments.push(id);
 
         confirmBtn.disabled = selectedPayments.length === 0;
-
-        console.log(selectedPayments);
     });
 
     form.addEventListener("submit", async (e) => {

@@ -8,7 +8,7 @@
 <div class="space-y-8 max-w-7xl mx-auto text-white">
     <div class="bg-gray-900 border border-gray-800 p-8 rounded-3xl flex items-center gap-6">
         <div class="w-20 h-20 rounded-3xl overflow-hidden border-2 border-amber-500/20 shrink-0 bg-gray-800 flex items-center justify-center">
-            <i class="fa-solid fa-user text-2xl text-gray-500"></i>
+                <img src="" alt="avatar" id="studentPhoto">
         </div>
         <div class="flex-1 min-w-0">
             <h1 class="text-3xl font-black tracking-tight text-white truncate" id="studentName">

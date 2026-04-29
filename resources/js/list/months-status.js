@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const tableBody = document.getElementById("paymentsTableBody");
     const template = document.getElementById("paymentRowTemplate");
     const studentNameDisp = document.getElementById("studentName");
+    const studentPhoto = document.getElementById("studentPhoto");
     const confirmBtn = document.getElementById("confirmBtn");
 
     const inscriptionId = window.location.pathname.split("/").pop();
@@ -28,6 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const studentData = payments[0].inscription.student.user;
                 studentNameDisp.textContent =
                     studentData.prenom + " " + studentData.nom;
+                studentPhoto.src = studentData.photo
+                    ? `/storage/${studentData.photo}`
+                    : `/images/default.jpeg`;
 
                 renderTable(payments);
             } else {
