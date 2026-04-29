@@ -32,8 +32,6 @@ class ExamController extends Controller
             });
         }
 
-
-
         if ($request->date) {
             $query->whereDate('date', $request->date);
         }
@@ -86,7 +84,7 @@ class ExamController extends Controller
     {
         return response()->json([
             'message' => 'Détails de l\'examen récupérés',
-            'data'    => $exam->load('inscription.student'),
+            'data'    => $exam->load('inscriptions.student'),
         ], 200);
     }
 

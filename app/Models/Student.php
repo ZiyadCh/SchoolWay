@@ -23,7 +23,7 @@ class Student extends Model
         return $this->hasMany(Inscription::class);
     }
 
-    public function classes(): HasManyThrough
+    public function classes()
     {
         return $this->hasManyThrough(
             SchoolClass::class,
@@ -31,9 +31,10 @@ class Student extends Model
             'student_id',
             'id',
             'id',
-            'school_class_id'
+            'id'
         );
     }
+
 
     public function paiments(): HasManyThrough
     {

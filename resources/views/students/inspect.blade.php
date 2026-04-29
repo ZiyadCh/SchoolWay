@@ -57,19 +57,22 @@
         </div>
     </div>
 
-    <div class="flex justify-center w-full">
-        <div class="flex gap-2 bg-gray-950 p-1.5 rounded-xl border border-gray-900 w-fit">
-            <button onclick="switchTab(event, 'notes')" class="tab-btn px-10 py-3 rounded-lg font-black text-[11px] uppercase tracking-[0.2em] transition-all bg-amber-500 text-black">
-                Notes
-            </button>
-            <button onclick="switchTab(event, 'absence')" class="tab-btn px-10 py-3 rounded-lg font-black text-[11px] uppercase tracking-[0.2em] transition-all text-gray-500 hover:text-white">
-                Absence
-            </button>
-            <button onclick="switchTab(event, 'devoir')" class="tab-btn px-10 py-3 rounded-lg font-black text-[11px] uppercase tracking-[0.2em] transition-all text-gray-500 hover:text-white">
-                Devoir
-            </button>
-        </div>
+<div class="flex justify-center w-full px-4">
+    <div class="flex w-full md:w-fit bg-gray-950 p-1.5 rounded-xl border border-gray-900 overflow-hidden">
+        <button onclick="switchTab(event, 'notes')"
+            class="tab-btn flex-1 md:flex-none px-4 md:px-10 py-3 rounded-lg font-black text-[10px] md:text-[11px] uppercase tracking-[0.1em] md:tracking-[0.2em] transition-all bg-amber-500 text-black">
+            Notes
+        </button>
+        <button onclick="switchTab(event, 'absence')"
+            class="tab-btn flex-1 md:flex-none px-4 md:px-10 py-3 rounded-lg font-black text-[10px] md:text-[11px] uppercase tracking-[0.1em] md:tracking-[0.2em] transition-all text-gray-500 hover:text-white">
+            Absence
+        </button>
+        <button onclick="switchTab(event, 'devoir')"
+            class="tab-btn flex-1 md:flex-none px-4 md:px-10 py-3 rounded-lg font-black text-[10px] md:text-[11px] uppercase tracking-[0.1em] md:tracking-[0.2em] transition-all text-gray-500 hover:text-white">
+            Devoir
+        </button>
     </div>
+</div>
 
     <div id="tab-container">
 
