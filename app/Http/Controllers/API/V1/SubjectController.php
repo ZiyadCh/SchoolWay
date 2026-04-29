@@ -44,7 +44,7 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        return response()->json($subject->load('teachers.user'));
+        return response()->json($subject);
     }
 
     /**

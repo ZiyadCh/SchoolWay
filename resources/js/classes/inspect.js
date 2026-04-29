@@ -22,22 +22,49 @@ async function loadClassDetails() {
         if (!response.ok) throw new Error("Classe introuvable");
 
         const result = await response.json();
-        const data = result.data || result;
+        const classData = result.data || result;
 
-        updateUI(data);
-        renderStudents(data.inscriptions || []);
-        renderDevoirs(data.devoirs || []);
+        const [subjectData, levelData] = await Promise.all([
+            fetchDetail("subjects", classData.subject_id),
+            fetchDetail("levels", classData.level_id),
+        ]);
+
+        updateUI(classData, subjectData, levelData);
+        renderStudents(classData.inscriptions || []);
+        renderDevoirs(classData.devoirs || []);
     } catch (e) {
-        console.error("Erreur chargement classe:", e);
+        console.error("Erreur chargement détails classe:", e);
     }
 }
 
 ////////////////////////////
-function updateUI(schoolClass) {
+async function fetchDetail(resource, id) {
+    if (!id) return null;
+    try {
+        const response = await fetch(`/api/v1/${resource}/${id}`, {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const result = await response.json();
+        return result.data || result;
+    } catch (e) {
+        console.error(`Erreur fetch ${resource}:`, e);
+        return null;
+    }
+}
+
+////////////////////////////
+function updateUI(schoolClass, subject, level) {
     document.getElementById("class-name").textContent =
         schoolClass.name.toUpperCase();
     document.getElementById("class-subject").textContent =
-        schoolClass.subject?.name || "MATIÈRE GÉNÉRALE";
+        subject?.name || "MATIÈRE NON DÉFINIE";
+    document.getElementById("level-name").textContent =
+        level?.name || "NIVEAU NON DÉFINI";
     document.getElementById("student-count").textContent = (
         schoolClass.inscriptions?.length || 0
     )
@@ -51,7 +78,7 @@ function updateUI(schoolClass) {
         document.getElementById("teacher-name").textContent =
             `${user.prenom || ""} ${user.nom || "Enseignant"}`;
         document.getElementById("teacher-specialty").textContent =
-            teacher.specialite || "Formateur Référent";
+            teacher.speciality || "Formateur Référent";
         document.getElementById("teacher-email").textContent =
             user.email || "Non renseigné";
 
