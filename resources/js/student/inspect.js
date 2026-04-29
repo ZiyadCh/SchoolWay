@@ -160,8 +160,9 @@ function updateUI(student) {
         ? new Date(user.created_at).toLocaleDateString("fr-FR")
         : fallback;
 
-    document.getElementById("user-avatar").src =
-        `/storage/${user.photo}` || `/images/default.jpeg`;
+    document.getElementById("user-avatar").src = user.photo
+        ? `/storage/${user.photo}`
+        : `/images/default.jpeg`;
 
     console.log(user.photo);
 }

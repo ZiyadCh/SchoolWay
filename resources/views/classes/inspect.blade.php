@@ -50,16 +50,11 @@
         </div>
     </div>
 
-    <div class="flex items-center gap-2 bg-gray-900/50 p-1 rounded-2xl border border-gray-800 w-fit mx-auto md:mx-0">
-        <button onclick="switchTab(event, 'students')" class="tab-btn px-6 md:px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all bg-amber-500 text-black">
-            Liste des Élèves
-        </button>
-        <button onclick="switchTab(event, 'assignments')" class="tab-btn px-6 md:px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all text-gray-500 hover:text-white">
-            Travaux & Devoirs
-        </button>
-    </div>
+    <div class="space-y-6">
+        <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 bg-amber-500/5 w-fit px-4 py-2 rounded-lg border border-amber-500/10">
+            Liste des Élèves Inscrits
+        </h2>
 
-    <div id="students" class="tab-content transition-all duration-300">
         <div class="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
@@ -73,10 +68,6 @@
                 </table>
             </div>
         </div>
-    </div>
-
-    <div id="assignments" class="tab-content hidden opacity-0 transition-all duration-300">
-        <div id="devoirs-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
 
     <template id="student-row-template">
@@ -93,20 +84,6 @@
                 </a>
             </td>
         </tr>
-    </template>
-
-    <template id="assignment-card-template">
-        <div class="bg-gray-900 border border-gray-800 p-8 rounded-3xl hover:border-amber-500/20 transition-all group">
-            <div class="flex justify-between items-start mb-6">
-                <h4 class="assignment-title text-[10px] font-black text-amber-500 uppercase tracking-widest"></h4>
-                <i class="fa-solid fa-file-signature text-gray-800 group-hover:text-amber-500/20 transition-colors"></i>
-            </div>
-            <p class="assignment-content text-sm text-gray-400 leading-relaxed mb-6"></p>
-            <div class="flex items-center gap-2 pt-4 border-t border-gray-800">
-                <i class="fa-regular fa-clock text-gray-600 text-[10px]"></i>
-                <span class="assignment-deadline text-[9px] font-black text-gray-500 uppercase"></span>
-            </div>
-        </div>
     </template>
 
 </div>
