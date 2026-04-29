@@ -23,7 +23,6 @@ async function loadTeacherProfile() {
             throw new Error("Erreur lors de la récupération du profil");
 
         const result = await response.json();
-        // On adapte selon si ton API renvoie { data: {...} } ou directement l'objet
         const teacherData = result.data || result;
 
         updateUI(teacherData);
@@ -35,11 +34,9 @@ async function loadTeacherProfile() {
 
 ////////////////////////////
 function updateUI(teacher) {
-    // Si tes données sont nichées dans un objet 'user' au sein de 'teacher'
     const info = teacher.user || teacher;
     const fallback = "Non renseigné";
 
-    // 1. Identité et Photo
     const fullName =
         info.prenom && info.nom
             ? `${info.prenom} ${info.nom}`
@@ -53,8 +50,6 @@ function updateUI(teacher) {
         ? `/storage/${info.photo}`
         : `/images/default.jpeg`;
 
-    // 2. Champs de la grille (Spécialité, Phone, Office, Ville, Email)
-    // On mappe les IDs HTML avec les clés de ton API
     const fields = {
         "user-specialty": teacher.specialty || info.specialite,
         "user-phone": info.tel || info.phone,
@@ -76,7 +71,6 @@ function updateUI(teacher) {
         }
     });
 
-    // 3. Date d'intégration
     const joinedEl = document.getElementById("user-joined");
     const dateValue = teacher.hiring_date || info.created_at;
 

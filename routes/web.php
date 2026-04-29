@@ -62,6 +62,11 @@ Route::prefix('administration')->group(function () {
     Route::get('/teachers/{id}', function () {
         return view('teachers.inspect');
     });
+
+    // classees
+    Route::get('/classes/{id}', function () {
+        return view('classes.inspect');
+    });
     ////////////////////
     //paiment stuff
 
