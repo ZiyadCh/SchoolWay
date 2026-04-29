@@ -30,15 +30,15 @@
 
                 <div class="flex flex-wrap justify-center md:justify-start gap-6 pt-6 border-t border-gray-800/60">
                     <div>
-                        <p class="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-1">Enseignant Responsable</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Enseignant Responsable</p>
                         <p id="teacher-name" class="text-lg font-bold text-white uppercase italic">Chargement...</p>
                     </div>
                     <div>
-                        <p class="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-1">Spécialité</p>
-                        <p id="teacher-specialty" class="text-sm font-semibold text-gray-400">...</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Niveau d'études</p>
+                        <p id="level-name" class="text-sm font-semibold text-gray-400">Chargement...</p>
                     </div>
                     <div>
-                        <p class="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-1">Contact</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Contact</p>
                         <p id="teacher-email" class="text-sm font-semibold text-gray-400"></p>
                     </div>
                 </div>

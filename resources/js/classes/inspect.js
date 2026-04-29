@@ -62,9 +62,9 @@ function updateUI(schoolClass, subject, level) {
     document.getElementById("class-name").textContent =
         schoolClass.name.toUpperCase();
     document.getElementById("class-subject").textContent =
-        subject?.name || "MATIÈRE NON DÉFINIE";
+        subject?.name || "chargement...";
     document.getElementById("level-name").textContent =
-        level?.name || "NIVEAU NON DÉFINI";
+        level?.name || "chargement..";
     document.getElementById("student-count").textContent = (
         schoolClass.inscriptions?.length || 0
     )
@@ -77,8 +77,6 @@ function updateUI(schoolClass, subject, level) {
 
         document.getElementById("teacher-name").textContent =
             `${user.prenom || ""} ${user.nom || "Enseignant"}`;
-        document.getElementById("teacher-specialty").textContent =
-            teacher.speciality || "Formateur Référent";
         document.getElementById("teacher-email").textContent =
             user.email || "Non renseigné";
 
