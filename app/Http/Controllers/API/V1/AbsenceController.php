@@ -11,9 +11,18 @@ class AbsenceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Absence::with('inscription.student.user')->get());
+        $query = Absence::with(['inscription.student.user']);
+
+        if ($request->inscription_id) {
+            $query->where('inscription_id', $request->inscription_id);
+        }
+
+        return response()->json([
+            'message' => 'Liste des absences récupérée avec succès',
+            'data'    => $query->latest()->get(),
+        ], 200);
     }
 
     /**

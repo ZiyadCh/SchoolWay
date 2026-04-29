@@ -19,9 +19,6 @@
                 <div class="flex-1 w-full">
                     <div class="mb-8 text-center lg:text-left">
                         <h2 id="user-fullname" class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white">CHARGEMENT...</h2>
-                        <p class="text-amber-500 text-xs font-black uppercase tracking-widest mt-2 italic">
-                            <span id="user-class"></span> <span id="user-id-prefix">MATRICULE: #</span><span id="user-id"></span>
-                        </p>
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 border-t border-gray-800 pt-8">
@@ -84,24 +81,34 @@
 
         <div id="absence" class="tab-content hidden opacity-0 transition-all duration-300">
             <div class="bg-gray-900 border border-gray-800 p-8 rounded-xl w-full">
-                <div id="absence-calendar" class="grid grid-cols-7 gap-3">
-                    @foreach(['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] as $day)
-                        <div class="text-center text-[10px] font-black text-gray-700 uppercase tracking-[0.2em] mb-4">{{ $day }}</div>
-                    @endforeach
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-800/50">
+                    <button id="prev-month" class="p-2 hover:bg-gray-800 rounded-lg transition-colors text-amber-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+                    <span id="current-month-display" class="text-[11px] font-black uppercase tracking-[0.3em] text-white"></span>
+
+                    <button id="next-month" class="p-2 hover:bg-gray-800 rounded-lg transition-colors text-amber-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
                 </div>
 
-                <div class="mt-8 pt-6 border-t border-gray-800/50 flex justify-between items-center">
-                    <div class="flex gap-6">
-                        <div class="flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                            <span class="text-[9px] font-black text-gray-600 uppercase tracking-widest">Injustifié</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                            <span class="text-[9px] font-black text-gray-600 uppercase tracking-widest">Justifié</span>
-                        </div>
+                <div id="absence-calendar" class="grid grid-cols-7 gap-3">
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-800/50 flex gap-6">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                        <span class="text-[9px] font-black text-gray-600 uppercase tracking-widest">Injustifié</span>
                     </div>
-                    <span id="current-month-display" class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500"></span>
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                        <span class="text-[9px] font-black text-gray-600 uppercase tracking-widest">Justifié</span>
+                    </div>
                 </div>
             </div>
         </div>

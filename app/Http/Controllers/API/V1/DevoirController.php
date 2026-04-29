@@ -20,11 +20,6 @@ class DevoirController extends Controller
             $query->where('school_class_id', $request->school_class_id);
         }
 
-        if ($request->inscription_id) {
-            $query->whereHas('inscriptions', function ($q) use ($request) {
-                $q->where('inscription_id', $request->inscription_id);
-            });
-        }
 
         return response()->json([
             'message' => 'Liste des devoirs récupérée avec succès',
