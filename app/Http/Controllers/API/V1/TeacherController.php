@@ -89,7 +89,7 @@ class TeacherController extends Controller
     {
         return response()->json([
             'message' => 'Détails de l\'enseignant récupérés',
-            'data'    => $teacher->load(['user', 'subject']),
+            'data'    => $teacher->load(['user' ]),
         ], 200);
     }
 
