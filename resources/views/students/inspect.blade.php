@@ -59,6 +59,12 @@
                             <i class="fa-solid fa-xmark text-gray-300 text-xs"></i>
                             <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-white">Annuler</span>
                         </button>
+<button id="btn-delete-student"
+    class="hidden flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-red-500/10 border border-red-500/50 rounded-xl hover:bg-red-500 transition-all duration-300 group">
+    <i class="fa-solid fa-trash-can text-red-500 group-hover:text-white text-xs"></i>
+    <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-red-500 group-hover:text-white">Supprimer l'étudiant</span>
+</button>
+
 
                         <a href="{{ route('student-classes') }}"
                             class="flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-amber-500/50 transition-all duration-300">
@@ -68,6 +74,7 @@
                     </div>
                 </div>
             </div>
+
 
             {{-- Save feedback banner --}}
             <div id="save-feedback" class="hidden mt-5 px-4 py-3 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-widest border"></div>

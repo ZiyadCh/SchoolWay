@@ -16,6 +16,12 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
+        // for count
+        if ($request->has('count')) {
+            return response()->json([
+                'total_teachers' => Teacher::count(),
+            ]);
+        }
         $query = Teacher::with(['user']);
 
         if ($request->has('search') && $request->search != '') {

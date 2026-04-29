@@ -19,7 +19,15 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
+        //for the count
+        if ($request->has('count')) {
+            return response()->json([
+                'total_students' => Student::count(),
+            ]);
+        }
+        //for the filterign
         $query = Student::with(['user', 'inscriptions.schoolClasses.level']);
+
 
         if ($request->has('search')) {
             $search = $request->input('search');

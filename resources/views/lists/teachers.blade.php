@@ -24,7 +24,7 @@
             <input
                 type="text"
                 id="search-input"
-                placeholder="Rechercher un professeur par nom ou email..."
+                placeholder="Rechercher un professeur par nom ..."
                 class="w-full bg-gray-950 border border-gray-800 text-gray-300 py-4 pl-14 pr-6 rounded-2xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all text-sm">
         </div>
         <div class="flex flex-wrap sm:flex-nowrap gap-4">

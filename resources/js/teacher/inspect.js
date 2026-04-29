@@ -16,6 +16,7 @@ function setupEditMode() {
     const btnSave = document.getElementById("btn-save");
     const btnCancel = document.getElementById("btn-cancel");
     const avatarInput = document.getElementById("avatar-input");
+    const btnDelete = document.getElementById("btn-delete-student");
 
     btnToggle.addEventListener("click", () => enterEditMode());
     btnCancel.addEventListener("click", () => exitEditMode(false));

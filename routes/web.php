@@ -8,6 +8,10 @@ Route::get('/login', function () {
 })->name('login');
 
 
+Route::get('/', function () {
+    return view('auth.login');
+});
+
 Route::get('students', function () {
     return view('students.list');
 });
