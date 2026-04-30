@@ -150,6 +150,7 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
+        $teacher->classes()->update(['teacher_id' => null]);
         $teacher->user()->delete();
         $teacher->delete();
 

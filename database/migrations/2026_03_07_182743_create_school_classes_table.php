@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->integer('nbr_students')->default(0);
             $table->foreignId('level_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('teacher_id')->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('subject_id');
             $table->timestamps();
         });

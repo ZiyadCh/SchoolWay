@@ -53,6 +53,13 @@
                             <i class="fa-solid fa-xmark text-gray-300 text-xs"></i>
                             <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-white">Annuler</span>
                         </button>
+
+                        <!-- AJOUT : BOUTON SUPPRIMER (Caché par défaut) -->
+                        <button id="btn-delete-student"
+                            class="hidden flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-red-500/10 border border-red-500/50 rounded-xl hover:bg-red-500 transition-all duration-300 group">
+                            <i class="fa-solid fa-trash-can text-red-500 group-hover:text-white text-xs"></i>
+                            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-red-500 group-hover:text-white">Supprimer</span>
+                        </button>
                     </div>
                 </div>
             </div>

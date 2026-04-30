@@ -29,7 +29,6 @@ function setupEditMode() {
     btnCancel.addEventListener("click", () => exitEditMode(false));
     btnSave.addEventListener("click", () => saveProfile());
 
-    // Delete Button Logic
     btnDelete.addEventListener("click", () => deleteStudent());
 
     avatarInput.addEventListener("change", (e) => {
@@ -49,7 +48,6 @@ function enterEditMode() {
     isEditMode = true;
     const user = studentData.user;
 
-    // Populate edit inputs from current data
     document.getElementById("edit-prenom").value = user.prenom || "";
     document.getElementById("edit-nom").value = user.nom || "";
     document.getElementById("edit-birthday").value = user.birthday
@@ -72,12 +70,10 @@ function enterEditMode() {
         .querySelectorAll(".edit-field")
         .forEach((el) => el.classList.remove("hidden"));
 
-    // Swap buttons
+    // show edit buttons
     document.getElementById("btn-edit-toggle").classList.add("hidden");
     document.getElementById("btn-save").classList.remove("hidden");
     document.getElementById("btn-cancel").classList.remove("hidden");
-
-    // Show Delete button in edit mode
     document.getElementById("btn-delete-student").classList.remove("hidden");
 
     hideFeedback();
@@ -255,8 +251,6 @@ function hideFeedback() {
     document.getElementById("save-feedback").classList.add("hidden");
 }
 
-// ─── Data loading ─────────────────────────────────────────────────────────────
-
 window.switchTab = async function (event, tabId) {
     const contents = document.querySelectorAll(".tab-content");
     const buttons = document.querySelectorAll(".tab-btn");
@@ -355,8 +349,6 @@ async function fetchApi(url) {
     if (!response.ok) throw new Error(`Erreur sur ${url}`);
     return await response.json();
 }
-
-// ─── UI rendering ─────────────────────────────────────────────────────────────
 
 function updateUI(student) {
     const user = student.user;

@@ -15,11 +15,17 @@ function setupEditMode() {
     const btnToggle = document.getElementById("btn-edit-toggle");
     const btnSave = document.getElementById("btn-save");
     const btnCancel = document.getElementById("btn-cancel");
+    const btnDelete = document.getElementById("btn-delete-student"); // Selected from HTML
     const avatarInput = document.getElementById("avatar-input");
 
     btnToggle.addEventListener("click", () => enterEditMode());
     btnCancel.addEventListener("click", () => exitEditMode(false));
     btnSave.addEventListener("click", () => saveProfile());
+
+    // Add delete listener
+    if (btnDelete) {
+        btnDelete.addEventListener("click", () => deleteTeacher());
+    }
 
     avatarInput.addEventListener("change", (e) => {
         const file = e.target.files[0];
@@ -63,6 +69,10 @@ function enterEditMode() {
     document.getElementById("btn-save").classList.remove("hidden");
     document.getElementById("btn-cancel").classList.remove("hidden");
 
+    // Show delete button
+    const btnDelete = document.getElementById("btn-delete-student");
+    if (btnDelete) btnDelete.classList.remove("hidden");
+
     hideFeedback();
 }
 
@@ -84,6 +94,10 @@ function exitEditMode(saved) {
     document.getElementById("btn-edit-toggle").classList.remove("hidden");
     document.getElementById("btn-save").classList.add("hidden");
     document.getElementById("btn-cancel").classList.add("hidden");
+
+    // Hide delete button
+    const btnDelete = document.getElementById("btn-delete-student");
+    if (btnDelete) btnDelete.classList.add("hidden");
 
     if (!saved && teacherData) {
         updateUI(teacherData);
@@ -155,6 +169,50 @@ async function saveProfile() {
     }
 }
 
+async function deleteTeacher() {
+    if (
+        !confirm(
+            "Êtes-vous sûr de vouloir supprimer ce compte enseignant ? Cette action est irréversible.",
+        )
+    ) {
+        return;
+    }
+
+    const btnDelete = document.getElementById("btn-delete-student");
+    const originalHTML = btnDelete.innerHTML;
+
+    btnDelete.disabled = true;
+    btnDelete.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span class="text-[10px]">Suppression...</span>`;
+
+    try {
+        const res = await fetch(`/api/v1/teachers/${user_id}`, {
+            method: "DELETE",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (res.ok) {
+            window.location.href = document.referrer;
+        } else {
+            const data = await res.json();
+            showFeedback(
+                data.message || "Erreur lors de la suppression.",
+                "error",
+            );
+            btnDelete.disabled = false;
+            btnDelete.innerHTML = originalHTML;
+        }
+    } catch (e) {
+        console.error("Delete error:", e);
+        showFeedback("Erreur réseau. Impossible de supprimer.", "error");
+        btnDelete.disabled = false;
+        btnDelete.innerHTML = originalHTML;
+    }
+}
+
 async function loadProfile() {
     try {
         const response = await fetch(`/api/v1/teachers/${user_id}`, {
@@ -222,7 +280,6 @@ function updateUI(teacher) {
         ? new Date(user.created_at).toLocaleDateString("fr-FR")
         : fallback;
 
-    console.log(user.photo);
     document.getElementById("user-avatar").src = user.photo
         ? `/storage/${user.photo}`
         : `/images/default.jpeg`;
