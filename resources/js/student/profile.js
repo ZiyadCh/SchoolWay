@@ -19,11 +19,8 @@ async function fetchUserData() {
 
         const data = await response.json();
 
-        // Update profile info
         updateUI(data);
 
-        // Render classes directly from the user/student response
-        // Note: Check if your API nests them under 'classes' or 'classes.data'
         renderClasses(data.classes || []);
     } catch (error) {
         console.error("Profile error:", error);
@@ -67,7 +64,6 @@ function renderClasses(classes) {
 }
 
 function updateUI(data) {
-    // If the API returns { user: {...}, classes: [...] }, use data.user
     const user = data.user || data;
 
     document.getElementById("user-fullname").textContent =
@@ -91,5 +87,7 @@ function updateUI(data) {
     const pfp = document.getElementById("user-avatar");
     if (user.photo) {
         pfp.src = `/storage/${user.photo}`;
+    } else {
+        pfp.src = `/images/default.jpeg`;
     }
 }

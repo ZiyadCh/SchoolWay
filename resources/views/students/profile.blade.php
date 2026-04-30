@@ -13,7 +13,7 @@
 
                 <div class="shrink-0">
                     <div class="w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden bg-gray-800 border border-gray-700 p-1">
-                        <img id="user-avatar" src="https://picsum.photos/400/400?grayscale" alt="pfp" class="w-full h-full object-cover rounded-xl">
+                        <img id="user-avatar" src="" alt="pfp" class="w-full h-full object-cover rounded-xl">
                     </div>
                 </div>
 
