@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendPasswordToUser;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class TeacherController extends Controller
@@ -81,6 +83,8 @@ class TeacherController extends Controller
         $teacher = Teacher::create([
             'user_id' => $user->id,
         ]);
+
+        Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
 
         return response()->json([
             'message' => 'Enseignant créé avec succès',
