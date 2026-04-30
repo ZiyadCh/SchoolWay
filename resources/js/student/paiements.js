@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const params = new URLSearchParams(window.location.search);
-    const studentId = params.get("inscription_id") || 1;
+    const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
+    const inscriptions = user?.student?.inscriptions || [];
+    const activeInscription = inscriptions.find(
+        (ins) => ins.statut === "active",
+    );
+    const inscriptionId = activeInscription
+        ? activeInscription.id
+        : inscriptions[0]?.id;
     const container = document.getElementById("paiements-container");
 
     async function fetchPaiements() {
@@ -9,124 +15,76 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             const response = await fetch(
-                `/api/v1/paiments/paiment-stats?student_id=${studentId}`,
+                `/api/v1/paiments?inscription_id=${inscriptionId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         Accept: "application/json",
-                        "X-Requested-With": "XMLHttpRequest",
                     },
                 },
             );
 
-            if (!response.ok)
-                throw new Error("Erreur lors de la récupération des paiements");
+            if (!response.ok) throw new Error("Erreur");
 
             const result = await response.json();
-            const paiements = result.data || result;
-
-            renderUI(paiements);
+            renderUI(result.data || []);
         } catch (error) {
             console.error("Erreur:", error);
-            renderMessage(
-                "Impossible de charger les paiements",
-                "text-red-500",
-            );
+            displayMessage("Erreur de chargement", "text-red-500");
         }
     }
 
-    function renderMessage(message, textClass) {
+    function displayMessage(message, textClass) {
         container.replaceChildren();
-        const msgDiv = document.createElement("div");
-        msgDiv.className = `col-span-full text-center font-black uppercase text-xs p-10 tracking-widest ${textClass}`;
-        msgDiv.textContent = message;
-        container.appendChild(msgDiv);
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.setAttribute("colspan", "2");
+        td.className = `p-10 text-center uppercase font-black text-xs tracking-widest ${textClass}`;
+        td.textContent = message;
+        tr.appendChild(td);
+        container.appendChild(tr);
     }
 
     function renderUI(data) {
         container.replaceChildren();
 
         if (data.length === 0) {
-            renderMessage(
-                "Aucun historique de paiement trouvé",
-                "text-gray-500 border border-dashed border-gray-800 rounded-2xl",
-            );
+            displayMessage("Aucun historique trouvé", "text-gray-500");
             return;
         }
 
         data.forEach((paiement) => {
-            const status = (
-                paiement.status ||
-                paiement.statut ||
-                "pending"
-            ).toLowerCase();
+            const tr = document.createElement("tr");
+            tr.className = "hover:bg-gray-800/30 transition-colors";
+
+            const tdMonth = document.createElement("td");
+            tdMonth.className = "p-5 font-bold text-gray-200 uppercase text-lg";
+
+            const dateObj = new Date(paiement.mois);
+            tdMonth.textContent = isNaN(dateObj.getTime())
+                ? paiement.mois
+                : new Intl.DateTimeFormat("fr-FR", {
+                      month: "long",
+                      year: "numeric",
+                  }).format(dateObj);
+
+            const tdStatus = document.createElement("td");
+            tdStatus.className = "p-5 text-right";
+
             const isPaid =
-                status === "paid" ||
-                status === "payé" ||
-                status === "completed";
-
-            // --- Card Container ---
-            const card = document.createElement("div");
-            card.className =
-                "bg-gray-900 border border-gray-800 p-6 rounded-2xl hover:border-gray-700 transition-all relative overflow-hidden flex flex-col";
-
-            // --- Status Accent (Top Bar) ---
-            const accent = document.createElement("div");
-            accent.className = `absolute left-0 right-0 top-0 h-1 ${isPaid ? "bg-emerald-500" : "bg-rose-500"}`;
-            card.appendChild(accent);
-
-            // --- Month & Year ---
-            const dateLabel = document.createElement("p");
-            dateLabel.className =
-                "text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1";
-            dateLabel.textContent = paiement.period || "Mensualité";
-            card.appendChild(dateLabel);
-
-            // --- Amount ---
-            const amount = document.createElement("h3");
-            amount.className = "text-2xl font-black text-white mb-4";
-            // Formatage monétaire (ex: 500 DH ou 500 €)
-            amount.textContent = new Intl.NumberFormat("fr-FR", {
-                style: "currency",
-                currency: "EUR",
-            }).format(paiement.amount || 0);
-            card.appendChild(amount);
-
-            // --- Status Badge ---
-            const statusWrapper = document.createElement("div");
-            statusWrapper.className =
-                "flex items-center justify-between mt-auto pt-4 border-t border-gray-800/50";
-
-            const badge = document.createElement("span");
-            badge.className = `px-3 py-1 text-[9px] font-black uppercase rounded-md border ${
+                paiement.etatPaiement === true || paiement.etatPaiement === 1;
+            const span = document.createElement("span");
+            span.className = `px-3 py-2 text-[13px] font-black uppercase rounded-full border ${
                 isPaid
-                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/30"
-                    : "bg-rose-500/10 text-rose-500 border-rose-500/30"
+                    ? "bg-emerald-400/10 text-emerald-400 border-emerald-400/20"
+                    : "bg-red-400/10 text-red-400 border-red-400/20"
             }`;
-            badge.textContent = isPaid ? "Réglé" : "En attente";
+            span.textContent = isPaid ? "Payé" : "En attente";
 
-            statusWrapper.appendChild(badge);
-
-            // --- Reference / Date ---
-            const refText = document.createElement("span");
-            refText.className = "text-[10px] font-mono text-gray-600";
-            refText.textContent = paiement.date_paiement
-                ? `Le ${formatShortDate(paiement.date_paiement)}`
-                : "Réf: " + (paiement.id || "---");
-
-            statusWrapper.appendChild(refText);
-            card.appendChild(statusWrapper);
-
-            container.appendChild(card);
+            tdStatus.appendChild(span);
+            tr.append(tdMonth, tdStatus);
+            container.appendChild(tr);
         });
-    }
-
-    function formatShortDate(dateString) {
-        return new Intl.DateTimeFormat("fr-FR", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        }).format(new Date(dateString));
     }
 
     fetchPaiements();

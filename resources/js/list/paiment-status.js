@@ -27,11 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function performSearch() {
-    const search = document
-        .getElementById("search-input")
-        .value.charAt(0)
-        .toUpperCase()
-        .trim();
+    const search = document.getElementById("search-input").value.trim();
     const status = document.getElementById("status-filter").value;
 
     const params = new URLSearchParams();
