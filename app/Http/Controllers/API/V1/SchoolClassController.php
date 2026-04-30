@@ -28,9 +28,16 @@ class SchoolClassController extends Controller
                 $query->where('level_id', $request->level_id);
             }
 
+            if ($request->inscription_id) {
+                $query->whereHas('inscriptions', function ($q) use ($request) {
+                    $q->where('inscriptions.id', $request->inscription_id);
+                });
+            }
+
             if ($request->teacher_id) {
                 $query->where('teacher_id', $request->teacher_id);
             }
+
 
             if ($request->search) {
                 $query->where('name', 'LIKE', '%' . $request->search . '%');
