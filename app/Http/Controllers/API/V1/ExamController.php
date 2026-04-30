@@ -20,16 +20,10 @@ class ExamController extends Controller
             $query->whereHas('inscriptions', function ($q) use ($request) {
                 $q->where('inscriptions.id', $request->inscription_id);
             })->with(['inscriptions' => function ($q) use ($request) {
-                $q->where('inscriptions.id', $request->inscription_id)->with('student.user');
+                $q->where('inscriptions.id', $request->inscription_id);
             }]);
         } else {
-            $query->with(['inscriptions.student.user']);
-        }
-
-        if ($request->school_class_id) {
-            $query->whereHas('inscriptions', function ($q) use ($request) {
-                $q->where('school_class_id', $request->school_class_id);
-            });
+            $query->with(['inscriptions']);
         }
 
         if ($request->date) {
