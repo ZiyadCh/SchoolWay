@@ -38,13 +38,13 @@
                     </label>
                     <h2 class="text-lg lg:text-xl font-semibold truncate">@yield('title')</h2>
                 </div>
-
-                <div class="flex items-center justify-center gap-3">
-                        <div id="username" class="font-medium uppercase text-lg">loading ...</div>
-                     <div class="w-12 h-12 rounded-full border border-4 border-amber-500 bg-gray-800 overflow-hidden shrink-0">
-                        <img id="header-avatar" src="https://picsum.photos/100/100?grayscale" class="w-full h-full object-cover rounded-full" alt="pfp">
+                <div class="flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <div id="username" class="font-medium text-lg">loading ...</div>
+                        <div class="text-[10px] text-amber-500 uppercase tracking-tighter">Étudiant</div>
                     </div>
                 </div>
+
             </header>
 
             <div class="flex-1 overflow-y-auto p-4 lg:p-6 space-y-6">
