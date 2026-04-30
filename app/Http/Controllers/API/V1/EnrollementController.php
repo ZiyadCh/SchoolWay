@@ -21,7 +21,7 @@ class EnrollementController extends Controller
         $inscription = Inscription::findOrFail($validated['inscription_id']);
 
         $inscription->schoolClasses()->syncWithoutDetaching([$validated['classe_id']]);
-        $inscription->schoolClasses()->increment('nbr_students');
+        SchoolClass::where('id', $validated['classe_id'])->increment('nbr_students');
 
         return response()->json([
             'message' => 'Étudiant inscrit à la classe avec succès',
@@ -39,7 +39,7 @@ class EnrollementController extends Controller
         ]);
 
         $inscription->schoolClasses()->detach($validated['classe_id']);
-        $inscription->schoolClasses()->decrement('nbr_students');
+        SchoolClass::where('id', $validated['classe_id'])->decrement('nbr_students');
 
         return response()->json([
             'message' => 'Étudiant retiré de la classe avec succès',

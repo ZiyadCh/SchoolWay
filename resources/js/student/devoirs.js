@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("user"));
-    const studentId = user?.student?.id;
+    const inscriptionId = user?.student?.inscriptions?.[0]?.id;
     const token = localStorage.getItem("token");
     const container = document.getElementById("devoirs-container");
 
@@ -8,19 +8,20 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!container) return;
 
         try {
-            const studentRes = await fetch(`/api/v1/students/${studentId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
+            const classesRes = await fetch(
+                `/api/v1/school_classes?inscription_id=${inscriptionId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: "application/json",
+                    },
                 },
-            });
+            );
 
-            if (!studentRes.ok) throw new Error("Erreur profil");
+            if (!classesRes.ok) throw new Error("Erreur classes");
 
-            const studentResult = await studentRes.json();
-            const studentData = studentResult.data || studentResult;
-            const classes = studentData.classes || [];
+            const classesResult = await classesRes.json();
+            const classes = classesResult.data || [];
 
             if (classes.length === 0) {
                 renderUI([]);

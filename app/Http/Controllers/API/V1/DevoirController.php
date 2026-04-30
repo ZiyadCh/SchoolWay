@@ -20,8 +20,6 @@ class DevoirController extends Controller
             $query->where('school_class_id', $request->school_class_id);
         }
 
-
-
         return response()->json([
             'message' => 'Liste des devoirs récupérée avec succès',
             'data'    => $query->with('schoolClass')->latest()->get(),
