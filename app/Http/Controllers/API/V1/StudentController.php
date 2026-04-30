@@ -196,9 +196,6 @@ class StudentController extends Controller
                 : $student->user->password,
         ]);
 
-        $student->update([
-            'note_final' => $request->note_final,
-        ]);
 
         return response()->json([
             'message' => 'Student updated successfully',

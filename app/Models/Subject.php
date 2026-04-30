@@ -8,7 +8,6 @@ class Subject extends Model
 {
     protected $fillable = [
         'name',
-        'coefficient',
     ];
     public function schoolClasses()
     {

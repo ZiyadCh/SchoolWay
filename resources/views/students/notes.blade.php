@@ -22,13 +22,6 @@
                     </select>
                 </div>
 
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-[8px] font-black uppercase text-gray-500 tracking-[0.2em] ml-1 text-nowrap">Trier par Date</label>
-                    <select class="bg-gray-900 border border-gray-800 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg focus:border-amber-500 outline-none transition-colors cursor-pointer text-amber-500 min-w-40">
-                        <option value="recent">Plus récent</option>
-                        <option value="old">Plus ancien</option>
-                    </select>
-                </div>
             </div>
         </div>
 
@@ -40,7 +33,6 @@
                             <th class="p-6 text-[10px] font-black uppercase tracking-widest text-gray-500">Examen</th>
                             <th class="p-6 text-[10px] font-black uppercase tracking-widest text-gray-500">Matière</th>
                             <th class="p-6 text-[10px] font-black uppercase tracking-widest text-gray-500 text-nowrap">Enseignant</th>
-                            <th class="p-6 text-[10px] font-black uppercase tracking-widest text-gray-500 text-center">Coefficient</th>
                             <th class="p-6 text-[10px] font-black uppercase tracking-widest text-gray-500">Date</th>
                             <th class="p-6 text-[10px] font-black uppercase tracking-widest text-amber-500 text-right">Note</th>
                         </tr>

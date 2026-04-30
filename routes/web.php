@@ -108,4 +108,8 @@ Route::prefix('student')->group(function () {
     Route::get('/devoirs', function () {
         return view('students.devoirs');
     });
+
+    Route::get('/paiements', function () {
+        return view('students.paiments');
+    });
 });

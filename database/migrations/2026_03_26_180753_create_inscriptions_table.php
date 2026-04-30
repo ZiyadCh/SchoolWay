@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->foreignId('year_id')->constrained('academic_year')->cascadeOnDelete();
-            $table->float('note_final')->nullable();
             $table->string('statut')->default('current');
             $table->timestamps();
         });

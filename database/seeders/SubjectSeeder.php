@@ -10,10 +10,10 @@ class SubjectSeeder extends Seeder
     public function run(): void
     {
         $subjects = [
-            ['name' => 'Mathématiques', 'coefficient' => 7],
-            ['name' => 'Physique-Chimie', 'coefficient' => 5],
-            ['name' => 'Informatique', 'coefficient' => 2],
-            ['name' => 'Français', 'coefficient' => 4],
+            ['name' => 'Mathématiques' ],
+            ['name' => 'Physique-Chimie' ],
+            ['name' => 'Informatique' ],
+            ['name' => 'Français' ],
         ];
         foreach ($subjects as $subject) {
             Subject::firstOrCreate(['name' => $subject['name']], $subject);

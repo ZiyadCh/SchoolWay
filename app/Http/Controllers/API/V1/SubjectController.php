@@ -28,7 +28,6 @@ class SubjectController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|unique:subjects,name|max:255',
-            'coefficient' => 'required|integer',
         ]);
 
         $subject = Subject::create($validated);

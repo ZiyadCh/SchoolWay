@@ -52,11 +52,7 @@ async function fetchLevels() {
 }
 
 function performSearch() {
-    const search = document
-        .getElementById("search-input")
-        .value.charAt(0)
-        .toUpperCase()
-        .trim();
+    const search = document.getElementById("search-input").value.trim();
     const levelId = document.getElementById("level-filter").value;
 
     let url = "/api/v1/students?";

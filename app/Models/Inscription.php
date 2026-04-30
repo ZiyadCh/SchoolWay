@@ -12,7 +12,6 @@ class Inscription extends Model
     protected $fillable = [
         'student_id',
         'year_id',
-        'note_final',
         'statut',
     ];
 
