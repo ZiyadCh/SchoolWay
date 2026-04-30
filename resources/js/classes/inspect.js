@@ -80,10 +80,17 @@ function renderStudents(inscriptions) {
     const template = document.getElementById("student-row-template");
     if (!container || !template) return;
 
-    container.innerHTML = "";
+    container.replaceChildren();
 
     if (inscriptions.length === 0) {
-        container.innerHTML = `<tr><td colspan="2" class="p-12 text-center text-gray-600 text-[10px] font-black uppercase tracking-widest">Aucune inscription</td></tr>`;
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 2;
+        cell.className =
+            "p-12 text-center text-gray-600 text-[10px] font-black uppercase tracking-widest";
+        cell.textContent = "Aucune inscription";
+        row.appendChild(cell);
+        container.appendChild(row);
         return;
     }
 
@@ -91,13 +98,16 @@ function renderStudents(inscriptions) {
         const student = ins.student?.user || {};
         const clone = template.content.cloneNode(true);
 
-        clone.querySelector(".student-photo").src = student.photo
+        const img = clone.querySelector(".student-photo");
+        img.src = student.photo
             ? `/storage/${student.photo}`
             : "/images/default.jpeg";
-        clone.querySelector(".student-name").textContent =
-            `${student.prenom || ""} ${student.nom || ""}`;
-        clone.querySelector(".student-link").href =
-            `/administration/students/${ins.id}`;
+
+        const name = clone.querySelector(".student-name");
+        name.textContent = `${student.prenom || ""} ${student.nom || ""}`;
+
+        const link = clone.querySelector(".student-link");
+        link.href = `/administration/students/${ins.id}`;
 
         container.appendChild(clone);
     });

@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("prev-page").onclick = () =>
         prevUrl && fetchTeachers(prevUrl);
 
-    // Search functionality
     document.getElementById("search-btn").onclick = performSearch;
     document
         .getElementById("search-input")
@@ -23,11 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function performSearch() {
-    const searchQuery = document
-        .getElementById("search-input")
-        .value.charAt(0)
-        .toUpperCase()
-        .trim();
+    const input = document.getElementById("search-input");
+    const searchQuery = input.value.trim();
 
     let url = "/api/v1/teachers?";
 
@@ -63,10 +59,18 @@ async function fetchTeachers(url) {
 function renderTable(teachers) {
     const tableBody = document.getElementById("teacher-table-body");
     const template = document.getElementById("teacher-row-template");
-    tableBody.innerHTML = "";
+
+    tableBody.replaceChildren();
 
     if (teachers.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="5" class="px-8 py-10 text-center text-gray-500 uppercase text-xs tracking-widest">AUCUN ENSEIGNANT TROUVÉ</td></tr>`;
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 5;
+        cell.className =
+            "px-8 py-10 text-center text-gray-500 uppercase text-xs tracking-widest";
+        cell.textContent = "AUCUN ENSEIGNANT TROUVÉ";
+        row.appendChild(cell);
+        tableBody.appendChild(row);
         return;
     }
 
@@ -77,15 +81,17 @@ function renderTable(teachers) {
         const user = teacher.user;
         const id = teacher.id;
 
-        clone.querySelector(".teacher-name").textContent =
-            `${user.prenom} ${user.nom}`;
-        clone.querySelector(".teacher-email").textContent =
-            user.email || "Non Défini";
-        clone.querySelector(".teacher-phone").textContent =
-            user.tel || "Non Défini";
+        const name = clone.querySelector(".teacher-name");
+        name.textContent = `${user.prenom} ${user.nom}`;
 
-        // Detail link
-        clone.querySelector(".teacher-link").href = `teachers/${id}`;
+        const email = clone.querySelector(".teacher-email");
+        email.textContent = user.email || "Non Défini";
+
+        const phone = clone.querySelector(".teacher-phone");
+        phone.textContent = user.tel || "Non Défini";
+
+        const link = clone.querySelector(".teacher-link");
+        link.href = `teachers/${id}`;
 
         const avatar = clone.querySelector(".teacher-photo");
         avatar.src = user.photo

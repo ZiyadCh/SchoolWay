@@ -28,7 +28,6 @@ function setupEditMode() {
     btnToggle.addEventListener("click", () => enterEditMode());
     btnCancel.addEventListener("click", () => exitEditMode(false));
     btnSave.addEventListener("click", () => saveProfile());
-
     btnDelete.addEventListener("click", () => deleteStudent());
 
     avatarInput.addEventListener("change", (e) => {
@@ -58,7 +57,6 @@ function enterEditMode() {
     document.getElementById("edit-adress").value = user.adress || "";
     document.getElementById("edit-email").value = user.email || "";
 
-    // Toggle visibility: hide display elements, show edit elements
     document.getElementById("user-fullname").classList.add("hidden");
     document.getElementById("edit-name-fields").classList.remove("hidden");
     document.getElementById("avatar-upload-label").classList.remove("hidden");
@@ -70,7 +68,6 @@ function enterEditMode() {
         .querySelectorAll(".edit-field")
         .forEach((el) => el.classList.remove("hidden"));
 
-    // show edit buttons
     document.getElementById("btn-edit-toggle").classList.add("hidden");
     document.getElementById("btn-save").classList.remove("hidden");
     document.getElementById("btn-cancel").classList.remove("hidden");
@@ -83,7 +80,6 @@ function exitEditMode(saved) {
     isEditMode = false;
     pendingAvatarFile = null;
 
-    // Restore display
     document.getElementById("user-fullname").classList.remove("hidden");
     document.getElementById("edit-name-fields").classList.add("hidden");
     document.getElementById("avatar-upload-label").classList.add("hidden");
@@ -95,15 +91,11 @@ function exitEditMode(saved) {
         .querySelectorAll(".edit-field")
         .forEach((el) => el.classList.add("hidden"));
 
-    // Swap buttons back
     document.getElementById("btn-edit-toggle").classList.remove("hidden");
     document.getElementById("btn-save").classList.add("hidden");
     document.getElementById("btn-cancel").classList.add("hidden");
-
-    // Hide Delete button when exiting edit mode
     document.getElementById("btn-delete-student").classList.add("hidden");
 
-    // If cancelled (not saved), re-render from cached data to discard changes
     if (!saved && studentData) {
         updateUI(studentData);
     }
@@ -112,7 +104,19 @@ function exitEditMode(saved) {
 async function saveProfile() {
     const btnSave = document.getElementById("btn-save");
     btnSave.disabled = true;
-    btnSave.innerHTML = `<span class="text-black"><i class="fa-solid fa-spinner fa-spin"></i></span><span class="text-[11px] font-black uppercase tracking-widest text-black">Sauvegarde...</span>`;
+
+    const spinner = document.createElement("span");
+    spinner.className = "text-black";
+    const icon = document.createElement("i");
+    icon.className = "fa-solid fa-spinner fa-spin";
+    spinner.appendChild(icon);
+
+    const text = document.createElement("span");
+    text.className =
+        "text-[11px] font-black uppercase tracking-widest text-black";
+    text.textContent = "Sauvegarde...";
+
+    btnSave.replaceChildren(spinner, text);
 
     try {
         const payload = new FormData();
@@ -170,7 +174,19 @@ async function saveProfile() {
         showFeedback("Erreur réseau. Veuillez réessayer.", "error");
     } finally {
         btnSave.disabled = false;
-        btnSave.innerHTML = `<span class="text-black"><i class="fa-solid fa-floppy-disk"></i></span><span class="text-[11px] font-black uppercase tracking-widest text-black">Sauvegarder</span>`;
+
+        const saveIconContainer = document.createElement("span");
+        saveIconContainer.className = "text-black";
+        const saveIcon = document.createElement("i");
+        saveIcon.className = "fa-solid fa-floppy-disk";
+        saveIconContainer.appendChild(saveIcon);
+
+        const saveText = document.createElement("span");
+        saveText.className =
+            "text-[11px] font-black uppercase tracking-widest text-black";
+        saveText.textContent = "Sauvegarder";
+
+        btnSave.replaceChildren(saveIconContainer, saveText);
     }
 }
 
@@ -179,15 +195,22 @@ async function deleteStudent() {
         !confirm(
             "Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.",
         )
-    ) {
+    )
         return;
-    }
 
     const btnDelete = document.getElementById("btn-delete-student");
-    const originalContent = btnDelete.innerHTML;
+    const originalChildren = Array.from(btnDelete.childNodes);
 
     btnDelete.disabled = true;
-    btnDelete.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-white"></i> <span class="text-[10px] text-white">Suppression...</span>`;
+
+    const spinIcon = document.createElement("i");
+    spinIcon.className = "fa-solid fa-spinner fa-spin text-white";
+
+    const delText = document.createElement("span");
+    delText.className = "text-[10px] text-white";
+    delText.textContent = "Suppression...";
+
+    btnDelete.replaceChildren(spinIcon, delText);
 
     try {
         const res = await fetch(`/api/v1/students/${user_id}`, {
@@ -200,7 +223,6 @@ async function deleteStudent() {
         });
 
         if (res.ok) {
-            // Redirect to students list on success
             window.location.href = document.referrer;
         } else {
             const data = await res.json();
@@ -209,13 +231,13 @@ async function deleteStudent() {
                 "error",
             );
             btnDelete.disabled = false;
-            btnDelete.innerHTML = originalContent;
+            btnDelete.replaceChildren(...originalChildren);
         }
     } catch (e) {
         console.error("Delete error:", e);
         showFeedback("Erreur réseau lors de la suppression.", "error");
         btnDelete.disabled = false;
-        btnDelete.innerHTML = originalContent;
+        btnDelete.replaceChildren(...originalChildren);
     }
 }
 
@@ -242,9 +264,7 @@ function showFeedback(message, type) {
         el.classList.add("bg-red-500/10", "border-red-500/30", "text-red-400");
     }
     el.classList.remove("hidden");
-    if (type === "success") {
-        setTimeout(() => hideFeedback(), 4000);
-    }
+    if (type === "success") setTimeout(() => hideFeedback(), 4000);
 }
 
 function hideFeedback() {
@@ -353,7 +373,6 @@ async function fetchApi(url) {
 function updateUI(student) {
     const user = student.user;
     if (!user) return;
-
     const fallback = "Non déterminé";
 
     document.getElementById("user-fullname").textContent =
@@ -384,7 +403,6 @@ function updateUI(student) {
         "user-address": user.adress,
         "user-email": user.email,
     };
-
     Object.entries(fields).forEach(([id, value]) => {
         const el = document.getElementById(id);
         if (value) {
@@ -399,7 +417,6 @@ function updateUI(student) {
     document.getElementById("user-joined").textContent = user.created_at
         ? new Date(user.created_at).toLocaleDateString("fr-FR")
         : fallback;
-
     document.getElementById("user-avatar").src = user.photo
         ? `/storage/${user.photo}`
         : `/images/default.jpeg`;
@@ -410,7 +427,11 @@ function renderNotes(exams) {
     if (!container) return;
     container.replaceChildren();
     if (exams.length === 0) {
-        container.innerHTML = `<p class="col-span-full text-gray-600 text-center py-10 text-[10px] uppercase font-black">Aucune note</p>`;
+        const empty = document.createElement("p");
+        empty.className =
+            "col-span-full text-gray-600 text-center py-10 text-[10px] uppercase font-black";
+        empty.textContent = "Aucune note";
+        container.appendChild(empty);
         return;
     }
     exams.forEach((exam) => {
@@ -418,15 +439,31 @@ function renderNotes(exams) {
         const card = document.createElement("div");
         card.className =
             "bg-gray-900 border border-gray-800 p-6 rounded-xl flex flex-col justify-between h-44 hover:border-amber-500/30 transition-all";
-        card.innerHTML = `
-            <div>
-                <h3 class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">${exam.subject?.name || "Matière"}</h3>
-                <p class="text-sm font-bold text-gray-200 uppercase">${exam.title}</p>
-            </div>
-            <div class="flex justify-between items-end">
-                <span class="text-3xl font-black text-white">${pivot ? pivot.valeur : "N/A"}</span>
-                <span class="text-[9px] font-black text-gray-700 uppercase">${new Date(exam.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}</span>
-            </div>`;
+
+        const top = document.createElement("div");
+        const subject = document.createElement("h3");
+        subject.className =
+            "text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1";
+        subject.textContent = exam.subject?.name || "Matière";
+        const title = document.createElement("p");
+        title.className = "text-sm font-bold text-gray-200 uppercase";
+        title.textContent = exam.title;
+        top.append(subject, title);
+
+        const bottom = document.createElement("div");
+        bottom.className = "flex justify-between items-end";
+        const val = document.createElement("span");
+        val.className = "text-3xl font-black text-white";
+        val.textContent = pivot ? pivot.valeur : "N/A";
+        const date = document.createElement("span");
+        date.className = "text-[9px] font-black text-gray-700 uppercase";
+        date.textContent = new Date(exam.date).toLocaleDateString("fr-FR", {
+            day: "numeric",
+            month: "short",
+        });
+        bottom.append(val, date);
+
+        card.append(top, bottom);
         container.appendChild(card);
     });
 }
@@ -436,17 +473,32 @@ function renderDevoirs(devoirs) {
     if (!container) return;
     container.replaceChildren();
     if (devoirs.length === 0) {
-        container.innerHTML = `<p class="col-span-full text-gray-600 text-center py-10 text-[10px] uppercase font-black">Aucun devoir</p>`;
+        const empty = document.createElement("p");
+        empty.className =
+            "col-span-full text-gray-600 text-center py-10 text-[10px] uppercase font-black";
+        empty.textContent = "Aucun devoir";
+        container.appendChild(empty);
         return;
     }
     devoirs.forEach((d) => {
         const card = document.createElement("div");
         card.className =
             "bg-gray-900 border border-gray-800 p-6 rounded-xl hover:border-red-500/30 transition-all";
-        card.innerHTML = `
-            <h3 class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">${d.title}</h3>
-            <p class="text-sm text-gray-200 mb-4">${d.contenu}</p>
-            <span class="text-[9px] font-black text-gray-500 uppercase">Échéance : ${new Date(d.deadline).toLocaleDateString("fr-FR")}</span>`;
+
+        const h = document.createElement("h3");
+        h.className =
+            "text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1";
+        h.textContent = d.title;
+
+        const p = document.createElement("p");
+        p.className = "text-sm text-gray-200 mb-4";
+        p.textContent = d.contenu;
+
+        const s = document.createElement("span");
+        s.className = "text-[9px] font-black text-gray-500 uppercase";
+        s.textContent = `Échéance : ${new Date(d.deadline).toLocaleDateString("fr-FR")}`;
+
+        card.append(h, p, s);
         container.appendChild(card);
     });
 }
@@ -491,13 +543,21 @@ function renderAbsences(absences) {
         const dayEl = document.createElement("div");
         dayEl.className =
             "h-16 flex flex-col items-center justify-center rounded-lg border border-gray-800/40 text-gray-600";
-        dayEl.innerHTML = `<span class="text-lg font-black">${day}</span>`;
+
+        const num = document.createElement("span");
+        num.className = "text-lg font-black";
+        num.textContent = day;
+        dayEl.appendChild(num);
+
         if (abs) {
             const isJustified = abs.justifié;
             dayEl.className = isJustified
                 ? "h-16 flex flex-col items-center justify-center rounded-lg border bg-emerald-500/10 border-emerald-500/50 text-emerald-500"
                 : "h-16 flex flex-col items-center justify-center rounded-lg border bg-red-500/10 border-red-500/50 text-red-500";
-            dayEl.innerHTML += `<span class="text-[7px] uppercase font-black mt-1">${isJustified ? "Justifié" : "Absent"}</span>`;
+            const label = document.createElement("span");
+            label.className = "text-[7px] uppercase font-black mt-1";
+            label.textContent = isJustified ? "Justifié" : "Absent";
+            dayEl.appendChild(label);
         }
         calendar.appendChild(dayEl);
     }
