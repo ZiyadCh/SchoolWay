@@ -20,9 +20,6 @@
                 <div class="flex-1 w-full">
                     <div class="mb-8 text-center lg:text-left">
                         <h2 id="user-fullname" class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white">CHARGEMENT...</h2>
-                        <p class="text-amber-500 text-xs font-black uppercase tracking-widest mt-2 italic">
-                            <span id="user-class">---</span> • MATRICULE: #<span id="user-id">---</span>
-                        </p>
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 border-t border-gray-800 pt-8">
