@@ -16,7 +16,6 @@ function setupEditMode() {
     const btnSave = document.getElementById("btn-save");
     const btnCancel = document.getElementById("btn-cancel");
     const avatarInput = document.getElementById("avatar-input");
-    const btnDelete = document.getElementById("btn-delete-student");
 
     btnToggle.addEventListener("click", () => enterEditMode());
     btnCancel.addEventListener("click", () => exitEditMode(false));
@@ -223,6 +222,7 @@ function updateUI(teacher) {
         ? new Date(user.created_at).toLocaleDateString("fr-FR")
         : fallback;
 
+    console.log(user.photo);
     document.getElementById("user-avatar").src = user.photo
         ? `/storage/${user.photo}`
         : `/images/default.jpeg`;

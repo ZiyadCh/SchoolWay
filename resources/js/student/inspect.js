@@ -22,11 +22,15 @@ function setupEditMode() {
     const btnToggle = document.getElementById("btn-edit-toggle");
     const btnSave = document.getElementById("btn-save");
     const btnCancel = document.getElementById("btn-cancel");
+    const btnDelete = document.getElementById("btn-delete-student");
     const avatarInput = document.getElementById("avatar-input");
 
     btnToggle.addEventListener("click", () => enterEditMode());
     btnCancel.addEventListener("click", () => exitEditMode(false));
     btnSave.addEventListener("click", () => saveProfile());
+
+    // Delete Button Logic
+    btnDelete.addEventListener("click", () => deleteStudent());
 
     avatarInput.addEventListener("change", (e) => {
         const file = e.target.files[0];
@@ -73,6 +77,9 @@ function enterEditMode() {
     document.getElementById("btn-save").classList.remove("hidden");
     document.getElementById("btn-cancel").classList.remove("hidden");
 
+    // Show Delete button in edit mode
+    document.getElementById("btn-delete-student").classList.remove("hidden");
+
     hideFeedback();
 }
 
@@ -96,6 +103,9 @@ function exitEditMode(saved) {
     document.getElementById("btn-edit-toggle").classList.remove("hidden");
     document.getElementById("btn-save").classList.add("hidden");
     document.getElementById("btn-cancel").classList.add("hidden");
+
+    // Hide Delete button when exiting edit mode
+    document.getElementById("btn-delete-student").classList.add("hidden");
 
     // If cancelled (not saved), re-render from cached data to discard changes
     if (!saved && studentData) {
@@ -165,6 +175,51 @@ async function saveProfile() {
     } finally {
         btnSave.disabled = false;
         btnSave.innerHTML = `<span class="text-black"><i class="fa-solid fa-floppy-disk"></i></span><span class="text-[11px] font-black uppercase tracking-widest text-black">Sauvegarder</span>`;
+    }
+}
+
+async function deleteStudent() {
+    if (
+        !confirm(
+            "Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.",
+        )
+    ) {
+        return;
+    }
+
+    const btnDelete = document.getElementById("btn-delete-student");
+    const originalContent = btnDelete.innerHTML;
+
+    btnDelete.disabled = true;
+    btnDelete.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-white"></i> <span class="text-[10px] text-white">Suppression...</span>`;
+
+    try {
+        const res = await fetch(`/api/v1/students/${user_id}`, {
+            method: "DELETE",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (res.ok) {
+            // Redirect to students list on success
+            window.location.href = document.referrer;
+        } else {
+            const data = await res.json();
+            showFeedback(
+                data.message || "Erreur lors de la suppression.",
+                "error",
+            );
+            btnDelete.disabled = false;
+            btnDelete.innerHTML = originalContent;
+        }
+    } catch (e) {
+        console.error("Delete error:", e);
+        showFeedback("Erreur réseau lors de la suppression.", "error");
+        btnDelete.disabled = false;
+        btnDelete.innerHTML = originalContent;
     }
 }
 

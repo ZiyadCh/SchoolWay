@@ -168,19 +168,24 @@ class StudentController extends Controller
             'email' => 'nullable|email|unique:users,email,' . $student->user->id,
             'password' => 'nullable|min:6',
             'gender' => 'in:M,F',
-            'photo' => 'nullable|string',
+            'photo'      => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'adress' => 'nullable|string',
             'birthday' => 'nullable|date',
             'birthplace' => 'nullable|string',
             'tel' => 'nullable|string',
         ]);
 
+        $photoPath = $student->user->photo;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('students', 'public');
+        }
+
         $student->user->update([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'email' => $request->email,
             'gender' => $request->gender,
-            'photo' => $request->photo,
+            'photo' => $photoPath,
             'adress' => $request->adress,
             'birthday' => $request->birthday,
             'birthplace' => $request->birthplace,
