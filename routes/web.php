@@ -104,4 +104,8 @@ Route::prefix('student')->group(function () {
     Route::get('/absences', function () {
         return view('students.absences');
     });
+
+    Route::get('/devoirs', function () {
+        return view('students.devoirs');
+    });
 });
