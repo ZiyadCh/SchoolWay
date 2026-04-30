@@ -32,7 +32,6 @@ async function fetchUserData() {
 function renderClasses(classes) {
     const container = document.getElementById("classes-container");
 
-    // Handle both direct arrays or Laravel paginated objects
     const classesList = Array.isArray(classes) ? classes : classes.data || [];
 
     if (classesList.length === 0) {

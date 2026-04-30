@@ -1,8 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const params = new URLSearchParams(window.location.search);
-    const inscriptionId = params.get("inscription_id") || 1;
-    const apiUrl = `/api/v1/absences?inscription_id=${inscriptionId}`;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const inscriptionId = user?.student?.inscriptions?.[0]?.id;
 
+    if (!inscriptionId) {
+        displayTableMessage("Aucune inscription trouvée", "text-red-500");
+        return;
+    }
+
+    const apiUrl = `/api/v1/absences?inscription_id=${inscriptionId}`;
     const tableBody = document.getElementById("absences-table-body");
     const totalEl = document.getElementById("total-absences");
     const justifiedEl = document.getElementById("justified-count");
@@ -10,12 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchAbsences() {
         try {
-            const response = await fetch(apiUrl);
+            const token = localStorage.getItem("token");
+            const response = await fetch(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: "application/json",
+                },
+            });
             if (!response.ok) throw new Error("Erreur réseau");
-
             const result = await response.json();
             const absencesArray = result.data || [];
-
             renderUI(absencesArray);
         } catch (error) {
             console.error("Erreur:", error);
@@ -69,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const span = document.createElement("span");
             const isJustified =
                 absence.justifié === true || absence.justifié === 1;
-
             span.className = `px-4 py-1 text-xs font-black uppercase rounded-full shadow-lg ${
                 isJustified
                     ? "bg-emerald-500 text-black"

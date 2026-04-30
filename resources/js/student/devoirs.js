@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const params = new URLSearchParams(window.location.search);
-    const studentId = params.get("inscription_id") || 1;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const studentId = user?.student?.id;
     const token = localStorage.getItem("token");
     const container = document.getElementById("devoirs-container");
 
@@ -72,20 +72,16 @@ document.addEventListener("DOMContentLoaded", function () {
         data.forEach((devoir) => {
             const isDone = devoir.statut === "completed";
 
-            // --- Main Card Container ---
             const card = document.createElement("div");
             card.className =
                 "bg-gray-900 border border-gray-800 p-6 rounded-2xl hover:border-gray-600 transition-all group relative overflow-hidden flex flex-col justify-between";
 
-            // --- Status Accent (Side Bar) ---
             const accent = document.createElement("div");
             accent.className = `absolute left-0 top-0 bottom-0 w-1 ${isDone ? "bg-emerald-500" : "bg-amber-500"}`;
             card.appendChild(accent);
 
-            // --- Content Wrapper ---
             const topWrapper = document.createElement("div");
 
-            // Subject / Class Name
             const headerRow = document.createElement("div");
             headerRow.className = "flex justify-between items-start mb-3 pl-2";
 
@@ -96,14 +92,12 @@ document.addEventListener("DOMContentLoaded", function () {
             headerRow.appendChild(subjectLabel);
             topWrapper.appendChild(headerRow);
 
-            // Title
             const title = document.createElement("h3");
             title.className =
                 "pl-2 text-base font-bold text-white uppercase leading-tight group-hover:text-amber-400 transition-colors mb-2";
             title.textContent = devoir.title;
             topWrapper.appendChild(title);
 
-            // Content (Description)
             const description = document.createElement("p");
             description.className =
                 "pl-2 text-sm text-gray-500 line-clamp-2 mb-4 italic";
@@ -113,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             card.appendChild(topWrapper);
 
-            // --- Footer (Date) ---
             const footer = document.createElement("div");
             footer.className =
                 "flex items-center justify-between pl-2 mt-auto pt-4 border-t border-gray-800/50";
@@ -121,7 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const dateWrapper = document.createElement("div");
             dateWrapper.className = "flex items-center gap-2 text-gray-400";
 
-            // Calendar Icon SVG
             const svgNS = "http://www.w3.org/2000/svg";
             const svg = document.createElementNS(svgNS, "svg");
             svg.setAttribute("viewBox", "0 0 24 24");

@@ -23,6 +23,15 @@ class AuthController extends Controller
                 'message' => 'Les identifiants ne correspondent pas à nos enregistrements.',
             ], 401);
         }
+        $inscriptionId = null;
+
+        if ($user->student) {
+            $user->student->load(['inscriptions' => function ($query) {
+                $query->latest();
+            }]);
+
+            $inscriptionId = $user->student->inscriptions->first()?->id;
+        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -31,6 +40,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
             'user' => $user,
+            'inscription_id' => $inscriptionId,
         ]);
     }
 
