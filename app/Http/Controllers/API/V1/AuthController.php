@@ -52,4 +52,22 @@ class AuthController extends Controller
             'message' => 'Déconnexion réussie',
         ]);
     }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'new_password'     => 'required|min:8|confirmed',
+        ]);
+
+        $user = $request->user();
+
+
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return response()->json([
+            'message' => 'Mot de passe mis à jour avec succès.',
+        ]);
+    }
 }

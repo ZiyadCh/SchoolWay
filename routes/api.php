@@ -24,8 +24,10 @@ Route::prefix('v1')->group(function () {
     //auth
     Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     })->name('logout');
 
     //years
