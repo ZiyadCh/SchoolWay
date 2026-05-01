@@ -2,7 +2,7 @@ const token = localStorage.getItem("token");
 
 document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    const teacherId = user.id;
+    const teacherId = user.teacher.id;
     console.log(teacherId);
     fetchClasses(teacherId);
 });
@@ -11,17 +11,20 @@ async function fetchClasses(teacherId) {
     const container = document.getElementById("classes-container");
 
     try {
-        const response = await fetch(`/api/user/`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/json",
+        const response = await fetch(
+            `/api/v1/school_classes?teacher_id=${teacherId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: "application/json",
+                },
             },
-        });
+        );
 
         if (!response.ok) throw new Error("Erreur");
 
         const result = await response.json();
-        const classes = result.data?.classes || [];
+        const classes = result.data || [];
 
         if (classes.length === 0) {
             container.innerHTML = `<p class="text-gray-500 italic col-span-full">Aucune classe assignée.</p>`;

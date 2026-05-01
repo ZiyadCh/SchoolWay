@@ -124,6 +124,11 @@ Route::prefix('teacher')->group(function () {
         return view('teachers.classes');
     });
 
+    Route::get('/classes/{id}', function () {
+        return view('teachers.class-detail');
+    });
+
+
     Route::get('/absences', function () {
         return view('teachers.absences');
     });

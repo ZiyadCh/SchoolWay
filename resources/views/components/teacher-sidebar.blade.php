@@ -24,10 +24,10 @@
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto custom-scrollbar">
         <label class="uppercase text-gray-500 font-black px-4 mb-4 block text-[10px] tracking-widest">Espace Élève</label>
 
-        <x-sidebar-link href="/teachers/profile" icon="fa-user-graduate" :active="request()->is('teachers/profile*')">
+        <x-sidebar-link href="/teacher/profile" icon="fa-user-graduate" :active="request()->is('teachers/profile*')">
             Mon Profil
         </x-sidebar-link>
-        <x-sidebar-link href="/teachers/classes" icon="fa-file-signature" :active="request()->is('teachers/classes*')">
+        <x-sidebar-link href="/teacher/classes" icon="fa-file-signature" :active="request()->is('teachers/classes*')">
             Mes Classes
         </x-sidebar-link>
 

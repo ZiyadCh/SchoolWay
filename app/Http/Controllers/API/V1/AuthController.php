@@ -25,6 +25,7 @@ class AuthController extends Controller
         }
         $inscriptionId = null;
 
+        //get the student and inscription id if the student is logging
         if ($user->student) {
             $user->student->load(['inscriptions' => function ($query) {
                 $query->latest();
@@ -32,6 +33,16 @@ class AuthController extends Controller
 
             $inscriptionId = $user->student->inscriptions->first()?->id;
         }
+
+        //get the teacher id if the teahcer is logging
+        if ($user->teacher) {
+            $user->teacher->load(['classes' => function ($query) {
+                $query->latest();
+            }]);
+
+        }
+
+
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
