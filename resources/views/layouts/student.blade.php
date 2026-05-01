@@ -38,10 +38,11 @@
                     </label>
                     <h2 class="text-lg lg:text-xl font-semibold truncate">@yield('title')</h2>
                 </div>
+
                 <div class="flex items-center gap-3">
                     <div class="text-right hidden sm:block">
                         <div id="username" class="font-medium text-lg">loading ...</div>
-                        <div class="text-[10px] text-amber-500 uppercase tracking-tighter">Étudiant</div>
+                        <div class="user-role  text-[10px] text-amber-500 uppercase tracking-tighter">Étudiant</div>
                     </div>
                 </div>
 

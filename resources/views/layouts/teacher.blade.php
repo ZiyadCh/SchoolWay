@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School-Way | @yield('title')</title>
-    @vite(['resources/css/app.css','resources/js/auth/user.js','resources/js/auth/logout.js','resources/js/auth/permission/admin.js'])
+    @vite(['resources/css/app.css','resources/js/auth/user.js','resources/js/auth/logout.js','resources/js/auth/permission/student.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,13 +22,13 @@
         #menu-toggle:checked ~ div #overlay { display: block; }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen ubuntu overflow-hidden">
+<body class="ubuntu bg-gray-950 text-gray-100 min-h-screen antialiased overflow-hidden">
 
     <input type="checkbox" id="menu-toggle" class="hidden">
 
     <div class="flex h-screen overflow-hidden relative">
 
-        <x-sidebar />
+        <x-student-sidebar />
 
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
             <header class="h-16 bg-gray-900 border-b border-gray-800 px-4 lg:px-6 flex items-center justify-between shrink-0">
@@ -42,9 +42,10 @@
                 <div class="flex items-center gap-3">
                     <div class="text-right hidden sm:block">
                         <div id="username" class="font-medium text-lg">loading ...</div>
-                        <label class="user-role text-[10px] text-amber-500 uppercase tracking-tighter">Directeur</label>
+                     <div class="user-role  text-[10px] text-amber-500 uppercase tracking-tighter">Ensaignant</div>
                     </div>
                 </div>
+
             </header>
 
             <div class="flex-1 overflow-y-auto p-4 lg:p-6 space-y-6">

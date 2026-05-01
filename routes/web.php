@@ -113,3 +113,26 @@ Route::prefix('student')->group(function () {
         return view('students.paiments');
     });
 });
+
+
+Route::prefix('teacher')->group(function () {
+    Route::get('/profile', function () {
+        return view('teachers.profile');
+    });
+
+    Route::get('/notes', function () {
+        return view('teachers.notes');
+    });
+
+    Route::get('/absences', function () {
+        return view('teachers.absences');
+    });
+
+    Route::get('/devoirs', function () {
+        return view('teachers.devoirs');
+    });
+
+    Route::get('/paiements', function () {
+        return view('teachers.paiments');
+    });
+});
