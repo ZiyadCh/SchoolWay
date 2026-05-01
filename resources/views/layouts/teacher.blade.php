@@ -28,7 +28,7 @@
 
     <div class="flex h-screen overflow-hidden relative">
 
-        <x-student-sidebar />
+        <x-teacher-sidebar />
 
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
             <header class="h-16 bg-gray-900 border-b border-gray-800 px-4 lg:px-6 flex items-center justify-between shrink-0">
