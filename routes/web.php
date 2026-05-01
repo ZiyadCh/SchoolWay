@@ -120,8 +120,8 @@ Route::prefix('teacher')->group(function () {
         return view('teachers.profile');
     });
 
-    Route::get('/notes', function () {
-        return view('teachers.notes');
+    Route::get('/classes', function () {
+        return view('teachers.classes');
     });
 
     Route::get('/absences', function () {
