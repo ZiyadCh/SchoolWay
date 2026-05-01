@@ -109,10 +109,6 @@
                 <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Date</label>
                 <input id="absence-date" type="date" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-amber-500 transition-colors">
             </div>
-            <div class="flex items-center gap-3">
-                <input id="absence-justified" type="checkbox" class="w-4 h-4 accent-amber-500">
-                <label for="absence-justified" class="text-[10px] font-black uppercase tracking-widest text-gray-500">Justifiée</label>
-            </div>
             <p id="absence-message" class="text-[11px] font-bold text-center hidden"></p>
             <button id="submit-absence" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black text-[11px] font-black uppercase tracking-widest rounded-lg transition-colors">
                 Enregistrer

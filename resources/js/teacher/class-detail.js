@@ -36,40 +36,77 @@ async function fetchClassDetail() {
 function renderStudents(inscriptions) {
     const body = document.getElementById("students-body");
 
+    while (body.firstChild) {
+        body.removeChild(body.firstChild);
+    }
+
     if (inscriptions.length === 0) {
-        body.innerHTML = `<tr><td colspan="3" class="p-10 text-center text-gray-500 uppercase font-black text-xs tracking-widest">Aucun élève inscrit</td></tr>`;
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.setAttribute("colspan", "3");
+        td.className =
+            "p-10 text-center text-gray-500 uppercase font-black text-xs tracking-widest";
+        td.textContent = "Aucun élève inscrit";
+        tr.appendChild(td);
+        body.appendChild(tr);
         return;
     }
 
-    body.innerHTML = inscriptions
-        .map((inscription) => {
-            const user = inscription.student?.user;
-            const fullName = user ? `${user.prenom} ${user.nom}` : "---";
-            const email = user?.email || "---";
-            const photo = user?.photo
-                ? `/storage/${user.photo}`
-                : `/images/default.jpeg`;
+    inscriptions.forEach((inscription) => {
+        const user = inscription.student?.user;
+        const fullName = user ? `${user.prenom} ${user.nom}` : "---";
+        const email = user?.email || "---";
+        const photoUrl = user?.photo
+            ? `/storage/${user.photo}`
+            : `/images/default.jpeg`;
 
-            return `
-            <tr class="hover:bg-gray-800/30 transition-colors group">
-                <td class="p-5">
-                    <div class="flex items-center gap-3">
-                        <img src="${photo}" class="w-8 h-8 rounded-lg object-cover border border-gray-700">
-                        <span class="font-bold text-gray-200 uppercase text-sm">${fullName}</span>
-                    </div>
-                </td>
-                <td class="p-5 text-sm text-gray-500">${email}</td>
-                <td class="p-5 text-right">
-                    <button
-                        onclick="openAbsenceModal(${inscription.id}, '${fullName}')"
-                        class="px-3 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-lg border border-gray-700 text-gray-400 hover:border-red-500 hover:text-red-400 transition-colors">
-                        + Absence
-                    </button>
-                </td>
-            </tr>
-        `;
-        })
-        .join("");
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-gray-800/30 transition-colors group";
+
+        const tdName = document.createElement("td");
+        tdName.className = "p-5";
+
+        const flexDiv = document.createElement("div");
+        flexDiv.className = "flex items-center gap-3";
+
+        const img = document.createElement("img");
+        img.src = photoUrl;
+        img.className =
+            "w-8 h-8 rounded-lg object-cover border border-gray-700";
+        img.alt = "Avatar";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "font-bold text-gray-200 uppercase text-sm";
+        nameSpan.textContent = fullName;
+
+        flexDiv.appendChild(img);
+        flexDiv.appendChild(nameSpan);
+        tdName.appendChild(flexDiv);
+
+        const tdEmail = document.createElement("td");
+        tdEmail.className = "p-5 text-sm text-gray-500";
+        tdEmail.textContent = email;
+
+        const tdAction = document.createElement("td");
+        tdAction.className = "p-5 text-right";
+
+        const btn = document.createElement("button");
+        btn.className =
+            "px-3 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-lg border border-gray-700 text-gray-400 hover:border-red-500 hover:text-red-400 transition-colors";
+        btn.textContent = "+ Absence";
+
+        btn.addEventListener("click", () =>
+            openAbsenceModal(inscription.id, fullName),
+        );
+
+        tdAction.appendChild(btn);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdAction);
+
+        body.appendChild(tr);
+    });
 }
 
 function openAbsenceModal(inscriptionId, studentName) {
@@ -78,7 +115,6 @@ function openAbsenceModal(inscriptionId, studentName) {
     document.getElementById("absence-date").value = new Date()
         .toISOString()
         .split("T")[0];
-    document.getElementById("absence-justified").checked = false;
     showModal("absence-modal");
 }
 
@@ -269,8 +305,6 @@ function setupSubmitHandlers() {
         .getElementById("submit-absence")
         .addEventListener("click", async () => {
             const date = document.getElementById("absence-date").value;
-            const justified =
-                document.getElementById("absence-justified").checked;
 
             if (!date) {
                 showMessage(
@@ -292,7 +326,6 @@ function setupSubmitHandlers() {
                     body: JSON.stringify({
                         inscription_id: selectedInscriptionId,
                         date,
-                        justifié: justified,
                     }),
                 });
 
