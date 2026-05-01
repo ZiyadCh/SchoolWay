@@ -32,8 +32,10 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
             if (result.user.role === "admin") {
                 window.location.href = "/administration/dashboard";
-            } else {
+            } else if (result.user.role === "student") {
                 window.location.href = "/student/profile";
+            } else {
+                window.location.href = "/teacher/profile";
             }
             //gestion erreur
         } else {

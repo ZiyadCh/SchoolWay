@@ -51,7 +51,7 @@ class TeacherController extends Controller
             'prenom'     => 'required|string',
             'email'      => 'required|email|unique:users,email',
             'gender'     => 'required|in:M,F',
-            'photo'      => 'nullable|string',
+            'photo'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'adress'     => 'nullable|string',
             'birthday'   => 'nullable|date',
             'birthplace' => 'nullable|string',
@@ -61,7 +61,7 @@ class TeacherController extends Controller
         //for the image
         $path = null;
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('students', 'public');
+            $path = $request->file('image')->store('teachers', 'public');
         }
 
         $password = Str::random(8);
@@ -138,10 +138,7 @@ class TeacherController extends Controller
             'password'   => $request->password ? Hash::make($request->password) : $teacher->user->password,
         ]);
 
-        $teacher->update([
-            'specialty'  => $request->specialty,
-            'office_number' => $request->office_number,
-        ]);
+
 
         return response()->json([
             'message' => 'Enseignant mis à jour avec succès',
