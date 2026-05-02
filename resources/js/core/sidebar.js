@@ -54,14 +54,12 @@ async function loadYears() {
 
 async function selectYear(yearId) {
     try {
-        const response = await fetch(`/api/v1/years/${yearId}`, {
-            method: "PUT",
+        const response = await fetch(`/api/v1/years/${yearId}/select`, {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
                 Accept: "application/json",
             },
-            body: JSON.stringify({ selected: true }),
         });
 
         if (!response.ok) throw new Error();
