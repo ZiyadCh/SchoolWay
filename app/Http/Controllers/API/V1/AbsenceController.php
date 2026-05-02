@@ -38,6 +38,7 @@ class AbsenceController extends Controller
         $validated = $request->validate([
             'inscription_id' => 'required|exists:inscriptions,id',
             'date'           => 'required|date',
+            'justifie'      => 'boolean',
         ]);
 
         $absence = Absence::create($validated);

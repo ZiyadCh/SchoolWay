@@ -1,7 +1,7 @@
 const token = localStorage.getItem("token");
 const classId = window.location.pathname.split("/").pop();
-let selectedInscriptionId = null;
-let selectedStudentName = null;
+let allInscriptions = [];
+let selectedAbsenceIds = new Set();
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchClassDetail();
@@ -24,11 +24,12 @@ async function fetchClassDetail() {
         const cls = result.data || result;
 
         document.getElementById("class-name").textContent = cls.name;
-        renderStudents(cls.inscriptions || []);
+        allInscriptions = cls.inscriptions || [];
+        renderStudents(allInscriptions);
     } catch (error) {
         console.error(error);
         document.getElementById("students-body").innerHTML = `
-            <tr><td colspan="3" class="p-10 text-center text-red-500 uppercase font-black text-xs tracking-widest">Erreur de chargement</td></tr>
+            <tr><td colspan="2" class="p-10 text-center text-red-500 uppercase font-black text-xs tracking-widest">Erreur de chargement</td></tr>
         `;
     }
 }
@@ -43,7 +44,7 @@ function renderStudents(inscriptions) {
     if (inscriptions.length === 0) {
         const tr = document.createElement("tr");
         const td = document.createElement("td");
-        td.setAttribute("colspan", "3");
+        td.setAttribute("colspan", "2");
         td.className =
             "p-10 text-center text-gray-500 uppercase font-black text-xs tracking-widest";
         td.textContent = "Aucun élève inscrit";
@@ -61,61 +62,93 @@ function renderStudents(inscriptions) {
             : `/images/default.jpeg`;
 
         const tr = document.createElement("tr");
-        tr.className = "hover:bg-gray-800/30 transition-colors group";
+        tr.className =
+            "hover:bg-gray-800/30 transition-colors border-b border-gray-800/50 last:border-0";
 
         const tdName = document.createElement("td");
         tdName.className = "p-5";
 
         const flexDiv = document.createElement("div");
-        flexDiv.className = "flex items-center gap-3";
+        flexDiv.className = "flex items-center gap-4";
 
         const img = document.createElement("img");
         img.src = photoUrl;
         img.className =
-            "w-8 h-8 rounded-lg object-cover border border-gray-700";
+            "w-10 h-10 rounded-lg object-cover border border-gray-700 shadow-sm";
         img.alt = "Avatar";
 
-        const nameSpan = document.createElement("span");
-        nameSpan.className = "font-bold text-gray-200 uppercase text-sm";
-        nameSpan.textContent = fullName;
+        const nameLink = document.createElement("a");
+        nameLink.href = `/students/${inscription.id}`;
+        nameLink.className =
+            "font-bold text-gray-200 uppercase text-sm hover:text-amber-500 transition-colors tracking-tight";
+        nameLink.textContent = fullName;
 
         flexDiv.appendChild(img);
-        flexDiv.appendChild(nameSpan);
+        flexDiv.appendChild(nameLink);
         tdName.appendChild(flexDiv);
 
         const tdEmail = document.createElement("td");
-        tdEmail.className = "p-5 text-sm text-gray-500";
+        tdEmail.className = "p-5 text-sm text-gray-500 font-medium";
         tdEmail.textContent = email;
-
-        const tdAction = document.createElement("td");
-        tdAction.className = "p-5 text-right";
-
-        const btn = document.createElement("button");
-        btn.className =
-            "px-3 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-lg border border-gray-700 text-gray-400 hover:border-red-500 hover:text-red-400 transition-colors";
-        btn.textContent = "+ Absence";
-
-        btn.addEventListener("click", () =>
-            openAbsenceModal(inscription.id, fullName),
-        );
-
-        tdAction.appendChild(btn);
 
         tr.appendChild(tdName);
         tr.appendChild(tdEmail);
-        tr.appendChild(tdAction);
 
         body.appendChild(tr);
     });
 }
 
-function openAbsenceModal(inscriptionId, studentName) {
-    selectedInscriptionId = inscriptionId;
-    document.getElementById("absence-student-name").textContent = studentName;
+function openAbsenceModal() {
+    selectedAbsenceIds.clear();
     document.getElementById("absence-date").value = new Date()
         .toISOString()
         .split("T")[0];
+    document.getElementById("absence-justified").checked = false;
+    renderAbsenceStudentList();
     showModal("absence-modal");
+}
+
+function renderAbsenceStudentList() {
+    const container = document.getElementById("absence-student-list");
+    container.innerHTML = "";
+
+    allInscriptions.forEach((inscription) => {
+        const user = inscription.student?.user;
+        const fullName = user ? `${user.prenom} ${user.nom}` : "---";
+        const photoUrl = user?.photo
+            ? `/storage/${user.photo}`
+            : `/images/default.jpeg`;
+
+        const label = document.createElement("label");
+        label.className =
+            "flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = inscription.id;
+        checkbox.className = "w-4 h-4 accent-amber-500";
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                selectedAbsenceIds.add(inscription.id);
+            } else {
+                selectedAbsenceIds.delete(inscription.id);
+            }
+        });
+
+        const img = document.createElement("img");
+        img.src = photoUrl;
+        img.className =
+            "w-7 h-7 rounded-lg object-cover border border-gray-700";
+
+        const name = document.createElement("span");
+        name.className = "text-sm font-bold text-gray-200 uppercase";
+        name.textContent = fullName;
+
+        label.appendChild(checkbox);
+        label.appendChild(img);
+        label.appendChild(name);
+        container.appendChild(label);
+    });
 }
 
 function setupModals() {
@@ -125,6 +158,9 @@ function setupModals() {
     document
         .getElementById("btn-add-exam")
         .addEventListener("click", () => showModal("exam-modal"));
+    document
+        .getElementById("btn-add-absence")
+        .addEventListener("click", () => openAbsenceModal());
 
     document.querySelectorAll(".close-modal").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -240,20 +276,7 @@ function setupSubmitHandlers() {
             }
 
             try {
-                const inscriptionsRes = await fetch(
-                    `/api/v1/school_classes/${classId}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            Accept: "application/json",
-                        },
-                    },
-                );
-                const inscriptionsResult = await inscriptionsRes.json();
-                const inscriptions =
-                    (inscriptionsResult.data || inscriptionsResult)
-                        .inscriptions || [];
-                const notes = inscriptions.map((ins) => ({
+                const notes = allInscriptions.map((ins) => ({
                     inscription_id: ins.id,
                     valeur: null,
                 }));
@@ -305,6 +328,8 @@ function setupSubmitHandlers() {
         .getElementById("submit-absence")
         .addEventListener("click", async () => {
             const date = document.getElementById("absence-date").value;
+            const justified =
+                document.getElementById("absence-justified").checked;
 
             if (!date) {
                 showMessage(
@@ -315,34 +340,38 @@ function setupSubmitHandlers() {
                 return;
             }
 
+            if (selectedAbsenceIds.size === 0) {
+                showMessage(
+                    "absence-message",
+                    "Veuillez sélectionner au moins un élève.",
+                    "text-red-400",
+                );
+                return;
+            }
+
             try {
-                const response = await fetch("/api/v1/absences", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                        Accept: "application/json",
-                    },
-                    body: JSON.stringify({
-                        inscription_id: selectedInscriptionId,
-                        date,
-                    }),
-                });
+                const requests = Array.from(selectedAbsenceIds).map(
+                    (inscriptionId) =>
+                        fetch("/api/v1/absences", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                                Accept: "application/json",
+                            },
+                            body: JSON.stringify({
+                                inscription_id: inscriptionId,
+                                date,
+                                justifié: justified,
+                            }),
+                        }),
+                );
 
-                const result = await response.json();
-
-                if (!response.ok) {
-                    showMessage(
-                        "absence-message",
-                        result.message || "Erreur.",
-                        "text-red-400",
-                    );
-                    return;
-                }
+                await Promise.all(requests);
 
                 showMessage(
                     "absence-message",
-                    "Absence enregistrée.",
+                    `${selectedAbsenceIds.size} absence(s) enregistrée(s).`,
                     "text-emerald-400",
                 );
                 setTimeout(() => hideModal("absence-modal"), 1500);

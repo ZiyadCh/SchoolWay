@@ -66,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 month: "long",
                 year: "numeric",
             }).format(dateObj);
+            ///////////////////////////////////
+
             clone.querySelector(".month-display").textContent =
                 monthName.toUpperCase();
 
