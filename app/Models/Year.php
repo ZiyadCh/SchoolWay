@@ -27,4 +27,10 @@ class Year extends Model
     {
         return self::where('current', true)->first();
     }
+
+    //return the selected year to show data related to that year
+    public static function selectedYear()
+    {
+        return self::where('selected', true)->first();
+    }
 }
