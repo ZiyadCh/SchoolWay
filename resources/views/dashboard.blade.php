@@ -59,9 +59,8 @@
                 <h3 class="text-sm uppercase text-gray-400">Liste des Niveaux</h3>
             </div>
             <div id="levels-list" class="grow max-h-80 overflow-y-auto pr-2 mb-8 space-y-3 text-white">
-                <!-- Filled by JS -->
             </div>
-            <button class="w-full py-4 bg-gray-700 hover:bg-amber-500 text-amber-500 hover:text-gray-900 text-sm uppercase rounded-xl transition-all border border-gray-600 font-bold">Gérer</button>
+<button class="manage-btn w-full py-4 bg-gray-700 hover:bg-amber-500 text-amber-500 hover:text-gray-900 text-sm uppercase rounded-xl transition-all border border-gray-600 font-bold">Gérer</button>
         </div>
 
         <div class="bg-gray-800 border border-gray-700 rounded-2xl p-8 flex flex-col h-full shadow-2xl">
@@ -70,7 +69,6 @@
                 <h3 class="text-sm uppercase text-gray-400">Liste des Matières</h3>
             </div>
             <div id="subjects-list" class="grow max-h-80 overflow-y-auto pr-2 mb-8 space-y-3 text-white">
-                <!-- Filled by JS -->
             </div>
             <button class="w-full py-4 bg-gray-700 hover:bg-amber-500 text-amber-500 hover:text-gray-900 text-sm uppercase rounded-xl transition-all border border-gray-600 font-bold">Gérer</button>
         </div>
