@@ -24,7 +24,7 @@
     </label>
 
     <div class="relative mt-1">
-        <select class="w-full appearance-none bg-gray-800 border border-gray-700 text-amber-400 text-sm font-medium rounded-lg px-3 py-2 pr-10 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all cursor-pointer">
+        <select id="year-select" class="w-full appearance-none bg-gray-800 border border-gray-700 text-amber-400 text-sm font-medium rounded-lg px-3 py-2 pr-10 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all cursor-pointer">
             <option value="2025-2026" selected>2025 - 2026</option>
             <option value="2024-2025">2024 - 2025</option>
             <option value="2023-2024">2023 - 2024</option>
