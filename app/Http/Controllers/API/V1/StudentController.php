@@ -19,19 +19,26 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        //for the count
         if ($request->has('count')) {
             return response()->json([
                 'total_students' => Student::count(),
             ]);
         }
-        //for the filterign
+
+        $selectedYear = Year::selectedYear();
+
         $query = Student::with(['user', 'inscriptions.schoolClasses.level']);
 
+        if ($selectedYear) {
+            $query->whereHas('inscriptions', function ($q) use ($selectedYear) {
+                $q->where('year_id', $selectedYear->id);
+            });
+        } else {
+            return response()->json(['message' => 'Aucune année sélectionnée'], 400);
+        }
 
         if ($request->has('search')) {
             $search = $request->input('search');
-
             $query->whereHas('user', function ($q) use ($search) {
                 $q->where('nom', 'LIKE', "%{$search}%")
                   ->orWhere('prenom', 'LIKE', "%{$search}%");
@@ -40,15 +47,12 @@ class StudentController extends Controller
 
         if ($request->has('level_id')) {
             $levelId = $request->input('level_id');
-
             $query->whereHas('inscriptions.schoolClasses', function ($q) use ($levelId) {
                 $q->where('level_id', $levelId);
             });
         }
 
-        $students = $query->latest()->paginate(5);
-
-        return response()->json($students);
+        return response()->json($query->latest()->paginate(5));
     }
 
     public function store(Request $request)

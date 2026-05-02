@@ -17,7 +17,16 @@ class PaimentController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Paiment::with(['inscription.student.user']);
+        $selectedYear = Year::selectedYear();
+
+        if (!$selectedYear) {
+            return response()->json(['message' => 'Aucune année sélectionnée'], 400);
+        }
+
+        $query = Paiment::with(['inscription.student.user'])
+            ->whereHas('inscription', function ($q) use ($selectedYear) {
+                $q->where('year_id', $selectedYear->id);
+            });
 
         if ($request->search) {
             $search = $request->search;
@@ -100,17 +109,17 @@ class PaimentController extends Controller
 
     public function getPaymentStats(Request $request)
     {
-        $activeYear = Year::currentYear();
+        $selectedYear = Year::selectedYear();
 
-        if (!$activeYear) {
-            return response()->json(['message' => 'Aucune année active'], 404);
+        if (!$selectedYear) {
+            return response()->json(['message' => 'Aucune année sélectionnée'], 400);
         }
 
-        $start = Carbon::parse($activeYear->beginning_date)->startOfMonth();
+        $start = Carbon::parse($selectedYear->beginning_date)->startOfMonth();
         $now = Carbon::now()->startOfMonth();
         $monthsDue = $start->diffInMonths($now) + 1;
 
-        $query = Inscription::where('year_id', $activeYear->id)
+        $query = Inscription::where('year_id', $selectedYear->id)
             ->with(['student.user'])
             ->withCount(['payments' => function ($q) {
                 $q->where('etatPaiement', true);
@@ -155,23 +164,24 @@ class PaimentController extends Controller
             $isUpToDate = $paidCount >= $monthsDue;
 
             return [
-                'id' => $inscription->id,
-                'student_name' => "{$inscription->student->user->nom} {$inscription->student->user->prenom}",
+                'id'            => $inscription->id,
+                'student_name'  => "{$inscription->student->user->nom} {$inscription->student->user->prenom}",
                 'student_photo' => $inscription->student->user->photo,
-                'paid_months'  => $paidCount,
-                'total_due'    => $monthsDue,
-                'status'       => $isUpToDate ? 'À Jour' : 'En Retard',
+                'paid_months'   => $paidCount,
+                'total_due'     => $monthsDue,
+                'status'        => $isUpToDate ? 'À Jour' : 'En Retard',
             ];
         });
 
         return response()->json([
             'months_reference' => $monthsDue,
-            'percentage_paid' => $percentagePaid,
-            'students'      => $studentsStatus,
-            'current_page'  => $inscriptions->currentPage(),
-            'last_page'     => $inscriptions->lastPage(),
-            'next_page_url' => $inscriptions->nextPageUrl(),
-            'prev_page_url' => $inscriptions->previousPageUrl(),
+            'percentage_paid'  => $percentagePaid,
+            'students'         => $studentsStatus,
+            'current_page'     => $inscriptions->currentPage(),
+            'last_page'        => $inscriptions->lastPage(),
+            'next_page_url'    => $inscriptions->nextPageUrl(),
+            'prev_page_url'    => $inscriptions->previousPageUrl(),
         ], 200);
     }
+
 }
