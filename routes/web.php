@@ -79,6 +79,10 @@ Route::prefix('administration')->group(function () {
     Route::get('/students/classes', function () {
         return view('classes.inspect');
     })->name('student-classes');
+
+    Route::get('/years', function () {
+        return view('year');
+    });
     ////////////////////
     //paiment stuff
 
