@@ -32,6 +32,8 @@ Route::prefix('v1')->group(function () {
 
     //years
     Route::apiResource('years', YearController::class);
+    Route::post('years/{year}/select', [YearController::class, 'selectYear']);
+    Route::post('years/{year}/end', [YearController::class, 'endYear']);
 
     //students (includes the creation of inscription and paiment months)
     Route::apiResource('students', StudentController::class);

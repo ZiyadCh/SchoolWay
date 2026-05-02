@@ -121,4 +121,21 @@ class YearController extends Controller
             ], 200);
         });
     }
+
+    /**
+     * change wich year to see the data of
+     */
+    public function selectYear(Year $year)
+    {
+        return DB::transaction(function () use ($year) {
+            Year::where('selected', true)->update(['selected' => false]);
+
+            $year->update(['selected' => true]);
+
+            return response()->json([
+                'message' => 'Année sélectionnée avec succès',
+                'data'    => $year,
+            ], 200);
+        });
+    }
 }
