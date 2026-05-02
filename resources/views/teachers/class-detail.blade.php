@@ -15,10 +15,11 @@
    <button id="btn-add-absence" class="px-5 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-lg border border-gray-700 text-gray-400 hover:border-red-500 hover:text-red-400 transition-colors">
         + Absence
     </button>
-                <button id="btn-add-devoir" class="px-5 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-lg bg-amber-500 hover:bg-amber-400 text-black transition-colors">
+                <button id="btn-add-devoir" class="px-5 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-lg border border-gray-700 text-gray-400 hover:border-amber-500 hover:text-amber-500 transition-colors">
                     + Devoir
                 </button>
-                <button id="btn-add-exam" class="px-5 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-lg border border-gray-700 text-gray-400 hover:border-amber-500 hover:text-amber-500 transition-colors">
+
+                <button id="btn-add-exam" class="px-5 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-lg bg-amber-500 hover:bg-amber-400 text-black transition-colors">
                     + Examen
                 </button>
             </div>
@@ -102,19 +103,25 @@
 
 <!-- Add Exam Modal -->
 <div id="exam-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
-    <div class="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 p-8">
-        <div class="flex items-center justify-between mb-8">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-8">
+        <div class="flex items-center justify-between mb-6">
             <h3 class="text-sm font-black uppercase tracking-widest text-white">Nouvel Examen</h3>
             <button class="close-modal text-gray-600 hover:text-white transition-colors text-xl leading-none">&times;</button>
         </div>
         <div class="space-y-5">
-            <div>
-                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Titre</label>
-                <input id="exam-title" type="text" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-amber-500 transition-colors" placeholder="Ex: Contrôle N°1">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Titre</label>
+                    <input id="exam-title" type="text" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-amber-500 transition-colors" placeholder="Ex: Contrôle N°1">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Date</label>
+                    <input id="exam-date" type="date" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-amber-500 transition-colors">
+                </div>
             </div>
             <div>
-                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Date</label>
-                <input id="exam-date" type="date" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-amber-500 transition-colors">
+                <p class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Notes des élèves</p>
+                <div id="exam-student-list" class="max-h-72 overflow-y-auto space-y-2 border border-gray-800 rounded-lg p-3"></div>
             </div>
             <p id="exam-message" class="text-[11px] font-bold text-center hidden"></p>
             <button id="submit-exam" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black text-[11px] font-black uppercase tracking-widest rounded-lg transition-colors">
@@ -123,6 +130,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Add Absence Modal -->
 <div id="absence-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">

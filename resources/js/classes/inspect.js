@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadClassDetails();
     initInlineEdit();
+    initAddStudents();
 });
 
 function show(id, displayClass = null) {
@@ -361,4 +362,185 @@ function hideFeedback() {
     const el = document.getElementById("inline-feedback");
     el.className = "hidden";
     el.textContent = "";
+}
+
+let allAvailableStudents = [];
+let selectedStudentIds = new Set();
+
+async function loadAvailableStudents() {
+    try {
+        const res = await fetch(`/api/v1/students`, {
+            headers: authHeaders(),
+        });
+        const json = await res.json();
+        const allStudents = json.data || [];
+
+        const enrolledInscriptionIds = new Set(
+            (currentClassData.inscriptions || []).map((i) => i.id),
+        );
+
+        allAvailableStudents = allStudents.filter((student) => {
+            const inscriptions = student.inscriptions || [];
+            return !inscriptions.some((ins) =>
+                enrolledInscriptionIds.has(ins.id),
+            );
+        });
+
+        renderAvailableStudents(allAvailableStudents);
+    } catch (e) {
+        console.error("Erreur chargement étudiants:", e);
+    }
+}
+
+function renderAvailableStudents(students) {
+    const container = document.getElementById("available-students-list");
+    container.replaceChildren();
+
+    if (students.length === 0) {
+        const msg = document.createElement("p");
+        msg.className =
+            "text-center text-gray-500 text-xs font-bold uppercase p-4";
+        msg.textContent = "Aucun élève disponible";
+        container.appendChild(msg);
+        return;
+    }
+
+    students.forEach((student) => {
+        const user = student.user || {};
+        const fullName = `${user.prenom || ""} ${user.nom || ""}`
+            .trim()
+            .toUpperCase();
+        const photoUrl = user.photo
+            ? `/storage/${user.photo}`
+            : `/images/default.jpeg`;
+        const inscriptionId = student.inscriptions?.[0]?.id;
+        if (!inscriptionId) return;
+
+        const label = document.createElement("label");
+        label.className =
+            "flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = inscriptionId;
+        checkbox.className = "w-4 h-4 accent-amber-500";
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                selectedStudentIds.add(inscriptionId);
+            } else {
+                selectedStudentIds.delete(inscriptionId);
+            }
+        });
+
+        const img = document.createElement("img");
+        img.src = photoUrl;
+        img.className =
+            "w-8 h-8 rounded-lg object-cover border border-gray-700";
+
+        const name = document.createElement("span");
+        name.className = "text-sm font-bold text-gray-200 uppercase flex-1";
+        name.textContent = fullName;
+
+        label.appendChild(checkbox);
+        label.appendChild(img);
+        label.appendChild(name);
+        container.appendChild(label);
+    });
+}
+
+function initAddStudents() {
+    document
+        .getElementById("btn-add-students")
+        .addEventListener("click", async () => {
+            selectedStudentIds.clear();
+            await loadAvailableStudents();
+            document
+                .getElementById("add-students-message")
+                .classList.add("hidden");
+            document.getElementById("student-search-input").value = "";
+            document
+                .getElementById("add-students-modal")
+                .classList.remove("hidden");
+        });
+
+    document
+        .getElementById("close-add-students")
+        .addEventListener("click", () => {
+            document
+                .getElementById("add-students-modal")
+                .classList.add("hidden");
+        });
+
+    document
+        .getElementById("add-students-modal")
+        .addEventListener("click", (e) => {
+            if (e.target === document.getElementById("add-students-modal")) {
+                document
+                    .getElementById("add-students-modal")
+                    .classList.add("hidden");
+            }
+        });
+
+    document
+        .getElementById("student-search-input")
+        .addEventListener("input", (e) => {
+            const q = e.target.value.toLowerCase();
+            const filtered = allAvailableStudents.filter((student) => {
+                const user = student.user || {};
+                const fullName =
+                    `${user.prenom || ""} ${user.nom || ""}`.toLowerCase();
+                return fullName.includes(q);
+            });
+            renderAvailableStudents(filtered);
+        });
+
+    document
+        .getElementById("submit-add-students")
+        .addEventListener("click", async () => {
+            if (selectedStudentIds.size === 0) {
+                showAddMessage(
+                    "Veuillez sélectionner au moins un élève.",
+                    "text-red-400",
+                );
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/v1/enrollements", {
+                    method: "POST",
+                    headers: {
+                        ...authHeaders(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        inscription_ids: Array.from(selectedStudentIds),
+                        classe_id: class_id,
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    showAddMessage(result.message || "Erreur.", "text-red-400");
+                    return;
+                }
+
+                showAddMessage(result.message, "text-emerald-400");
+                await loadClassDetails();
+                setTimeout(() => {
+                    document
+                        .getElementById("add-students-modal")
+                        .classList.add("hidden");
+                }, 1500);
+            } catch (e) {
+                showAddMessage("Erreur de connexion.", "text-red-400");
+            }
+        });
+}
+
+function showAddMessage(text, colorClass) {
+    const el = document.getElementById("add-students-message");
+    el.textContent = text;
+    el.className = `text-[11px] font-bold text-center ${colorClass}`;
+    el.classList.remove("hidden");
 }

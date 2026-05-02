@@ -105,10 +105,16 @@
         </div>
     </div>
 
+<div class="flex items-center justify-between">
+    <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 bg-amber-500/5 w-fit px-4 py-2 rounded-lg border border-amber-500/10">
+        Liste des Élèves Inscrits
+    </h2>
+    <button id="btn-add-students" class="px-5 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-lg bg-amber-500 hover:bg-amber-400 text-black transition-colors">
+        + Ajouter des élèves
+    </button>
+</div>
+
     <div class="space-y-6">
-        <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 bg-amber-500/5 w-fit px-4 py-2 rounded-lg border border-amber-500/10">
-            Liste des Élèves Inscrits
-        </h2>
         <div class="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
@@ -146,5 +152,21 @@
     id="teacher-results"
     class="hidden fixed z-50 bg-gray-800 border border-gray-700 rounded-2xl overflow-y-auto max-h-52 shadow-2xl"
 ></div>
-
+<!-- Add Students Modal -->
+<div id="add-students-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-sm font-black uppercase tracking-widest text-white">Ajouter des élèves</h3>
+            <button id="close-add-students" class="text-gray-600 hover:text-white transition-colors text-xl leading-none">&times;</button>
+        </div>
+        <div class="mb-4">
+            <input id="student-search-input" type="text" placeholder="Rechercher un élève..." class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-amber-500 transition-colors">
+        </div>
+        <div id="available-students-list" class="max-h-72 overflow-y-auto space-y-1 border border-gray-800 rounded-lg p-2 mb-4"></div>
+        <p id="add-students-message" class="text-[11px] font-bold text-center hidden mb-3"></p>
+        <button id="submit-add-students" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black text-[11px] font-black uppercase tracking-widest rounded-lg transition-colors">
+            Ajouter la sélection
+        </button>
+    </div>
+</div>
 @endsection

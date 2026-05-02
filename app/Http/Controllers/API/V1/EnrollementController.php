@@ -9,30 +9,34 @@ use Illuminate\Http\Request;
 
 class EnrollementController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'inscription_id' => 'required|exists:inscriptions,id',
-            'classe_id'      => 'required|exists:school_classes,id',
+            'inscription_ids'   => 'required|array',
+            'inscription_ids.*' => 'exists:inscriptions,id',
+            'classe_id'         => 'required|exists:school_classes,id',
         ]);
 
-        $inscription = Inscription::findOrFail($validated['inscription_id']);
+        $classe = SchoolClass::findOrFail($validated['classe_id']);
+        $added = 0;
 
-        $inscription->schoolClasses()->syncWithoutDetaching([$validated['classe_id']]);
-        SchoolClass::where('id', $validated['classe_id'])->increment('nbr_students');
+        foreach ($validated['inscription_ids'] as $inscriptionId) {
+            $inscription = Inscription::findOrFail($inscriptionId);
+            $alreadyEnrolled = $inscription->schoolClasses()->where('school_class_id', $validated['classe_id'])->exists();
+            if (!$alreadyEnrolled) {
+                $inscription->schoolClasses()->syncWithoutDetaching([$validated['classe_id']]);
+                $added++;
+            }
+        }
+
+        $classe->increment('nbr_students', $added);
 
         return response()->json([
-            'message' => 'Étudiant inscrit à la classe avec succès',
-            'data'    => $inscription->load('student.user', 'schoolClasses'),
+            'message' => "{$added} étudiant(s) inscrit(s) à la classe avec succès",
+            'data'    => $classe->load('inscriptions.student.user'),
         ], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, Inscription $inscription)
     {
         $validated = $request->validate([

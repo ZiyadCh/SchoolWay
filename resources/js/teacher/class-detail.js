@@ -28,18 +28,22 @@ async function fetchClassDetail() {
         renderStudents(allInscriptions);
     } catch (error) {
         console.error(error);
-        document.getElementById("students-body").innerHTML = `
-            <tr><td colspan="2" class="p-10 text-center text-red-500 uppercase font-black text-xs tracking-widest">Erreur de chargement</td></tr>
-        `;
+        const body = document.getElementById("students-body");
+        body.replaceChildren();
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.setAttribute("colspan", "2");
+        td.className =
+            "p-10 text-center text-red-500 uppercase font-black text-xs tracking-widest";
+        td.textContent = "Erreur de chargement";
+        tr.appendChild(td);
+        body.appendChild(tr);
     }
 }
 
 function renderStudents(inscriptions) {
     const body = document.getElementById("students-body");
-
-    while (body.firstChild) {
-        body.removeChild(body.firstChild);
-    }
+    body.replaceChildren();
 
     if (inscriptions.length === 0) {
         const tr = document.createElement("tr");
@@ -93,7 +97,6 @@ function renderStudents(inscriptions) {
 
         tr.appendChild(tdName);
         tr.appendChild(tdEmail);
-
         body.appendChild(tr);
     });
 }
@@ -110,7 +113,7 @@ function openAbsenceModal() {
 
 function renderAbsenceStudentList() {
     const container = document.getElementById("absence-student-list");
-    container.innerHTML = "";
+    container.replaceChildren();
 
     allInscriptions.forEach((inscription) => {
         const user = inscription.student?.user;
@@ -151,13 +154,55 @@ function renderAbsenceStudentList() {
     });
 }
 
+function renderExamStudentList() {
+    const container = document.getElementById("exam-student-list");
+    container.replaceChildren();
+
+    allInscriptions.forEach((inscription) => {
+        const user = inscription.student?.user;
+        const fullName = user ? `${user.prenom} ${user.nom}` : "---";
+        const photoUrl = user?.photo
+            ? `/storage/${user.photo}`
+            : `/images/default.jpeg`;
+
+        const row = document.createElement("div");
+        row.className =
+            "flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors";
+
+        const img = document.createElement("img");
+        img.src = photoUrl;
+        img.className =
+            "w-7 h-7 rounded-lg object-cover border border-gray-700 shrink-0";
+
+        const name = document.createElement("span");
+        name.className = "text-sm font-bold text-gray-200 uppercase flex-1";
+        name.textContent = fullName;
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.max = "20";
+        input.step = "0.25";
+        input.placeholder = "/20";
+        input.dataset.inscriptionId = inscription.id;
+        input.className =
+            "w-20 bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-white outline-none focus:border-amber-500 transition-colors text-center";
+
+        row.appendChild(img);
+        row.appendChild(name);
+        row.appendChild(input);
+        container.appendChild(row);
+    });
+}
+
 function setupModals() {
     document
         .getElementById("btn-add-devoir")
         .addEventListener("click", () => showModal("devoir-modal"));
-    document
-        .getElementById("btn-add-exam")
-        .addEventListener("click", () => showModal("exam-modal"));
+    document.getElementById("btn-add-exam").addEventListener("click", () => {
+        renderExamStudentList();
+        showModal("exam-modal");
+    });
     document
         .getElementById("btn-add-absence")
         .addEventListener("click", () => openAbsenceModal());
@@ -269,18 +314,23 @@ function setupSubmitHandlers() {
             if (!title || !date) {
                 showMessage(
                     "exam-message",
-                    "Veuillez remplir les champs obligatoires.",
+                    "Veuillez remplir le titre et la date.",
                     "text-red-400",
                 );
                 return;
             }
 
-            try {
-                const notes = allInscriptions.map((ins) => ({
-                    inscription_id: ins.id,
-                    valeur: null,
+            const inputs = document.querySelectorAll(
+                "#exam-student-list input[data-inscription-id]",
+            );
+            const notes = Array.from(inputs)
+                .filter((input) => input.value !== "")
+                .map((input) => ({
+                    inscription_id: parseInt(input.dataset.inscriptionId),
+                    valeur: parseFloat(input.value),
                 }));
 
+            try {
                 const response = await fetch("/api/v1/exams", {
                     method: "POST",
                     headers: {
