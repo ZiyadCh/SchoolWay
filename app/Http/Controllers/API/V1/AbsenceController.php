@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
+use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -14,7 +15,16 @@ class AbsenceController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Absence::with(['inscription.student.user']);
+        $selectedYear = Year::selectedYear();
+
+        if (!$selectedYear) {
+            return response()->json(['message' => 'Aucune année sélectionnée'], 400);
+        }
+
+        $query = Absence::with(['inscription.student.user'])
+            ->whereHas('inscription', function ($q) use ($selectedYear) {
+                $q->where('year_id', $selectedYear->id);
+            });
 
         if ($request->has('today')) {
             $query->whereDate('date', Carbon::today());
