@@ -8,12 +8,22 @@ use App\Models\Teacher;
 use App\Models\Subject;
 use App\Models\Student;
 use App\Models\Inscription;
+use App\Models\Year;
 use Illuminate\Database\Seeder;
 
 class SchoolClassSeeder extends Seeder
 {
     public function run(): void
     {
+
+        $year = Year::firstOrCreate(
+            ['title' => '2025-2026'],
+            [
+                'beginning_date' => '2025-09-01',
+                'end_date' => '2026-06-30',
+                'current' => true,
+            ]
+        );
         $classDefinitions = [
             ['name' => 'Génie Logiciel - Groupe A', 'level' => '1ère Année Bac', 'subject' => 'Informatique'],
             ['name' => 'Génie Logiciel - Groupe B', 'level' => '1ère Année Bac', 'subject' => 'Informatique'],
@@ -43,6 +53,7 @@ class SchoolClassSeeder extends Seeder
                 'level_id' => $levelId,
                 'teacher_id' => $teacherId,
                 'subject_id' => $subjectId,
+                'year_id' => $year->id,
                 'nbr_students' => 0,
             ]);
 

@@ -14,6 +14,7 @@ class SchoolClass extends Model
         'name',
         'level_id',
         'teacher_id',
+        'year_id',
         'nbr_students',
         'subject_id',
     ];
