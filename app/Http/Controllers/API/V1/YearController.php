@@ -105,22 +105,20 @@ class YearController extends Controller
      */
     public function endYear(Year $year)
     {
-        if ($year->current === false) {
+        if (!$year->current) {
             return response()->json(['message' => 'Cette année est déjà clôturée.'], 422);
         }
 
         return DB::transaction(function () use ($year) {
-            $year->inscriptions()->update(['statut' => 'terminé']);
-
-            $year->update([
-                'current' => false,
-            ]);
+            $year->inscriptions()->update(['statut' => 'finished']);
+            $year->update(['current' => false]);
 
             return response()->json([
-                'message' => 'Année clôturée. Toutes les inscriptions sont désormais marquées comme "terminer".',
+                'message' => 'Année clôturée avec succès.',
             ], 200);
         });
     }
+
 
     /**
      * change wich year to see the data of
