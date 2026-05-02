@@ -13,6 +13,7 @@ class Year extends Model
         'beginning_date',
         'end_date',
         'current',
+        'selected',
     ];
 
     public function classes(): HasMany

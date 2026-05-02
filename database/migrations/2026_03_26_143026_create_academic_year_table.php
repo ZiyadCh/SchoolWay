@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->date('beginning_date');
             $table->string('title');
             $table->boolean('current')->default(true);
+            $table->boolean('selected')->default(false);
             $table->date('end_date');
             $table->timestamps();
         });
