@@ -26,9 +26,11 @@ class SchoolClassController extends Controller
         $query = SchoolClass::with(['level', 'teacher.user']);
 
         if ($selectedYear) {
-            $query->whereHas('inscriptions', function ($q) use ($selectedYear) {
-                $q->where('year_id', $selectedYear->id);
-            });
+            $query->where('year_id', $selectedYear->id);
+        } else {
+            return response()->json([
+                "message" => "aucune anne selectin",
+            ]);
         }
 
         if ($request->level_id) {
