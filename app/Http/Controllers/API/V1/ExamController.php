@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\Note;
+use App\Models\Year;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -14,7 +15,15 @@ class ExamController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Exam::query();
+        $selectedYear = Year::selectedYear();
+
+        if (!$selectedYear) {
+            return response()->json(['message' => 'Aucune année sélectionnée'], 400);
+        }
+
+        $query = Exam::whereHas('inscriptions', function ($q) use ($selectedYear) {
+            $q->where('year_id', $selectedYear->id);
+        });
 
         if ($request->inscription_id) {
             $query->whereHas('inscriptions', function ($q) use ($request) {
