@@ -102,3 +102,30 @@ function renderTable(classes) {
         tableBody.appendChild(clone);
     });
 }
+async function checkYearAndDisable(buttonId) {
+    try {
+        const response = await fetch("/api/v1/years", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
+        });
+        const result = await response.json();
+        const years = result.data || [];
+        const selectedYear = years.find((y) => y.selected);
+
+        if (!selectedYear?.current) {
+            const btn = document.getElementById(buttonId);
+            if (!btn) return;
+            btn.disabled = true;
+            btn.classList.add(
+                "opacity-40",
+                "cursor-not-allowed",
+                "pointer-events-none",
+            );
+            btn.title = "Non disponible pour une année archivée";
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}

@@ -85,10 +85,12 @@
     </div>
 
     <div class="pt-8 flex justify-center">
+        <a href="years" class="text-sm uppercase text-white group-hover:text-amber-500 font-bold">
         <button class="flex items-center gap-4 bg-gray-800 border border-gray-700 hover:border-amber-500 px-10 py-5 rounded-xl transition-all group shadow-lg">
             <i class="fa-solid fa-calendar-days text-amber-500 text-lg"></i>
-            <span class="text-sm uppercase text-white group-hover:text-amber-500 font-bold">Options d'Années Scolaires</span>
+                Options d'Années Scolaires
         </button>
+</a>
     </div>
 </div>
 @endsection
