@@ -52,16 +52,6 @@
         </div>
     </div>
 
-    <div class="max-w-8xl mx-auto mt-8">
-        <h3 class="text-xl font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3">
-            <span class="w-8 h-1 bg-amber-500 block"></span>
-            Mes Classes
-        </h3>
-        <div id="classes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="animate-pulse bg-gray-900 border border-gray-800 p-6 rounded-2xl h-32"></div>
-            <div class="animate-pulse bg-gray-900 border border-gray-800 p-6 rounded-2xl h-32"></div>
-        </div>
-    </div>
 </div>
 
 <!-- Reset Password Modal -->
