@@ -52,7 +52,7 @@ class StudentController extends Controller
             });
         }
 
-        return response()->json($query->latest()->paginate(5));
+        return response()->json($query->latest()->paginate(10));
     }
 
     public function store(Request $request)

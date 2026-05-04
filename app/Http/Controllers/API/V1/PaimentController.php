@@ -157,7 +157,7 @@ class PaimentController extends Controller
             ? round(($paidStudentsCount / $totalStudents) * 100, 2)
             : 0;
 
-        $inscriptions = $query->paginate(5);
+        $inscriptions = $query->paginate(10);
 
         $studentsStatus = $inscriptions->getCollection()->map(function ($inscription) use ($monthsDue) {
             $paidCount = $inscription->payments_count;
