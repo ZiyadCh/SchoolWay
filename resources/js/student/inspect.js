@@ -344,7 +344,6 @@ async function loadAbsences() {
 }
 
 async function loadAllDevoirs() {
-    if (!studentData || !studentData.classes) return;
     try {
         const requests = studentData.classes.map((c) =>
             fetchApi(`/api/v1/devoirs?school_class_id=${c.id}`),
