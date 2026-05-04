@@ -21,6 +21,11 @@ class Year extends Model
         return $this->hasMany(SchoolClass::class);
     }
 
+    public function inscriptions(): HasMany
+    {
+        return $this->hasMany(Inscription::class);
+    }
+
     //////////////
     //to return the current working year to insert in other places
     public static function currentYear()
