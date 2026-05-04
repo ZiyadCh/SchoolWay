@@ -345,11 +345,25 @@ async function loadAbsences() {
 
 async function loadAllDevoirs() {
     try {
-        const requests = studentData.classes.map((c) =>
+        const classesRes = await fetchApi(
+            `/api/v1/school_classes?inscription_id=${user_id}`,
+        );
+        const classes = classesRes.data || [];
+
+        if (classes.length === 0) {
+            cachedDevoirs = [];
+            renderDevoirs([]);
+            return;
+        }
+
+        const requests = classes.map((c) =>
             fetchApi(`/api/v1/devoirs?school_class_id=${c.id}`),
         );
         const results = await Promise.all(requests);
         cachedDevoirs = results.flatMap((res) => res.data || res);
+        cachedDevoirs.sort(
+            (a, b) => new Date(a.deadline) - new Date(b.deadline),
+        );
         renderDevoirs(cachedDevoirs);
     } catch (e) {
         console.error(e);
