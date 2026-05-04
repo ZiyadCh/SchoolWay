@@ -63,6 +63,8 @@ class SchoolClassController extends Controller
      */
     public function store(Request $request)
     {
+        $year = Year::currentYear();
+
         $validated = $request->validate([
             'name'       => 'required|string|max:255|unique:school_classes,name',
             'level_id'   => 'required|exists:levels,id',
@@ -70,7 +72,10 @@ class SchoolClassController extends Controller
             'subject_id' => 'required|exists:subjects,id',
         ]);
 
-        $schoolClass = SchoolClass::create($validated);
+        $schoolClass = SchoolClass::create([
+            ...$validated,
+            'year_id' => $year->id,
+        ]);
 
         return response()->json([
             'message' => 'Classe créée avec succès',
