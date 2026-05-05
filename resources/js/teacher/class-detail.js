@@ -183,7 +183,6 @@ function renderExamStudentList() {
         input.min = "0";
         input.max = "20";
         input.step = "0.25";
-        input.placeholder = "/20";
         input.dataset.inscriptionId = inscription.id;
         input.className =
             "w-20 bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-white outline-none focus:border-amber-500 transition-colors text-center";
