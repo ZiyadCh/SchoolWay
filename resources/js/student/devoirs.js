@@ -1,7 +1,7 @@
+import getToken from "../auth/token.js";
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("user"));
     const inscriptionId = user?.student?.inscriptions?.[0]?.id;
-    import getToken from "../auth/token.js";
     const container = document.getElementById("devoirs-container");
 
     async function fetchAllDevoirs() {

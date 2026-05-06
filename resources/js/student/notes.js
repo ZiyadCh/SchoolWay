@@ -1,3 +1,4 @@
+import getToken from "../auth/token.js";
 const notesContainer = document.getElementById("notesContainer");
 
 async function loadMyNotes() {
@@ -6,10 +7,7 @@ async function loadMyNotes() {
     showLoading();
 
     try {
-        import getToken from "../auth/token.js";
         const user = JSON.parse(localStorage.getItem("user"));
-
-        if (!token || !user) throw new Error("Vous devez vous reconnecter");
 
         const inscriptions = user?.student?.inscriptions || [];
         if (inscriptions.length === 0)

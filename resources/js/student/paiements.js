@@ -1,6 +1,6 @@
+import getToken from "../auth/token.js";
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("user"));
-    import getToken from "../auth/token.js";
     const inscriptions = user?.student?.inscriptions || [];
     const activeInscription = inscriptions.find(
         (ins) => ins.statut === "active",

@@ -63,12 +63,12 @@ Route::prefix('v1')->group(function () {
         Route::put('exams/{exam}', [ExamController::class, 'update']);
         Route::delete('exams/{exam}', [ExamController::class, 'destroy']);
 
-        Route::post('enrollements', [EnrollementController::class, 'store']);
-        Route::delete('enrollements/{inscription}', [EnrollementController::class, 'destroy']);
     });
 
     // Admin only
     Route::middleware(['auth:sanctum', 'directeur'])->group(function () {
+
+        Route::post('enrollements', [EnrollementController::class, 'store']);
         Route::get('students', [StudentController::class, 'index']);
         Route::post('students', [StudentController::class, 'store']);
         Route::put('students/{student}', [StudentController::class, 'update']);

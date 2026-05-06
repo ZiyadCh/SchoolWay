@@ -1,6 +1,5 @@
 import getToken from "../auth/token.js";
 const url_parts = window.location.pathname.split("/");
-// On suppose que l'URL est /students/{id}/edit, l'ID est donc l'avant-dernier segment
 const user_id = url_parts[url_parts.length - 2];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setupEventListeners();
 });
 
-// 1. Récupérer les données existantes pour remplir le formulaire
 async function fetchCurrentData() {
     try {
         const response = await fetch(`/api/v1/students/${user_id}`, {
@@ -29,7 +27,6 @@ function fillForm(student) {
     const user = student.user;
     if (!user) return;
 
-    // Remplissage des inputs
     document.getElementById("input-prenom").value = user.prenom || "";
     document.getElementById("input-nom").value = user.nom || "";
 

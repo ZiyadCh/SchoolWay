@@ -1,3 +1,4 @@
+import getToken from "../auth/token.js";
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("user"));
     const inscriptionId = user?.student?.inscriptions?.[0]?.id;
@@ -15,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchAbsences() {
         try {
-            import getToken from "../auth/token.js";
             const response = await fetch(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,

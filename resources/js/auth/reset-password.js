@@ -1,5 +1,5 @@
+import getToken from "../auth/token.js";
 document.addEventListener("DOMContentLoaded", function () {
-    import getToken from "../auth/token.js";
     const modal = document.getElementById("reset-modal");
     const openBtn = document.getElementById("open-reset-modal");
     const closeBtn = document.getElementById("close-reset-modal");
