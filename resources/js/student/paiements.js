@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `/api/v1/paiments?inscription_id=${inscriptionId}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${getToken()}`,
                         Accept: "application/json",
                     },
                 },

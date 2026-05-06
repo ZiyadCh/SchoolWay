@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token");
+import getToken from "../auth/token.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("main-sidebar");
@@ -26,7 +26,7 @@ async function loadYears() {
     try {
         const response = await fetch("/api/v1/years", {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
         });
@@ -57,7 +57,7 @@ async function selectYear(yearId) {
         const response = await fetch(`/api/v1/years/${yearId}/select`, {
             method: "POST",
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
         });

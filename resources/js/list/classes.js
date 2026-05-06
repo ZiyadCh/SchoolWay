@@ -1,4 +1,4 @@
-import token from "../auth/token.js";
+import getToken from "../auth/token.js";
 import updatePagination from "../core/pagination.js";
 
 let nextUrl = null;
@@ -22,7 +22,7 @@ async function fetchLevels() {
     try {
         const response = await fetch("/api/v1/levels", {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
         });
@@ -55,7 +55,7 @@ async function fetchClasses(url) {
     try {
         const response = await fetch(url, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
                 "X-Requested-With": "XMLHttpRequest",
             },
@@ -106,7 +106,7 @@ async function checkYearAndDisable(buttonId) {
     try {
         const response = await fetch("/api/v1/years", {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
         });

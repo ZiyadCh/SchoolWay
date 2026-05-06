@@ -1,4 +1,4 @@
-import token from "../auth/token.js";
+import getToken from "../auth/token.js";
 
 const url_link = window.location.pathname.split("/");
 const class_id = url_link.pop();
@@ -33,7 +33,7 @@ function authHeaders() {
     return {
         "X-Requested-With": "XMLHttpRequest",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getToken()}`,
     };
 }
 

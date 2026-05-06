@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch("/api/v1/logout", {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${getToken()}`,
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },

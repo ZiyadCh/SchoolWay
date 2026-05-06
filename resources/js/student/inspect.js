@@ -150,7 +150,7 @@ async function saveProfile() {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
             },
             body: payload,
         });
@@ -218,7 +218,7 @@ async function deleteStudent() {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
             },
         });
 
@@ -376,7 +376,7 @@ async function fetchApi(url) {
         headers: {
             "X-Requested-With": "XMLHttpRequest",
             Accept: "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
         },
     });
     if (!response.ok) throw new Error(`Erreur sur ${url}`);

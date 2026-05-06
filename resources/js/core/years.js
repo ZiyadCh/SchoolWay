@@ -11,7 +11,7 @@ async function loadCurrentYear() {
     try {
         const response = await fetch("/api/v1/years", {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
         });
@@ -73,7 +73,7 @@ function setupEndYear() {
                     {
                         method: "POST",
                         headers: {
-                            Authorization: `Bearer ${token}`,
+                            Authorization: `Bearer ${getToken()}`,
                             Accept: "application/json",
                         },
                     },
@@ -125,7 +125,7 @@ function setupCreateYear() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${getToken()}`,
                         Accept: "application/json",
                     },
                     body: JSON.stringify({ title, beginning_date, end_date }),

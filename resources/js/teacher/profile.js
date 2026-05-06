@@ -11,7 +11,7 @@ async function fetchUserData() {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
             },
         });
 

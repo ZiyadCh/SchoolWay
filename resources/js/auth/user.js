@@ -1,4 +1,4 @@
-import token from "./token.js";
+import getToken from "./token.js";
 
 const userData = localStorage.getItem("user");
 const user = JSON.parse(userData);

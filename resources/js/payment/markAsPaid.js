@@ -1,4 +1,4 @@
-import token from "../auth/token.js";
+import getToken from "../auth/token.js";
 
 const selectedPayments = [];
 
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch("/api/v1/paiments/mark-payment", {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${getToken()}`,
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },

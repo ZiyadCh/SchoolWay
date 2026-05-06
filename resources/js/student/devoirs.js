@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `/api/v1/school_classes?inscription_id=${inscriptionId}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${getToken()}`,
                         Accept: "application/json",
                     },
                 },
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const requests = classes.map((classe) =>
                 fetch(`/api/v1/devoirs?school_class_id=${classe.id}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${getToken()}`,
                         Accept: "application/json",
                     },
                 }).then((res) => (res.ok ? res.json() : { data: [] })),

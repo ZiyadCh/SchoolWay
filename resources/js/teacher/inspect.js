@@ -141,7 +141,7 @@ async function saveProfile() {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
             },
             body: payload,
         });
@@ -190,7 +190,7 @@ async function deleteTeacher() {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
             },
         });
 
@@ -219,7 +219,7 @@ async function loadProfile() {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
             },
         });
         const res = await response.json();

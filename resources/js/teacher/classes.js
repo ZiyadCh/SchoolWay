@@ -15,7 +15,7 @@ async function fetchClasses(teacherId) {
             `/api/v1/school_classes?teacher_id=${teacherId}`,
             {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${getToken()}`,
                     Accept: "application/json",
                 },
             },

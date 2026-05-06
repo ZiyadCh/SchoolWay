@@ -13,7 +13,7 @@ async function fetchCurrentData() {
     try {
         const response = await fetch(`/api/v1/students/${user_id}`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
         });
@@ -120,7 +120,7 @@ async function saveProfile() {
             method: "POST", // On utilise POST physiquement pour envoyer des fichiers
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
             body: formData,

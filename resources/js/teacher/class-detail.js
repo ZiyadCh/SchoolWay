@@ -13,7 +13,7 @@ async function fetchClassDetail() {
     try {
         const response = await fetch(`/api/v1/school_classes/${classId}`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
                 Accept: "application/json",
             },
         });
@@ -264,7 +264,7 @@ function setupSubmitHandlers() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${getToken()}`,
                         Accept: "application/json",
                     },
                     body: JSON.stringify({
@@ -334,7 +334,7 @@ function setupSubmitHandlers() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${getToken()}`,
                         Accept: "application/json",
                     },
                     body: JSON.stringify({
@@ -405,7 +405,7 @@ function setupSubmitHandlers() {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
-                                Authorization: `Bearer ${token}`,
+                                Authorization: `Bearer ${getToken()}`,
                                 Accept: "application/json",
                             },
                             body: JSON.stringify({

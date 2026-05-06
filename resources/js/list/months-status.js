@@ -1,4 +1,4 @@
-import token from "../auth/token.js";
+import getToken from "../auth/token.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     const tableBody = document.getElementById("paymentsTableBody");

@@ -21,54 +21,84 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
-    //auth
+    // Public
     Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
-
+    // All authenticated
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/reset-password', [AuthController::class, 'resetPassword']);
-    })->name('logout');
 
-    //years
-    Route::apiResource('years', YearController::class);
-    Route::post('years/{year}/select', [YearController::class, 'selectYear']);
-    Route::post('years/{year}/end', [YearController::class, 'endYear']);
+        Route::get('years', [YearController::class, 'index']);
+        Route::get('years/{year}', [YearController::class, 'show']);
+        Route::get('levels', [LevelController::class, 'index']);
+        Route::get('levels/{level}', [LevelController::class, 'show']);
+        Route::get('subjects', [SubjectController::class, 'index']);
+        Route::get('subjects/{subject}', [SubjectController::class, 'show']);
+        Route::get('school_classes', [SchoolClassController::class, 'index']);
+        Route::get('school_classes/{school_class}', [SchoolClassController::class, 'show']);
+        Route::get('students/{student}', [StudentController::class, 'show']);
+        Route::get('teachers', [TeacherController::class, 'index']);
+        Route::get('teachers/{teacher}', [TeacherController::class, 'show']);
+        Route::get('absences', [AbsenceController::class, 'index']);
+        Route::get('absences/{absence}', [AbsenceController::class, 'show']);
+        Route::get('devoirs', [DevoirController::class, 'index']);
+        Route::get('devoirs/{devoir}', [DevoirController::class, 'show']);
+        Route::get('exams', [ExamController::class, 'index']);
+        Route::get('exams/{exam}', [ExamController::class, 'show']);
+        Route::get('paiments', [PaimentController::class, 'index']);
+    });
 
-    //students (includes the creation of inscription and paiment months)
-    Route::apiResource('students', StudentController::class);
+    // Teacher + admin
+    Route::middleware(['auth:sanctum', 'teacher'])->group(function () {
+        Route::post('absences', [AbsenceController::class, 'store']);
+        Route::put('absences/{absence}', [AbsenceController::class, 'update']);
+        Route::delete('absences/{absence}', [AbsenceController::class, 'destroy']);
 
-    //classes
-    Route::apiResource('school_classes', SchoolClassController::class);
+        Route::post('devoirs', [DevoirController::class, 'store']);
+        Route::put('devoirs/{devoir}', [DevoirController::class, 'update']);
+        Route::delete('devoirs/{devoir}', [DevoirController::class, 'destroy']);
 
-    //enroll student into a class
-    Route::apiResource('enrollements', EnrollementController::class);
+        Route::post('exams', [ExamController::class, 'store']);
+        Route::put('exams/{exam}', [ExamController::class, 'update']);
+        Route::delete('exams/{exam}', [ExamController::class, 'destroy']);
 
-    //levels
-    Route::apiResource('levels', LevelController::class);
+        Route::post('enrollements', [EnrollementController::class, 'store']);
+        Route::delete('enrollements/{inscription}', [EnrollementController::class, 'destroy']);
+    });
 
-    //teachers
-    Route::apiResource('teachers', TeacherController::class);
+    // Admin only
+    Route::middleware(['auth:sanctum', 'directeur'])->group(function () {
+        Route::get('students', [StudentController::class, 'index']);
+        Route::post('students', [StudentController::class, 'store']);
+        Route::put('students/{student}', [StudentController::class, 'update']);
+        Route::delete('students/{student}', [StudentController::class, 'destroy']);
 
-    //subjects
-    Route::apiResource('subjects', SubjectController::class);
+        Route::post('school_classes', [SchoolClassController::class, 'store']);
+        Route::put('school_classes/{school_class}', [SchoolClassController::class, 'update']);
+        Route::delete('school_classes/{school_class}', [SchoolClassController::class, 'destroy']);
 
-    //devoirs
-    Route::apiResource('devoirs', DevoirController::class);
+        Route::post('levels', [LevelController::class, 'store']);
+        Route::put('levels/{level}', [LevelController::class, 'update']);
+        Route::delete('levels/{level}', [LevelController::class, 'destroy']);
 
-    //absences
-    Route::apiResource('absences', AbsenceController::class);
+        Route::post('subjects', [SubjectController::class, 'store']);
+        Route::put('subjects/{subject}', [SubjectController::class, 'update']);
+        Route::delete('subjects/{subject}', [SubjectController::class, 'destroy']);
 
-    //exams
-    Route::apiResource('exams', ExamController::class);
+        Route::post('teachers', [TeacherController::class, 'store']);
+        Route::put('teachers/{teacher}', [TeacherController::class, 'update']);
+        Route::delete('teachers/{teacher}', [TeacherController::class, 'destroy']);
 
-    //paiments
-    Route::get('paiments', [PaimentController::class,'index']);
+        Route::post('years', [YearController::class, 'store']);
+        Route::put('years/{year}', [YearController::class, 'update']);
+        Route::delete('years/{year}', [YearController::class, 'destroy']);
+        Route::post('years/enroll-students', [YearController::class, 'enrollStudents']);
+        Route::post('years/{year}/select', [YearController::class, 'selectYear']);
+        Route::post('years/{year}/end', [YearController::class, 'endYear']);
 
-    //paiments handling
-    Route::post('paiments/mark-payment', [PaimentController::class,'markAsPaid'])->name('markAsPaid');
-
-    //return paiment stats
-    Route::get('paiments/paiment-stats', [PaimentController::class,'getPaymentStats']);
-
+        Route::post('paiments/mark-payment', [PaimentController::class, 'markAsPaid'])->name('markAsPaid');
+        Route::get('paiments/paiment-stats', [PaimentController::class, 'getPaymentStats']);
+        Route::put('paiments/{paiment}', [PaimentController::class, 'update']);
+    });
 });

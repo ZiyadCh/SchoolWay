@@ -29,6 +29,7 @@ async function fetchDashboardData() {
         ]);
 
         const studentsData = await studentsRes.json();
+        console.log(studentsData);
         const teachersData = await teachersRes.json();
         const classesData = await classesRes.json();
         const paymentData = await paymentRes.json();
