@@ -1,3 +1,11 @@
+import unauthorizedPage from "./logout.js";
 export default function getToken() {
-    return localStorage.getItem("token");
+    let token = localStorage.getItem("token");
+    if (token) {
+        return token;
+    }
+
+    unauthorizedPage();
+
+    return null;
 }
