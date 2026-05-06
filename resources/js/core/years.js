@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token");
+import getToken from "../auth/token.js";
 let currentYear = null;
 
 document.addEventListener("DOMContentLoaded", () => {

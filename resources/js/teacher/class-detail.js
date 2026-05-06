@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token");
+import getToken from "../auth/token.js";
 const classId = window.location.pathname.split("/").pop();
 let allInscriptions = [];
 let selectedAbsenceIds = new Set();

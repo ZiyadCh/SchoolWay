@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token");
+import getToken from "../auth/token.js";
 const url_link = window.location.pathname.split("/");
 const user_id = url_link.pop();
 

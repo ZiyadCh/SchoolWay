@@ -17,7 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch(
                 `/api/v1/paiments?inscription_id=${inscriptionId}`,
+                {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: `Bearer ${getToken()}`,
+                    },
+                },
             );
+
             if (!response.ok) throw new Error("Erreur réseau");
 
             const result = await response.json();
@@ -27,19 +34,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (payments.length > 0) {
                 const studentData = payments[0].inscription.student.user;
+
                 studentNameDisp.textContent =
                     studentData.prenom + " " + studentData.nom;
+
                 studentPhoto.src = studentData.photo
                     ? `/storage/${studentData.photo}`
                     : `/images/default.jpeg`;
 
                 renderTable(payments);
             } else {
-                tableBody.innerHTML = `<tr><td colspan="3" class="px-8 py-12 text-center text-gray-500">Aucun historique trouvé.</td></tr>`;
+                tableBody.innerHTML = `
+                <tr>
+                    <td colspan="3" class="px-8 py-12 text-center text-gray-500">
+                        Aucun historique trouvé.
+                    </td>
+                </tr>`;
             }
         } catch (error) {
             console.error("Erreur fetch:", error);
-            tableBody.innerHTML = `<tr><td colspan="3" class="px-8 py-12 text-center text-red-400">Erreur lors du chargement des données.</td></tr>`;
+            tableBody.innerHTML = `
+            <tr>
+                <td colspan="3" class="px-8 py-12 text-center text-red-400">
+                    Erreur lors du chargement des données.
+                </td>
+            </tr>`;
         }
     };
 

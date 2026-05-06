@@ -1,10 +1,9 @@
+import getToken from "../auth/token.js";
 document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("logoutBtn");
 
     logoutBtn.addEventListener("click", async (e) => {
         e.preventDefault();
-
-        const token = localStorage.getItem("token");
 
         logoutBtn.innerHTML =
             '<i class="fa-solid fa-spinner fa-spin"></i> Déconnexion...';

@@ -1,3 +1,5 @@
+import getToken from "../auth/token.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const classForm = document.getElementById("classForm");
     const submitBtn = document.getElementById("submitBtn");
@@ -8,6 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const teacherResults = document.getElementById("teacherResults");
     const selectedTeacherId = document.getElementById("selectedTeacherId");
 
+    const getHeaders = () => ({
+        Accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+    });
+
     const appendOption = (select, text, value) => {
         const opt = new Option(text, value);
         select.add(opt);
@@ -16,9 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const initData = async () => {
         try {
             const [levelsRes, subjectsRes] = await Promise.all([
-                fetch("/api/v1/levels"),
-                fetch("/api/v1/subjects"),
+                fetch("/api/v1/levels", { headers: getHeaders() }),
+                fetch("/api/v1/subjects", { headers: getHeaders() }),
             ]);
+
+            if (!levelsRes.ok || !subjectsRes.ok) {
+                throw new Error("Failed to fetch initial data");
+            }
 
             const levels = await levelsRes.json();
             const subjects = await subjectsRes.json();
@@ -55,9 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const res = await fetch(
                     `/api/v1/teachers?search=${encodeURIComponent(query)}`,
+                    { headers: getHeaders() },
                 );
-                const json = await res.json();
 
+                if (!res.ok) throw new Error();
+
+                const json = await res.json();
                 teacherResults.replaceChildren();
 
                 if (json.data && json.data.length > 0) {
@@ -68,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         const item = document.createElement("div");
                         item.className =
-                            "px-6 py-3 hover:bg-indigo-600 cursor-pointer transition-colors border-b border-gray-800 last:border-0";
+                            "px-6 py-3 hover:bg-indigo-600 cursor-pointer border-b border-gray-800 last:border-0";
                         item.textContent = name;
 
                         item.addEventListener("click", () => {
@@ -109,24 +123,21 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch("/api/v1/school_classes", {
                 method: "POST",
                 headers: {
-                    Accept: "application/json",
-                    "X-CSRF-TOKEN": document.querySelector(
-                        'input[name="_token"]',
-                    ).value,
+                    ...getHeaders(),
                 },
                 body: new FormData(classForm),
             });
 
-            if (res.ok) {
-                classForm.reset();
-                selectedTeacherId.value = "";
-                alert("Classe créée avec succès !");
-            } else {
+            if (!res.ok) {
                 const errData = await res.json();
-                alert(errData.message || "Erreur de validation");
+                throw new Error(errData.message || "Erreur de validation");
             }
+
+            classForm.reset();
+            selectedTeacherId.value = "";
+            alert("Classe créée avec succès !");
         } catch (err) {
-            alert("Erreur réseau");
+            alert(err.message || "Erreur réseau");
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;

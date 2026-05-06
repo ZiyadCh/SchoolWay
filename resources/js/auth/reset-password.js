@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const token = localStorage.getItem("token");
+    import getToken from "../auth/token.js";
     const modal = document.getElementById("reset-modal");
     const openBtn = document.getElementById("open-reset-modal");
     const closeBtn = document.getElementById("close-reset-modal");

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchAbsences() {
         try {
-            const token = localStorage.getItem("token");
+            import getToken from "../auth/token.js";
             const response = await fetch(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,

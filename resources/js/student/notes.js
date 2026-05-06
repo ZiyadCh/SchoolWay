@@ -6,7 +6,7 @@ async function loadMyNotes() {
     showLoading();
 
     try {
-        const token = localStorage.getItem("token");
+        import getToken from "../auth/token.js";
         const user = JSON.parse(localStorage.getItem("user"));
 
         if (!token || !user) throw new Error("Vous devez vous reconnecter");

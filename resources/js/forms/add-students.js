@@ -1,3 +1,5 @@
+import getToken from "../auth/token.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const studentForm = document.getElementById("studentForm");
     const excelForm = document.getElementById("excelForm");
@@ -44,9 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch("/api/v1/students", {
                 method: "POST",
                 headers: {
+                    Authorization: `Bearer ${getToken()}`,
                     Accept: "application/json",
-                    "X-CSRF-TOKEN":
-                        studentForm.querySelector('[name="_token"]').value,
                 },
                 body: formData,
             });
@@ -86,9 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch("/api/v1/students", {
                 method: "POST",
                 headers: {
+                    Authorization: `Bearer ${getToken()}`,
                     Accept: "application/json",
-                    "X-CSRF-TOKEN":
-                        excelForm.querySelector('[name="_token"]').value,
                 },
                 body: fd,
             });

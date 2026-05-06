@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token");
+import getToken from "../auth/token.js";
 const url_parts = window.location.pathname.split("/");
 // On suppose que l'URL est /students/{id}/edit, l'ID est donc l'avant-dernier segment
 const user_id = url_parts[url_parts.length - 2];
