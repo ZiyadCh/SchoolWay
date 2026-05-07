@@ -82,7 +82,6 @@ function updateStatsCards(
         paymentData.percentage_paid !== undefined
             ? Math.round(paymentData.percentage_paid)
             : 0;
-
     document.getElementById("payments-count").textContent = `${percentage}%`;
 }
 
@@ -111,7 +110,7 @@ function renderLevels() {
         if (levelsEditMode) {
             const btn = document.createElement("button");
             btn.className =
-                "text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-widest";
+                "text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-widest transition-colors";
             btn.textContent = "Supprimer";
             btn.addEventListener("click", () =>
                 deleteItem("levels", level.id, "levels"),
@@ -130,13 +129,15 @@ function renderLevels() {
         input.type = "text";
         input.placeholder = "Nouveau niveau...";
         input.className =
-            "flex-1 bg-gray-900 border border-gray-700 px-3 py-2 text-sm text-white";
+            "flex-1 bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-amber-500 transition-colors";
 
         const addBtn = document.createElement("button");
         addBtn.className =
-            "px-4 py-2 bg-amber-500 text-black text-xs font-bold";
+            "px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black text-xs font-black uppercase rounded-lg transition-colors";
         addBtn.textContent = "+ Ajouter";
-        addBtn.onclick = () => addItem("levels", input, "levels");
+        addBtn.addEventListener("click", () =>
+            addItem("levels", input, "levels"),
+        );
 
         addRow.appendChild(input);
         addRow.appendChild(addBtn);
@@ -148,25 +149,60 @@ function renderSubjects() {
     const container = document.getElementById("subjects-list");
     container.replaceChildren();
 
+    if (subjectsData.length === 0 && !subjectsEditMode) {
+        const empty = document.createElement("div");
+        empty.className =
+            "p-5 bg-gray-900 border border-gray-700 rounded-xl text-lg text-gray-400";
+        empty.textContent = "Aucune matière trouvée";
+        container.appendChild(empty);
+    }
+
     subjectsData.forEach((subject) => {
         const div = document.createElement("div");
         div.className =
-            "p-4 bg-gray-900 border border-gray-700 rounded-xl flex justify-between";
+            "p-4 bg-gray-900 border border-gray-700 rounded-xl flex items-center justify-between";
 
         const name = document.createElement("span");
+        name.className = "text-white text-sm font-bold uppercase";
         name.textContent = subject.name;
-
         div.appendChild(name);
 
         if (subjectsEditMode) {
             const btn = document.createElement("button");
+            btn.className =
+                "text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-widest transition-colors";
             btn.textContent = "Supprimer";
-            btn.onclick = () => deleteItem("subjects", subject.id, "subjects");
+            btn.addEventListener("click", () =>
+                deleteItem("subjects", subject.id, "subjects"),
+            );
             div.appendChild(btn);
         }
 
         container.appendChild(div);
     });
+
+    if (subjectsEditMode) {
+        const addRow = document.createElement("div");
+        addRow.className = "flex gap-2 mt-1";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Nouvelle matière...";
+        input.className =
+            "flex-1 bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-amber-500 transition-colors";
+
+        const addBtn = document.createElement("button");
+        addBtn.className =
+            "px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black text-xs font-black uppercase rounded-lg transition-colors";
+        addBtn.textContent = "+ Ajouter";
+        addBtn.addEventListener("click", () =>
+            addItem("subjects", input, "subjects"),
+        );
+
+        addRow.appendChild(input);
+        addRow.appendChild(addBtn);
+        container.appendChild(addRow);
+    }
 }
 
 async function addItem(endpoint, input, type) {
@@ -230,11 +266,19 @@ function setupManageButtons() {
 
     buttons[0]?.addEventListener("click", () => {
         levelsEditMode = !levelsEditMode;
+        buttons[0].textContent = levelsEditMode ? "Terminer" : "Gérer";
+        buttons[0].classList.toggle("bg-amber-500", levelsEditMode);
+        buttons[0].classList.toggle("text-black", levelsEditMode);
+        buttons[0].classList.toggle("text-amber-500", !levelsEditMode);
         renderLevels();
     });
 
     buttons[1]?.addEventListener("click", () => {
         subjectsEditMode = !subjectsEditMode;
+        buttons[1].textContent = subjectsEditMode ? "Terminer" : "Gérer";
+        buttons[1].classList.toggle("bg-amber-500", subjectsEditMode);
+        buttons[1].classList.toggle("text-black", subjectsEditMode);
+        buttons[1].classList.toggle("text-amber-500", !subjectsEditMode);
         renderSubjects();
     });
 }
@@ -245,14 +289,31 @@ function updateAbsencesList(absences) {
 
     const list = Array.isArray(absences) ? absences : absences.data || [];
 
+    if (list.length === 0) {
+        const empty = document.createElement("div");
+        empty.className =
+            "p-5 bg-gray-900 border border-gray-700 rounded-xl text-lg text-gray-400 italic";
+        empty.textContent = "Aucune absence aujourd'hui";
+        container.appendChild(empty);
+        return;
+    }
+
     list.forEach((abs) => {
         const div = document.createElement("div");
-        div.textContent =
-            abs.inscription?.student?.user?.prenom || "Élève inconnu";
+        div.className =
+            "p-4 bg-gray-900 border border-gray-700 rounded-xl border-l-4 border-l-red-500";
+
+        const name = document.createElement("span");
+        name.className = "text-white text-sm font-bold uppercase";
+        name.textContent = abs.inscription?.student?.user
+            ? `${abs.inscription.student.user.prenom} ${abs.inscription.student.user.nom}`
+            : "Élève inconnu";
+
+        div.appendChild(name);
         container.appendChild(div);
     });
 }
 
-function showErrorMessage(msg = "Erreur") {
+function showErrorMessage(msg = "Erreur de chargement.") {
     console.error(msg);
 }
