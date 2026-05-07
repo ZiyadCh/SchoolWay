@@ -86,7 +86,7 @@ class StudentController extends Controller
                 'adress' => 'nullable|string',
                 'birthday' => 'nullable|date',
                 'birthplace' => 'nullable|string',
-                'address' => 'nullable|string',
+                'adress' => 'nullable|string',
                 'tel' => 'nullable|string|numeric',
             ]);
             //for the image
@@ -109,11 +109,15 @@ class StudentController extends Controller
                 'adress' => $request->adress,
                 'birthday' => $request->birthday,
                 'birthplace' => $request->birthplace,
-                'address' => $request->address,
+                'adress' => $request->adress,
                 'tel' => $request->tel,
             ]);
 
             $year = Year::currentYear();
+
+            if (!$year) {
+                return response()->json("cette année n'est pas active");
+            }
 
             $student = Student::create([
                 'user_id' => $user->id,
@@ -144,9 +148,6 @@ class StudentController extends Controller
 
             $message = "Etudiant ajoute avec success, l'etudian doit recevoir une notification par email";
 
-            if (!$year) {
-                $message = "aucune annes courante!";
-            }
 
             Mail::to($user->email)->send(new SendPasswordToUser($user, $password));
 

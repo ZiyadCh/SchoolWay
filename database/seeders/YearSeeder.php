@@ -11,23 +11,9 @@ class YearSeeder extends Seeder
     {
         $years = [
             [
-                'title'          => '2022-2023',
-                'beginning_date' => '2022-09-01',
-                'end_date'       => '2023-06-30',
-                'current'        => false,
-                'selected'       => false,
-            ],
-            [
                 'title'          => '2023-2024',
                 'beginning_date' => '2023-09-01',
                 'end_date'       => '2024-06-30',
-                'current'        => false,
-                'selected'       => false,
-            ],
-            [
-                'title'          => '2024-2025',
-                'beginning_date' => '2024-09-01',
-                'end_date'       => '2025-06-30',
                 'current'        => false,
                 'selected'       => false,
             ],
